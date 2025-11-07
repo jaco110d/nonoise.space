@@ -1,143 +1,146 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline - Visualiser Din Tid | NoNoise</title>
-    <meta name="description" content="Timeline er en innovativ macOS app til at visualisere og tracke dine milepæle, vaner og fremskridt i en smuk 3D-tidslinje.">
+    <title>Timeline - Visualize Your Life</title>
+    <meta name="description" content="A beautiful 3D timeline app for macOS. Track milestones, build habits, and visualize your journey through time.">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
 </head>
 <body>
-    <header>
-        <nav class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">⏱️</span>
-                <span class="logo-text">Timeline</span>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <nav class="nav">
+            <div class="logo">Timeline</div>
             <div class="nav-links">
                 <a href="#features">Features</a>
-                <a href="#about">Om</a>
-                <a href="#download" class="nav-cta">Download</a>
+                <a href="#download" class="cta-btn">Download</a>
             </div>
         </nav>
-    </header>
-    
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Visualiser Din Tid</h1>
-                <p class="hero-subtitle">Timeline hjælper dig med at tracke milepæle, opbygge vaner og se din fremgang i en smuk 3D-tidslinje.</p>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Visualize<br>Your Life</h1>
+                <p class="hero-subtitle">A beautiful 3D timeline for macOS.<br>Track milestones, build habits, see your progress.</p>
                 <div class="hero-buttons">
-                    <a href="#download" class="btn btn-primary">Download til macOS</a>
-                    <a href="#features" class="btn btn-secondary">Se Features</a>
+                    <a href="#download" class="btn btn-primary">
+                        <span class="btn-icon">⬇</span>
+                        Download for macOS
+                    </a>
                 </div>
             </div>
-            <div class="hero-visual">
-                <div class="timeline-preview">
-                    <div class="timeline-line"></div>
-                    <div class="milestone milestone-1">📍</div>
-                    <div class="milestone milestone-2">🎯</div>
-                    <div class="milestone milestone-3">⭐</div>
+
+            <!-- 3D Preview Animation -->
+            <div class="timeline-3d-preview">
+                <div class="milestone-card card-1" data-emoji="🎯">
+                    <div class="card-content">
+                        <div class="card-emoji">🎯</div>
+                        <div class="card-title">Started Journey</div>
+                        <div class="card-date">Jan 2024</div>
+                    </div>
+                    <div class="card-line"></div>
                 </div>
+                
+                <div class="milestone-card card-2" data-emoji="🚀">
+                    <div class="card-content">
+                        <div class="card-emoji">🚀</div>
+                        <div class="card-title">First Launch</div>
+                        <div class="card-date">Today</div>
+                    </div>
+                    <div class="card-line"></div>
+                </div>
+                
+                <div class="milestone-card card-3" data-emoji="⭐">
+                    <div class="card-content">
+                        <div class="card-emoji">⭐</div>
+                        <div class="card-title">Big Achievement</div>
+                        <div class="card-date">Dec 2024</div>
+                    </div>
+                    <div class="card-line"></div>
+                </div>
+
+                <div class="timeline-axis"></div>
             </div>
-        </section>
-        
-        <!-- Features Section -->
-        <section id="features" class="features">
-            <h2 class="section-title">Hvorfor Timeline?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>3D Visualisering</h3>
-                    <p>Se dine milepæle og vaner i en interaktiv 3D-tidslinje med smukke animationer.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Milepæle</h3>
-                    <p>Track vigtige begivenheder og mål med custom farver, noter og datoer.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">✅</div>
-                    <h3>Vane Tracking</h3>
-                    <p>Byg og vedligehold gode vaner med daglig tracking og visualisering.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>Statistik</h3>
-                    <p>Se din progression over tid med detaljerede statistikker og indsigter.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>Tilpasning</h3>
-                    <p>Personalisér dine milepæle og vaner med farver, emojis og noter.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">💾</div>
-                    <h3>Lokal Data</h3>
-                    <p>Alle dine data gemmes lokalt på din Mac - ingen cloud, ingen tracking.</p>
-                </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Experience Time<br>in Three Dimensions</h2>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>3D Timeline</h3>
+                <p>Navigate through your life in a stunning 3D space. Scroll through years, zoom into months, focus on specific moments.</p>
             </div>
-        </section>
-        
-        <!-- About Section -->
-        <section id="about" class="about">
-            <div class="about-content">
-                <h2 class="section-title">Om Timeline</h2>
-                <p>Timeline er bygget til macOS med fokus på privatliv, hastighed og et intuitivt design. Appen hjælper dig med at visualisere din rejse gennem livet - fra store milepæle til daglige vaner.</p>
-                <p>Med en moderne SwiftUI-baseret grænseflade og flydende animationer, giver Timeline dig et klart overblik over din fremgang og hjælper dig med at holde fokus på det, der betyder noget.</p>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Milestones</h3>
+                <p>Mark important events, achievements, and memories. Customize with emojis, colors, and notes.</p>
             </div>
-        </section>
-        
-        <!-- Download Section -->
-        <section id="download" class="download">
-            <h2 class="section-title">Klar til at komme i gang?</h2>
-            <p class="download-subtitle">Timeline til macOS er under udvikling</p>
-            <div class="download-box">
-                <div class="coming-soon">
-                    <span class="badge">Kommer Snart</span>
-                    <p>Skriv dig op til beta-adgang</p>
-                    <form class="signup-form" id="signupForm">
-                        <input type="email" placeholder="Din email" required>
-                        <button type="submit" class="btn btn-primary">Tilmeld</button>
-                    </form>
-                </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Habit Tracking</h3>
+                <p>Build and maintain daily habits. Visualize your streaks and progress over time.</p>
             </div>
-            <p class="system-requirements">macOS 13.0 eller nyere | Apple Silicon & Intel</p>
-        </section>
-    </main>
-    
-    <footer>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Native Performance</h3>
+                <p>Built with SwiftUI for macOS. Smooth animations, instant response, optimized for Apple Silicon.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Beautiful Design</h3>
+                <p>Glassmorphic UI, depth effects, and elegant animations create an immersive experience.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>All your data stays on your Mac. No cloud sync, no tracking, no accounts required.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="download-container">
+            <h2 class="section-title">Ready to Begin?</h2>
+            <p class="download-subtitle">Timeline for macOS is coming soon</p>
+            
+            <div class="download-card">
+                <div class="beta-badge">Coming Soon</div>
+                <form class="signup-form" id="signupForm">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary">Get Early Access</button>
+                </form>
+            </div>
+
+            <p class="system-req">Requires macOS 13.0 or later • Apple Silicon & Intel</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
         <div class="footer-content">
-            <div class="footer-section">
-                <h4>Timeline</h4>
-                <p>En macOS app af NoNoise</p>
-            </div>
-            <div class="footer-section">
-                <h4>Links</h4>
+            <div class="footer-logo">Timeline</div>
+            <div class="footer-links">
+                <a href="mailto:hello@nonoise.space">Contact</a>
                 <a href="#features">Features</a>
-                <a href="#about">Om</a>
                 <a href="#download">Download</a>
-            </div>
-            <div class="footer-section">
-                <h4>Kontakt</h4>
-                <a href="mailto:hello@nonoise.space">hello@nonoise.space</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 NoNoise. Alle rettigheder forbeholdes.</p>
+            <p>© 2025 Timeline. All rights reserved.</p>
         </div>
     </footer>
-    
+
     <script src="script.js"></script>
-    
-    <!-- Auto-deployment test - 2025-11-07 -->
 </body>
 </html>
-
