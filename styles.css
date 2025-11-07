@@ -1036,6 +1036,20 @@ body {
 
 /* Responsive */
 @media (max-width: 1024px) {
+    .hero-content h1 {
+        font-size: clamp(42px, 7vw, 72px);
+    }
+    
+    .subtitle {
+        font-size: 18px;
+    }
+    
+    /* Scale milestone cards slightly on medium screens */
+    .milestone-card {
+        transform: scale(0.85);
+        margin: -10px;
+    }
+    
     .timeline-preview {
         width: 600px;
         height: 400px;
@@ -1043,6 +1057,10 @@ body {
     
     .features-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    
+    .habit-card.week-view {
+        width: 480px;
     }
 }
 
@@ -1052,13 +1070,64 @@ body {
         gap: 12px;
     }
     
+    .toolbar-nav {
+        gap: 12px;
+    }
+    
+    .nav-link {
+        font-size: 13px;
+    }
+    
     .tool-btn.circle {
         width: 32px;
         height: 32px;
     }
     
     .hero {
-        padding: 100px 20px 80px;
+        padding: 80px 20px 60px;
+        min-height: 100vh;
+    }
+    
+    .hero-content {
+        margin-top: 40px;
+    }
+    
+    .brand {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(36px, 10vw, 56px);
+        margin-bottom: 16px;
+    }
+    
+    .subtitle {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+    }
+    
+    .scroll-hint {
+        font-size: 12px;
+    }
+    
+    /* Scale down milestone cards on mobile */
+    .milestone-card {
+        transform: scale(0.75);
+        margin: -20px;
+    }
+    
+    /* Adjust persona selector for mobile */
+    .persona-selector {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .persona-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+        min-width: auto;
     }
     
     .timeline-preview {
@@ -1092,5 +1161,26 @@ body {
     
     .email-form {
         flex-direction: column;
+    }
+    
+    /* Habits section mobile */
+    .habits-section {
+        padding: 80px 20px;
+    }
+    
+    .habit-card.day-view {
+        transform: scale(0.9);
+    }
+    
+    .habit-card.day-view.left,
+    .habit-card.day-view.right {
+        display: none;
+    }
+    
+    .habit-card.week-view {
+        width: 100%;
+        max-width: 450px;
+        padding: 20px;
+        overflow-x: auto;
     }
 }
