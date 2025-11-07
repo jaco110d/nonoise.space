@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Hero Section with Interactive 3D Timeline -->
+    <section class="hero" id="hero-section">
         <!-- Toolbar (like in app) -->
         <div class="toolbar">
             <div class="toolbar-content">
@@ -40,56 +40,102 @@
         <div class="hero-content">
             <h1>Visualize<br>Your Life</h1>
             <p class="subtitle">A 3D timeline for macOS.<br>Track milestones, build habits, see your progress.</p>
-            
-            <!-- Fake 3D Timeline Preview -->
-            <div class="timeline-preview">
-                <!-- Date markers (like in app) -->
-                <div class="date-marker" style="top: 15%; left: 30%;">
-                    <div class="marker-dot"></div>
-                    <span>2023</span>
-                </div>
-                <div class="date-marker" style="top: 50%; left: 50%;">
-                    <div class="marker-dot"></div>
-                    <span>2024</span>
-                </div>
-                <div class="date-marker" style="top: 75%; left: 65%;">
-                    <div class="marker-dot"></div>
-                    <span>2025</span>
-                </div>
+            <p class="scroll-hint">Scroll to explore timeline ↓</p>
+        </div>
 
-                <!-- Milestone cards (exact from MilestoneCard.swift) -->
-                <div class="milestone-card" style="top: 20%; left: 20%;" data-depth="back">
-                    <div class="card-line"></div>
-                    <div class="emoji-container">
-                        <span class="emoji">🎯</span>
-                    </div>
-                    <div class="card-title">Started Journey</div>
-                    <div class="card-date">Jan 2024</div>
-                </div>
+        <!-- Interactive 3D Timeline -->
+        <div class="timeline-3d" id="timeline-3d">
+            <!-- Year indicator -->
+            <div class="year-indicator" id="year-indicator">2020</div>
 
-                <div class="milestone-card selected" style="top: 50%; left: 50%;" data-depth="center">
-                    <div class="card-line"></div>
+            <!-- Milestone cards (8 hardcoded from 2020-2040) -->
+            <div class="milestone-3d" data-year="2020" data-position="0">
+                <div class="card-line"></div>
+                <div class="milestone-card">
                     <div class="emoji-container">
-                        <span class="emoji">🚀</span>
+                        <span class="emoji">🎓</span>
                     </div>
-                    <div class="card-title">First Launch</div>
-                    <div class="card-date">Today</div>
-                </div>
-
-                <div class="milestone-card" style="top: 70%; left: 75%;" data-depth="front">
-                    <div class="card-line"></div>
-                    <div class="emoji-container">
-                        <span class="emoji">⭐</span>
-                    </div>
-                    <div class="card-title">Achievement</div>
-                    <div class="card-date">Dec 2024</div>
+                    <div class="card-title">Graduated</div>
+                    <div class="card-date">Jun 2020</div>
                 </div>
             </div>
 
-            <a href="#download" class="cta-btn">
-                <span>⬇</span>
-                Download for macOS
-            </a>
+            <div class="milestone-3d" data-year="2022" data-position="1">
+                <div class="card-line"></div>
+                <div class="milestone-card">
+                    <div class="emoji-container">
+                        <span class="emoji">💼</span>
+                    </div>
+                    <div class="card-title">First Job</div>
+                    <div class="card-date">Jan 2022</div>
+                </div>
+            </div>
+
+            <div class="milestone-3d" data-year="2024" data-position="2">
+                <div class="card-line"></div>
+                <div class="milestone-card selected">
+                    <div class="emoji-container">
+                        <span class="emoji">🚀</span>
+                    </div>
+                    <div class="card-title">Started Timeline</div>
+                    <div class="card-date">Nov 2024</div>
+                </div>
+            </div>
+
+            <div class="milestone-3d" data-year="2026" data-position="3">
+                <div class="card-line"></div>
+                <div class="milestone-card">
+                    <div class="emoji-container">
+                        <span class="emoji">🏠</span>
+                    </div>
+                    <div class="card-title">Bought House</div>
+                    <div class="card-date">Mar 2026</div>
+                </div>
+            </div>
+
+            <div class="milestone-3d" data-year="2028" data-position="4">
+                <div class="card-line"></div>
+                <div class="milestone-card">
+                    <div class="emoji-container">
+                        <span class="emoji">💍</span>
+                    </div>
+                    <div class="card-title">Married</div>
+                    <div class="card-date">Aug 2028</div>
+                </div>
+            </div>
+
+            <div class="milestone-3d" data-year="2032" data-position="5">
+                <div class="card-line"></div>
+                <div class="milestone-card">
+                    <div class="emoji-container">
+                        <span class="emoji">🌍</span>
+                    </div>
+                    <div class="card-title">World Trip</div>
+                    <div class="card-date">Jun 2032</div>
+                </div>
+            </div>
+
+            <div class="milestone-3d" data-year="2036" data-position="6">
+                <div class="card-line"></div>
+                <div class="milestone-card">
+                    <div class="emoji-container">
+                        <span class="emoji">📚</span>
+                    </div>
+                    <div class="card-title">Published Book</div>
+                    <div class="card-date">Feb 2036</div>
+                </div>
+            </div>
+
+            <div class="milestone-3d" data-year="2040" data-position="7">
+                <div class="card-line"></div>
+                <div class="milestone-card">
+                    <div class="emoji-container">
+                        <span class="emoji">🎯</span>
+                    </div>
+                    <div class="card-title">Big Goal</div>
+                    <div class="card-date">Dec 2040</div>
+                </div>
+            </div>
         </div>
 
         <!-- Bottom Control (like in app) -->
