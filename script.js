@@ -253,11 +253,20 @@ function handleScrollWheel(event) {
     
     updateMilestones();
     
-    // Check if we should release scroll
+    // Check if we should release scroll (both directions)
     const currentDate = dateForZPosition(scrollOffset);
+    
+    // Release when reaching the future (2041+)
     if (currentDate >= new Date(2041, 0, 1)) {
         isTimelineActive = false;
-        // Allow normal page scroll
+        document.body.style.overflow = 'auto';
+        setTimeout(() => {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+    }
+    // Release when reaching the past (2003 or earlier)
+    else if (currentDate <= new Date(2003, 0, 1)) {
+        isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
             document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
@@ -286,9 +295,9 @@ function handleTouchMove(event) {
     scrollOffset = touchStartOffset - deltaY * scrollSensitivity;
     updateMilestones();
     
-    // Check if we should release
+    // Check if we should release (both directions)
     const currentDate = dateForZPosition(scrollOffset);
-    if (currentDate >= new Date(2041, 0, 1)) {
+    if (currentDate >= new Date(2041, 0, 1) || currentDate <= new Date(2003, 0, 1)) {
         isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
