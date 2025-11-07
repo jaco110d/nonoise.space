@@ -392,121 +392,227 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Individual Habit Card (from HabitStripView.swift) */
-.habit-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
+/* Day View Habit Card (from DayHabitCard in HabitsTimelineView.swift) */
+.habit-card.day-view {
+    width: 300px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    padding: 24px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
-.habit-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--card-border-hover);
+.habit-card.day-view:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 24px var(--shadow-medium);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
 }
 
-.habit-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+.day-card-header {
+    margin-bottom: 12px;
 }
 
-.habit-icon {
-    font-size: 32px;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--emoji-bg);
-    border-radius: 12px;
-}
-
-.habit-info {
-    flex: 1;
-    text-align: left;
-}
-
-.habit-name {
-    font-size: 16px;
+.day-card-date {
+    font-size: 17px;
     font-weight: 600;
     color: white;
     margin-bottom: 4px;
 }
 
-.habit-streak {
-    font-size: 13px;
+.day-card-completion {
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Habit Grid (Week View) */
-.habit-week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+.day-card-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 12px;
+}
+
+.day-habits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.day-habit-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.day-habit-emoji {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.2s ease;
+}
+
+.day-habit-emoji.completed {
+    background: rgba(76, 217, 100, 0.15);
+}
+
+.day-habit-title {
+    flex: 1;
+    font-size: 15px;
+    color: white;
+}
+
+.day-habit-checkbox {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.day-habit-checkbox.completed {
+    color: #4CD964;
+}
+
+.day-habit-checkbox:hover {
+    transform: scale(1.1);
+}
+
+/* Week View Habit Card (from WeekHabit3DCard in Habits3DView.swift) */
+.habit-card.week-view {
+    width: 450px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1.5px solid transparent;
+    border-radius: 24px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    background-image: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.05)
+    );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+.habit-card.week-view:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.week-card-header {
+    margin-bottom: 16px;
+}
+
+.week-card-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.week-card-date-range {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.week-card-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 16px;
+}
+
+.week-days-header {
+    display: flex;
+    align-items: center;
     gap: 8px;
+    margin-bottom: 8px;
 }
 
-.habit-day {
+.week-days-header .emoji-space {
+    width: 32px;
+}
+
+.week-days-header .title-space {
+    width: 80px;
+}
+
+.week-days-header .day-label {
+    width: 32px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
     text-align: center;
-}
-
-.day-label {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 6px;
     font-weight: 500;
 }
 
-.day-checkbox {
-    width: 100%;
-    aspect-ratio: 1;
+.week-habits-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.week-habit-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.week-habit-emoji {
+    width: 32px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.week-habit-title {
+    width: 80px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.week-day-cell {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
     background: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid var(--card-border);
-    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 16px;
 }
 
-.day-checkbox:hover {
+.week-day-cell:hover {
     background: rgba(255, 255, 255, 0.12);
-    border-color: var(--card-border-hover);
 }
 
-.day-checkbox.completed {
+.week-day-cell.completed {
     background: rgba(76, 217, 100, 0.2);
-    border-color: #4CD964;
 }
 
-.day-checkbox.completed::after {
-    content: '✓';
+.week-day-cell.completed .checkmark {
     color: #4CD964;
-    font-weight: 700;
-    font-size: 18px;
+    font-size: 10px;
+    font-weight: bold;
 }
 
-/* Day View */
-.habit-day-single {
-    text-align: center;
-}
-
-.habit-day-single .day-checkbox {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
-    font-size: 24px;
+.week-day-cell.empty {
+    background: transparent;
+    cursor: default;
 }
 
 /* Features Section */

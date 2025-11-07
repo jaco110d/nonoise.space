@@ -599,61 +599,163 @@ function loadPersonaHabits(persona) {
     
     container.innerHTML = '';
     
-    habits.forEach((habit, index) => {
+    if (habitViewMode === 'day') {
+        // Day view - DayHabitCard from HabitsTimelineView.swift
+        habits.forEach((habit, index) => {
+            // Generate random completion data for demo
+            const completedCount = Math.floor(Math.random() * 4) + 1;
+            const isCompleted = completedCount > 2;
+            
+            const habitCard = document.createElement('div');
+            habitCard.className = 'habit-card day-view';
+            
+            habitCard.innerHTML = `
+                <div class="day-card-header">
+                    <div class="day-card-date">Wed 8 Oct</div>
+                    <div class="day-card-completion">${completedCount}/4 completed</div>
+                </div>
+                <div class="day-card-divider"></div>
+                <div class="day-habits-list">
+                    ${habits.map((h, i) => {
+                        const completed = i < completedCount;
+                        return `
+                            <div class="day-habit-row">
+                                <div class="day-habit-emoji ${completed ? 'completed' : ''}">${h.emoji}</div>
+                                <div class="day-habit-title">${h.name}</div>
+                                <div class="day-habit-checkbox ${completed ? 'completed' : ''}" 
+                                     data-habit="${i}">
+                                    ${completed ? '●' : '○'}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            
+            container.appendChild(habitCard);
+        });
+    } else {
+        // Week view - WeekHabit3DCard from Habits3DView.swift
         const habitCard = document.createElement('div');
-        habitCard.className = 'habit-card';
+        habitCard.className = 'habit-card week-view';
         
-        if (habitViewMode === 'week') {
-            habitCard.innerHTML = `
-                <div class="habit-header">
-                    <div class="habit-icon">${habit.emoji}</div>
-                    <div class="habit-info">
-                        <div class="habit-name">${habit.name}</div>
-                        <div class="habit-streak">${habit.streak} day streak 🔥</div>
+        // Get current week info
+        const now = new Date();
+        const weekNumber = getWeekNumber(now);
+        const weekStart = getMonday(now);
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        
+        const formatDate = (date) => {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[date.getMonth()]} ${date.getDate()}`;
+        };
+        
+        habitCard.innerHTML = `
+            <div class="week-card-header">
+                <div class="week-card-title">Week ${weekNumber}</div>
+                <div class="week-card-date-range">${formatDate(weekStart)} - ${formatDate(weekEnd)}</div>
+            </div>
+            <div class="week-card-divider"></div>
+            <div class="week-days-header">
+                <div class="emoji-space"></div>
+                <div class="title-space"></div>
+                ${['M', 'T', 'W', 'T', 'F', 'S', 'S'].map(day => `
+                    <div class="day-label">${day}</div>
+                `).join('')}
+            </div>
+            <div class="week-habits-rows">
+                ${habits.map((habit, habitIndex) => `
+                    <div class="week-habit-row">
+                        <div class="week-habit-emoji">${habit.emoji}</div>
+                        <div class="week-habit-title">${habit.name}</div>
+                        ${[0, 1, 2, 3, 4, 5, 6].map(dayIndex => {
+                            // Random completion for demo (more completed earlier in week)
+                            const isPlanned = dayIndex < 6; // Most days planned
+                            const isCompleted = isPlanned && dayIndex < 4; // First 4 days completed
+                            
+                            if (!isPlanned) {
+                                return `<div class="week-day-cell empty"></div>`;
+                            }
+                            
+                            return `
+                                <div class="week-day-cell ${isCompleted ? 'completed' : ''}" 
+                                     data-habit="${habitIndex}" 
+                                     data-day="${dayIndex}">
+                                    ${isCompleted ? '<span class="checkmark">✓</span>' : ''}
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
-                </div>
-                <div class="habit-week-grid">
-                    ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, dayIndex) => `
-                        <div class="habit-day">
-                            <div class="day-label">${day}</div>
-                            <div class="day-checkbox ${dayIndex < 5 ? 'completed' : ''}" 
-                                 data-habit="${index}" 
-                                 data-day="${dayIndex}"></div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        } else {
-            habitCard.innerHTML = `
-                <div class="habit-header">
-                    <div class="habit-icon">${habit.emoji}</div>
-                    <div class="habit-info">
-                        <div class="habit-name">${habit.name}</div>
-                        <div class="habit-streak">${habit.streak} day streak 🔥</div>
-                    </div>
-                </div>
-                <div class="habit-day-single">
-                    <div class="day-checkbox completed" 
-                         data-habit="${index}" 
-                         data-day="0"></div>
-                </div>
-            `;
-        }
+                `).join('')}
+            </div>
+        `;
         
         container.appendChild(habitCard);
-    });
+    }
     
     // Add click handlers
     setupHabitCheckboxes();
 }
 
+// Helper functions for week view
+function getWeekNumber(date) {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
+
+function getMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff));
+}
+
 // Setup habit checkbox click handlers
 function setupHabitCheckboxes() {
-    const checkboxes = document.querySelectorAll('.day-checkbox');
-    
-    checkboxes.forEach(checkbox => {
+    // Day view checkboxes
+    const dayCheckboxes = document.querySelectorAll('.day-habit-checkbox');
+    dayCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('click', () => {
-            checkbox.classList.toggle('completed');
+            const row = checkbox.closest('.day-habit-row');
+            const emoji = row.querySelector('.day-habit-emoji');
+            
+            if (checkbox.classList.contains('completed')) {
+                checkbox.classList.remove('completed');
+                checkbox.textContent = '○';
+                emoji.classList.remove('completed');
+            } else {
+                checkbox.classList.add('completed');
+                checkbox.textContent = '●';
+                emoji.classList.add('completed');
+            }
+            
+            // Update completion count
+            const card = checkbox.closest('.habit-card');
+            const allCheckboxes = card.querySelectorAll('.day-habit-checkbox');
+            const completedCount = Array.from(allCheckboxes).filter(cb => cb.classList.contains('completed')).length;
+            const totalCount = allCheckboxes.length;
+            const completionEl = card.querySelector('.day-card-completion');
+            if (completionEl) {
+                completionEl.textContent = `${completedCount}/${totalCount} completed`;
+            }
+        });
+    });
+    
+    // Week view checkboxes
+    const weekCells = document.querySelectorAll('.week-day-cell:not(.empty)');
+    weekCells.forEach(cell => {
+        cell.addEventListener('click', () => {
+            if (cell.classList.contains('completed')) {
+                cell.classList.remove('completed');
+                cell.innerHTML = '';
+            } else {
+                cell.classList.add('completed');
+                cell.innerHTML = '<span class="checkmark">✓</span>';
+            }
         });
     });
 }
