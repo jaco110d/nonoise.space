@@ -367,7 +367,7 @@ body {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(20px);
     border-radius: 100px;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
 }
 
 .time-btn {
