@@ -682,23 +682,30 @@ function loadPersonaHabits(persona) {
             </div>
             <div class="week-habits-rows">
                 ${habits.map((habit, habitIndex) => {
-                    // Different day patterns for different habits to show flexibility
+                    // Day patterns based on habit type for each persona
                     let plannedDays;
-                    switch(habitIndex) {
-                        case 0: // First habit - weekdays only (M-F)
-                            plannedDays = [0, 1, 2, 3, 4];
-                            break;
-                        case 1: // Second habit - all 7 days
-                            plannedDays = [0, 1, 2, 3, 4, 5, 6];
-                            break;
-                        case 2: // Third habit - Mon, Wed, Fri
-                            plannedDays = [0, 2, 4];
-                            break;
-                        case 3: // Fourth habit - weekends only
-                            plannedDays = [5, 6];
-                            break;
-                        default: // Any other habits
-                            plannedDays = [0, 1, 2, 3, 4];
+                    const habitName = habit.name.toLowerCase();
+                    
+                    // Determine day pattern based on habit name
+                    if (habitName.includes('study') || habitName.includes('homework') || habitName.includes('work tasks')) {
+                        plannedDays = [0, 1, 2, 3, 4]; // Weekdays only
+                    } else if (habitName.includes('exercise') || habitName.includes('run') || habitName.includes('fitness')) {
+                        plannedDays = [0, 1, 2, 3, 4, 6]; // Weekdays + Sunday
+                    } else if (habitName.includes('code') || habitName.includes('product') || habitName.includes('create art')) {
+                        plannedDays = [0, 2, 4, 5, 6]; // Mon, Wed, Fri, Weekend
+                    } else if (habitName.includes('family') || habitName.includes('bedtime') || habitName.includes('journal')) {
+                        plannedDays = [0, 1, 2, 3, 4, 5, 6]; // Every day
+                    } else if (habitName.includes('cook') || habitName.includes('meal')) {
+                        plannedDays = [0, 1, 2, 3, 4, 5]; // All except Sunday
+                    } else if (habitName.includes('email') || habitName.includes('metrics') || habitName.includes('read')) {
+                        plannedDays = [0, 1, 2, 3, 4]; // Weekdays
+                    } else if (habitName.includes('network') || habitName.includes('photo') || habitName.includes('self care')) {
+                        plannedDays = [2, 5, 6]; // Wed + Weekend
+                    } else if (habitName.includes('content') || habitName.includes('music')) {
+                        plannedDays = [1, 3, 5]; // Tue, Thu, Sat
+                    } else {
+                        // Default pattern
+                        plannedDays = [0, 1, 2, 3, 4, 5, 6];
                     }
                     
                     return `
