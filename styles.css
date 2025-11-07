@@ -583,6 +583,7 @@ body {
 
 .week-card-header {
     margin-bottom: 16px;
+    text-align: left;
 }
 
 .week-card-title {
@@ -590,11 +591,13 @@ body {
     font-weight: 600;
     color: white;
     margin-bottom: 2px;
+    text-align: left;
 }
 
 .week-card-date-range {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
+    text-align: left;
 }
 
 .week-card-divider {
@@ -608,14 +611,17 @@ body {
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
+    text-align: left;
 }
 
 .week-days-header .emoji-space {
     width: 40px;
+    text-align: left;
 }
 
 .week-days-header .title-space {
     width: 100px;
+    text-align: left;
 }
 
 .week-days-header .day-label {
@@ -630,12 +636,14 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    text-align: left;
 }
 
 .week-habit-row {
     display: flex;
     align-items: center;
     gap: 8px;
+    text-align: left;
 }
 
 .week-habit-emoji {
@@ -651,6 +659,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: left;
 }
 
 .week-day-cell {
