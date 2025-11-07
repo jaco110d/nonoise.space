@@ -600,24 +600,40 @@ function loadPersonaHabits(persona) {
     container.innerHTML = '';
     
     if (habitViewMode === 'day') {
-        // Day view - DayHabitCard from HabitsTimelineView.swift
-        habits.forEach((habit, index) => {
-            // Generate random completion data for demo
-            const completedCount = Math.floor(Math.random() * 4) + 1;
-            const isCompleted = completedCount > 2;
-            
+        // Day view - 3 cards (yesterday, today, tomorrow) with depth effect
+        container.className = 'habit-cards-container day-layout';
+        
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        const formatDate = (date) => {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]}`;
+        };
+        
+        const cards = [
+            { date: yesterday, position: 'left', completedCount: 4 },
+            { date: today, position: 'center', completedCount: 2 },
+            { date: tomorrow, position: 'right', completedCount: 0 }
+        ];
+        
+        cards.forEach(cardData => {
             const habitCard = document.createElement('div');
-            habitCard.className = 'habit-card day-view';
+            habitCard.className = `habit-card day-view ${cardData.position}`;
             
             habitCard.innerHTML = `
                 <div class="day-card-header">
-                    <div class="day-card-date">Wed 8 Oct</div>
-                    <div class="day-card-completion">${completedCount}/4 completed</div>
+                    <div class="day-card-date">${formatDate(cardData.date)}</div>
+                    <div class="day-card-completion">${cardData.completedCount}/${habits.length} completed</div>
                 </div>
                 <div class="day-card-divider"></div>
                 <div class="day-habits-list">
                     ${habits.map((h, i) => {
-                        const completed = i < completedCount;
+                        const completed = i < cardData.completedCount;
                         return `
                             <div class="day-habit-row">
                                 <div class="day-habit-emoji ${completed ? 'completed' : ''}">${h.emoji}</div>
@@ -635,6 +651,8 @@ function loadPersonaHabits(persona) {
             container.appendChild(habitCard);
         });
     } else {
+        // Week view - single centered card
+        container.className = 'habit-cards-container week-layout';
         // Week view - WeekHabit3DCard from Habits3DView.swift
         const habitCard = document.createElement('div');
         habitCard.className = 'habit-card week-view';
