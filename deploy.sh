@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Deployment script til landing page
-# Dette script pusher ændringer til GitHub
+# Dette script pusher ændringer til GitHub (nonoise.space repo)
 
 set -e  # Exit ved fejl
 
@@ -11,6 +11,7 @@ echo ""
 # Check om vi er i landing-page directory
 if [ ! -f "index.html" ]; then
     echo "❌ Error: Skal køres fra landing-page/ directory"
+    echo "   cd til /Users/jacobhartmann/Documents/Timeline/landing-page"
     exit 1
 fi
 
@@ -33,11 +34,11 @@ fi
 
 # Git operations
 echo ""
-echo "📦 Committing..."
+echo "📦 Committing til nonoise.space repo..."
 git add .
 git commit -m "$message"
 
-echo "⬆️  Pushing til GitHub..."
+echo "⬆️  Pushing til GitHub (jaco110d/nonoise.space)..."
 git push origin main
 
 echo ""
