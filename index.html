@@ -4,140 +4,251 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timeline - Visualize Your Life</title>
-    <meta name="description" content="A beautiful 3D timeline app for macOS. Track milestones, build habits, and visualize your journey through time.">
+    <meta name="description" content="A 3D timeline app for macOS. Track milestones, build habits, visualize your journey.">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
 </head>
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <nav class="nav">
-            <div class="logo">Timeline</div>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#download" class="cta-btn">Download</a>
+        <!-- Toolbar (like in app) -->
+        <div class="toolbar">
+            <div class="toolbar-content">
+                <div class="toolbar-left">
+                    <button class="tool-btn circle">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
+                            <path d="M8 4v8M4 8h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <button class="tool-btn circle">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
+                            <path d="M4 8h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <div class="divider"></div>
+                    <button class="tool-btn capsule">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+                            <rect x="2" y="2" width="10" height="10" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+                            <text x="7" y="10" text-anchor="middle" font-size="8" fill="white">15</text>
+                        </svg>
+                        <span>Today</span>
+                    </button>
+                </div>
+                <div class="logo">Timeline</div>
             </div>
-        </nav>
+        </div>
 
         <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">Visualize<br>Your Life</h1>
-                <p class="hero-subtitle">A beautiful 3D timeline for macOS.<br>Track milestones, build habits, see your progress.</p>
-                <div class="hero-buttons">
-                    <a href="#download" class="btn btn-primary">
-                        <span class="btn-icon">⬇</span>
-                        Download for macOS
-                    </a>
+            <h1>Visualize<br>Your Life</h1>
+            <p class="subtitle">A 3D timeline for macOS.<br>Track milestones, build habits, see your progress.</p>
+            
+            <!-- Fake 3D Timeline Preview -->
+            <div class="timeline-preview">
+                <!-- Date markers (like in app) -->
+                <div class="date-marker" style="top: 15%; left: 30%;">
+                    <div class="marker-dot"></div>
+                    <span>2023</span>
+                </div>
+                <div class="date-marker" style="top: 50%; left: 50%;">
+                    <div class="marker-dot"></div>
+                    <span>2024</span>
+                </div>
+                <div class="date-marker" style="top: 75%; left: 65%;">
+                    <div class="marker-dot"></div>
+                    <span>2025</span>
+                </div>
+
+                <!-- Milestone cards (exact from MilestoneCard.swift) -->
+                <div class="milestone-card" style="top: 20%; left: 20%;" data-depth="back">
+                    <div class="card-line"></div>
+                    <div class="emoji-container">
+                        <span class="emoji">🎯</span>
+                    </div>
+                    <div class="card-title">Started Journey</div>
+                    <div class="card-date">Jan 2024</div>
+                </div>
+
+                <div class="milestone-card selected" style="top: 50%; left: 50%;" data-depth="center">
+                    <div class="card-line"></div>
+                    <div class="emoji-container">
+                        <span class="emoji">🚀</span>
+                    </div>
+                    <div class="card-title">First Launch</div>
+                    <div class="card-date">Today</div>
+                </div>
+
+                <div class="milestone-card" style="top: 70%; left: 75%;" data-depth="front">
+                    <div class="card-line"></div>
+                    <div class="emoji-container">
+                        <span class="emoji">⭐</span>
+                    </div>
+                    <div class="card-title">Achievement</div>
+                    <div class="card-date">Dec 2024</div>
                 </div>
             </div>
 
-            <!-- 3D Preview Animation -->
-            <div class="timeline-3d-preview">
-                <div class="milestone-card card-1" data-emoji="🎯">
-                    <div class="card-content">
-                        <div class="card-emoji">🎯</div>
-                        <div class="card-title">Started Journey</div>
-                        <div class="card-date">Jan 2024</div>
-                    </div>
-                    <div class="card-line"></div>
-                </div>
-                
-                <div class="milestone-card card-2" data-emoji="🚀">
-                    <div class="card-content">
-                        <div class="card-emoji">🚀</div>
-                        <div class="card-title">First Launch</div>
-                        <div class="card-date">Today</div>
-                    </div>
-                    <div class="card-line"></div>
-                </div>
-                
-                <div class="milestone-card card-3" data-emoji="⭐">
-                    <div class="card-content">
-                        <div class="card-emoji">⭐</div>
-                        <div class="card-title">Big Achievement</div>
-                        <div class="card-date">Dec 2024</div>
-                    </div>
-                    <div class="card-line"></div>
-                </div>
+            <a href="#download" class="cta-btn">
+                <span>⬇</span>
+                Download for macOS
+            </a>
+        </div>
 
-                <div class="timeline-axis"></div>
+        <!-- Bottom Control (like in app) -->
+        <div class="bottom-control">
+            <div class="control-segment">
+                <button class="segment-btn active">Timeline</button>
+                <button class="segment-btn">Habits</button>
+            </div>
+            <div class="divider"></div>
+            <button class="control-btn">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
+                    <path d="M2 2h4v4H2zM8 2h4v4H8zM2 8h4v4H2zM8 8h4v4H8z" fill="white" opacity="0.8"/>
+                </svg>
+                <span>3D</span>
+            </button>
+            <div class="divider"></div>
+            <div class="scale-selector">
+                <button class="scale-btn">Week</button>
+                <button class="scale-btn active">Month</button>
+                <button class="scale-btn">Year</button>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
     <section id="features" class="features">
-        <h2 class="section-title">Experience Time<br>in Three Dimensions</h2>
+        <h2>Everything You Need<br>to Track Your Life</h2>
 
         <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>3D Timeline</h3>
-                <p>Navigate through your life in a stunning 3D space. Scroll through years, zoom into months, focus on specific moments.</p>
+            <!-- Milestones Feature with real card -->
+            <div class="feature">
+                <div class="feature-preview">
+                    <div class="milestone-card-small">
+                        <div class="emoji-container">
+                            <span class="emoji">🎯</span>
+                        </div>
+                        <div class="card-title">Graduated</div>
+                        <div class="card-date">Jun 2024</div>
+                    </div>
+                    <div class="milestone-card-small">
+                        <div class="emoji-container">
+                            <span class="emoji">💼</span>
+                        </div>
+                        <div class="card-title">New Job</div>
+                        <div class="card-date">Aug 2024</div>
+                    </div>
+                </div>
+                <h3>Track Milestones</h3>
+                <p>Mark important events, achievements, and memories with custom emojis and dates.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Milestones</h3>
-                <p>Mark important events, achievements, and memories. Customize with emojis, colors, and notes.</p>
+            <!-- Habits Feature with real habit strip -->
+            <div class="feature">
+                <div class="feature-preview">
+                    <div class="habit-strip">
+                        <div class="habit-week">
+                            <div class="day-header">Mon</div>
+                            <div class="day-cell">
+                                <div class="habit-emoji completed">💪</div>
+                                <div class="habit-emoji completed">📚</div>
+                            </div>
+                        </div>
+                        <div class="habit-week">
+                            <div class="day-header">Tue</div>
+                            <div class="day-cell">
+                                <div class="habit-emoji completed">💪</div>
+                                <div class="habit-emoji">📚</div>
+                            </div>
+                        </div>
+                        <div class="habit-week">
+                            <div class="day-header">Wed</div>
+                            <div class="day-cell">
+                                <div class="habit-emoji">💪</div>
+                                <div class="habit-emoji">📚</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Build Habits</h3>
+                <p>Track daily habits and build streaks. Visual feedback keeps you motivated.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">✅</div>
-                <h3>Habit Tracking</h3>
-                <p>Build and maintain daily habits. Visualize your streaks and progress over time.</p>
+            <!-- 3D Timeline -->
+            <div class="feature">
+                <div class="feature-preview">
+                    <div class="depth-preview">
+                        <div class="depth-card" style="transform: scale(0.7) translateY(-10px); opacity: 0.5;">📅</div>
+                        <div class="depth-card" style="transform: scale(1); opacity: 1;">📍</div>
+                        <div class="depth-card" style="transform: scale(0.7) translateY(10px); opacity: 0.5;">🎯</div>
+                    </div>
+                </div>
+                <h3>3D Visualization</h3>
+                <p>Navigate through time in 3D space. Smooth animations and depth effects.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+            <!-- Native macOS -->
+            <div class="feature">
+                <div class="feature-preview">
+                    <div class="macos-window">
+                        <div class="window-controls">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="window-content">
+                            <div class="emoji-large">⚡</div>
+                        </div>
+                    </div>
+                </div>
                 <h3>Native Performance</h3>
-                <p>Built with SwiftUI for macOS. Smooth animations, instant response, optimized for Apple Silicon.</p>
+                <p>Built with SwiftUI for macOS. Optimized for Apple Silicon.</p>
             </div>
 
-            <div class="feature-card">
-                <div class="feature-icon">🎨</div>
-                <h3>Beautiful Design</h3>
-                <p>Glassmorphic UI, depth effects, and elegant animations create an immersive experience.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
+            <!-- Privacy -->
+            <div class="feature">
+                <div class="feature-preview">
+                    <div class="privacy-icon">🔒</div>
+                </div>
                 <h3>Privacy First</h3>
-                <p>All your data stays on your Mac. No cloud sync, no tracking, no accounts required.</p>
+                <p>All data stays on your Mac. No cloud, no tracking, no accounts.</p>
+            </div>
+
+            <!-- Keyboard -->
+            <div class="feature">
+                <div class="feature-preview">
+                    <div class="keyboard-keys">
+                        <div class="key">⌘</div>
+                        <div class="key">N</div>
+                    </div>
+                </div>
+                <h3>Keyboard Shortcuts</h3>
+                <p>Navigate with arrows, zoom with brackets, add with ⌘N.</p>
             </div>
         </div>
     </section>
 
     <!-- Download Section -->
     <section id="download" class="download">
-        <div class="download-container">
-            <h2 class="section-title">Ready to Begin?</h2>
-            <p class="download-subtitle">Timeline for macOS is coming soon</p>
-            
-            <div class="download-card">
-                <div class="beta-badge">Coming Soon</div>
-                <form class="signup-form" id="signupForm">
-                    <input type="email" placeholder="Enter your email" required>
-                    <button type="submit" class="btn btn-primary">Get Early Access</button>
-                </form>
-            </div>
-
-            <p class="system-req">Requires macOS 13.0 or later • Apple Silicon & Intel</p>
+        <div class="download-card">
+            <div class="beta-badge">Coming Soon</div>
+            <h2>Get Early Access</h2>
+            <p>Timeline for macOS is in development</p>
+            <form id="emailForm" class="email-form">
+                <input type="email" placeholder="your@email.com" required>
+                <button type="submit" class="submit-btn">
+                    <span>Notify Me</span>
+                </button>
+            </form>
+            <div class="requirements">Requires macOS 13+ • Apple Silicon & Intel</div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-logo">Timeline</div>
-            <div class="footer-links">
-                <a href="mailto:hello@nonoise.space">Contact</a>
-                <a href="#features">Features</a>
-                <a href="#download">Download</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 Timeline. All rights reserved.</p>
+            <span>Timeline</span>
+            <span class="footer-sep">•</span>
+            <a href="mailto:hello@nonoise.space">Contact</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
         </div>
     </footer>
 
