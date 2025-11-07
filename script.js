@@ -331,8 +331,9 @@ function initTimeline() {
     const today = new Date();
     scrollOffset = zPositionForDate(today);
     
-    // Prevent body scroll initially
-    document.body.style.overflow = 'hidden';
+    // Allow normal scroll initially so user can scroll to top
+    document.body.style.overflow = 'auto';
+    isTimelineActive = false;
     
     // Initial render
     updateMilestones();
@@ -351,21 +352,27 @@ function initTimeline() {
         updateMilestones();
     });
     
-    // Intersection observer to reset when scrolling back up
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && entry.target === heroSection) {
-                if (!isTimelineActive) {
-                    isTimelineActive = true;
-                    document.body.style.overflow = 'hidden';
-                    scrollOffset = zPositionForDate(new Date());
-                    updateMilestones();
-                }
+    // Check scroll position to activate timeline only when at very top
+    let scrollCheckTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollCheckTimeout);
+        scrollCheckTimeout = setTimeout(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Activate timeline only when scrolled to very top (within 50px)
+            if (scrollTop < 50 && !isTimelineActive) {
+                isTimelineActive = true;
+                document.body.style.overflow = 'hidden';
+                scrollOffset = zPositionForDate(new Date());
+                updateMilestones();
             }
-        });
-    }, { threshold: 0.3 });
-    
-    observer.observe(heroSection);
+            // Deactivate when scrolling down past hero
+            else if (scrollTop > window.innerHeight * 0.5 && isTimelineActive) {
+                isTimelineActive = false;
+                document.body.style.overflow = 'auto';
+            }
+        }, 50);
+    });
 }
 
 // Email form
