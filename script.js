@@ -1,205 +1,372 @@
-// Timeline Landing Page - Interactive 3D Timeline
+// Timeline Landing Page - Exact copy of Timeline3DView.swift behavior
 
-// Timeline scroll state
-let timelineProgress = 0;
+// Configuration (from Timeline3DView.swift)
+const depthSpacing = 150;
+const scrollSensitivity = 2.0;
+const zUnitsPerDay = 0.5; // Year scale from app
+
+// State
+let scrollOffset = 0;
+let velocity = 0;
+let isInertiaActive = false;
 let isTimelineActive = true;
-let lastScrollTime = 0;
+let animationFrameId = null;
 
-// Get elements
+// Reference date (January 1, 2000 - same as app)
+const referenceDate = new Date(2000, 0, 1);
+
+// Elements
 const heroSection = document.getElementById('hero-section');
 const timeline3d = document.getElementById('timeline-3d');
-const yearIndicator = document.getElementById('year-indicator');
+const dateMarkersContainer = document.getElementById('date-markers');
 const milestones = document.querySelectorAll('.milestone-3d');
-const featuresSection = document.getElementById('features');
 
-// Timeline configuration
-const START_YEAR = 2020;
-const END_YEAR = 2040;
-const YEAR_RANGE = END_YEAR - START_YEAR;
+// Get screen size
+const screenSize = {
+    width: window.innerWidth,
+    height: window.innerHeight
+};
 
-// Milestone positions (years)
-const milestoneYears = [2020, 2022, 2024, 2026, 2028, 2032, 2036, 2040];
+// Parse date from data attribute
+function parseDate(dateStr) {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day);
+}
 
-// Update timeline based on progress (0-1)
-function updateTimeline(progress) {
-    timelineProgress = Math.max(0, Math.min(1, progress));
+// Calculate z-position for date (from Timeline3DView.swift line 151-160)
+function zPositionForDate(date) {
+    const daysDifference = (date - referenceDate) / (24 * 60 * 60 * 1000);
+    return daysDifference * zUnitsPerDay;
+}
+
+// Calculate date for z-position (reverse)
+function dateForZPosition(zPos) {
+    const days = zPos / zUnitsPerDay;
+    return new Date(referenceDate.getTime() + days * 24 * 60 * 60 * 1000);
+}
+
+// DepthTransform (from Timeline3DView.swift line 386-449)
+function applyDepthTransform(element, zPosition) {
+    const distance = Math.abs(zPosition);
     
-    // Update year indicator
-    const currentYear = Math.round(START_YEAR + (YEAR_RANGE * timelineProgress));
-    yearIndicator.textContent = currentYear;
+    // Scale (line 390-404)
+    const maxScale = 1.5;
+    const minScale = 0.15;
+    const focusRange = 800;
     
-    // Calculate scroll position in timeline space
-    const scrollZ = timelineProgress * 4000 - 2000; // -2000 to 2000
+    let scale;
+    if (distance < focusRange) {
+        const t = distance / focusRange;
+        scale = minScale + (maxScale - minScale) * (1.0 - t);
+    } else {
+        scale = minScale;
+    }
     
-    // Update each milestone
-    milestones.forEach((milestone, index) => {
-        const milestoneYear = milestoneYears[index];
-        const yearProgress = (milestoneYear - START_YEAR) / YEAR_RANGE;
+    // Opacity (line 406-418)
+    let opacity;
+    if (distance < 100) {
+        opacity = 1.0;
+    } else if (distance < 400) {
+        opacity = 1.0 - (distance - 100) / 300 * 0.3;
+    } else if (distance < 1000) {
+        opacity = 0.7 - (distance - 400) / 600 * 0.6;
+    } else {
+        opacity = 0.1;
+    }
+    
+    // Blur (line 420-430)
+    let blur;
+    if (distance < 100) {
+        blur = 0;
+    } else if (distance < 500) {
+        blur = (distance - 100) / 400 * 4;
+    } else {
+        blur = 4 + (distance - 500) / 500 * 4;
+    }
+    
+    // Offsets (line 432-440)
+    const xOffset = (screenSize.width * 0.6) * (zPosition / 400);
+    const yOffset = -(screenSize.height * 0.45) * (zPosition / 400) - 40;
+    
+    // Apply transform
+    element.style.transform = `
+        translate(-50%, -50%)
+        translateX(${xOffset}px)
+        translateY(${yOffset}px)
+        scale(${scale})
+    `;
+    element.style.opacity = opacity;
+    element.style.filter = `blur(${blur}px)`;
+    element.style.zIndex = Math.round(1000 - distance);
+    
+    // Update selected state (focused card)
+    const card = element.querySelector('.milestone-card');
+    const isFocused = distance < depthSpacing / 2;
+    
+    if (isFocused) {
+        card.classList.add('selected');
+    } else {
+        card.classList.remove('selected');
+    }
+    
+    return { scale, opacity, blur, distance };
+}
+
+// Generate visible markers (from Timeline3DView.swift line 170-225)
+function generateVisibleMarkers() {
+    const visibleRange = 2000;
+    const startDate = dateForZPosition(scrollOffset - visibleRange);
+    const endDate = dateForZPosition(scrollOffset + visibleRange);
+    
+    const markers = [];
+    let currentYear = startDate.getFullYear();
+    const endYear = endDate.getFullYear();
+    
+    // Generate yearly markers
+    for (let year = currentYear; year <= endYear && markers.length < 50; year++) {
+        const yearDate = new Date(year, 0, 1);
+        const zPos = zPositionForDate(yearDate) - scrollOffset;
         
-        // Position in 3D space
-        const milestoneZ = yearProgress * 4000 - 2000;
-        const relativeZ = milestoneZ - scrollZ;
+        if (Math.abs(zPos) < visibleRange) {
+            markers.push({ year, zPos });
+        }
+    }
+    
+    return markers;
+}
+
+// Render date markers
+function renderDateMarkers() {
+    const markers = generateVisibleMarkers();
+    
+    dateMarkersContainer.innerHTML = '';
+    
+    markers.forEach(marker => {
+        const distance = Math.abs(marker.zPos);
         
-        // Calculate depth effects (like Timeline3DView.swift)
-        const distance = Math.abs(relativeZ);
+        // Same depth transform as milestones
+        const maxScale = 1.5;
+        const minScale = 0.15;
+        const focusRange = 800;
         
-        // Scale based on distance (maxScale 1.5, minScale 0.15, focusRange 800)
         let scale;
-        if (distance < 800) {
-            const t = distance / 800;
-            scale = 0.15 + (1.5 - 0.15) * (1.0 - t);
+        if (distance < focusRange) {
+            const t = distance / focusRange;
+            scale = minScale + (maxScale - minScale) * (1.0 - t);
         } else {
-            scale = 0.15;
+            scale = minScale;
         }
         
-        // Opacity
         let opacity;
         if (distance < 100) {
             opacity = 1.0;
         } else if (distance < 400) {
             opacity = 1.0 - (distance - 100) / 300 * 0.3;
         } else if (distance < 1000) {
-            opacity = 0.7 - (distance - 400) / 600 * 0.6;
+            opacity = 0.7 - (distance - 400) / 600 * 0.5;
         } else {
-            opacity = 0.1;
+            opacity = 0.2;
         }
         
-        // Offsets (perspective movement)
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        const xOffset = (screenWidth * 0.6) * (relativeZ / 400);
-        const yOffset = -(screenHeight * 0.45) * (relativeZ / 400) - 40;
+        const xOffset = (screenSize.width * 0.6) * (marker.zPos / 400);
+        const yOffset = -(screenSize.height * 0.45) * (marker.zPos / 400) + 150;
         
-        // Apply transform
-        milestone.style.transform = `
+        const markerEl = document.createElement('div');
+        markerEl.className = 'date-marker';
+        markerEl.innerHTML = `
+            <div class="marker-dot"></div>
+            <span>${marker.year}</span>
+        `;
+        markerEl.style.transform = `
             translate(-50%, -50%)
             translateX(${xOffset}px)
             translateY(${yOffset}px)
-            translateZ(${relativeZ}px)
             scale(${scale})
         `;
-        milestone.style.opacity = opacity;
-        milestone.style.zIndex = Math.round(1000 - distance);
+        markerEl.style.opacity = opacity;
         
-        // Update selected state (focused card)
-        const card = milestone.querySelector('.milestone-card');
-        if (distance < 100) {
-            card.classList.add('selected');
-        } else {
-            card.classList.remove('selected');
-        }
+        dateMarkersContainer.appendChild(markerEl);
     });
 }
 
-// Handle scroll event
-let scrollRAF = null;
-function handleScroll(e) {
-    if (!isTimelineActive) return;
+// Update all milestones
+function updateMilestones() {
+    milestones.forEach((milestone) => {
+        const dateStr = milestone.dataset.date;
+        const date = parseDate(dateStr);
+        const milestoneZ = zPositionForDate(date);
+        const zPosition = milestoneZ - scrollOffset;
+        
+        // Only render if within visible range
+        const distance = Math.abs(zPosition);
+        if (distance < 3000) {
+            milestone.style.display = 'block';
+            applyDepthTransform(milestone, zPosition);
+        } else {
+            milestone.style.display = 'none';
+        }
+    });
     
-    const now = Date.now();
-    const delta = e.deltaY;
-    
-    // Cancel any pending animation frame
-    if (scrollRAF) {
-        cancelAnimationFrame(scrollRAF);
+    renderDateMarkers();
+}
+
+// Handle inertia (from Timeline3DView.swift line 263-272)
+function handleInertia() {
+    if (!isInertiaActive || Math.abs(velocity) <= 0.001) {
+        isInertiaActive = false;
+        velocity = 0;
+        return;
     }
     
-    scrollRAF = requestAnimationFrame(() => {
-        // Update progress
-        const sensitivity = 0.0005;
-        timelineProgress += delta * sensitivity;
-        
-        // Check if we've reached the end
-        if (timelineProgress >= 1) {
-            isTimelineActive = false;
-            timelineProgress = 1;
-            updateTimeline(1);
-            
-            // Scroll to features section
-            setTimeout(() => {
-                featuresSection.scrollIntoView({ behavior: 'smooth' });
-            }, 300);
-        } else {
-            e.preventDefault();
-            updateTimeline(timelineProgress);
-        }
-        
-        lastScrollTime = now;
-    });
+    scrollOffset += velocity * 60;
+    velocity *= 0.95;
+    
+    updateMilestones();
+    
+    if (isInertiaActive) {
+        animationFrameId = requestAnimationFrame(handleInertia);
+    }
 }
 
-// Initialize timeline
+// Scroll wheel handler (from Timeline3DView.swift line 276-295)
+function handleScrollWheel(event) {
+    if (!isTimelineActive) return;
+    
+    event.preventDefault();
+    
+    isInertiaActive = false;
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+    }
+    
+    const scrollDelta = event.deltaY;
+    
+    if (event.deltaMode === 1) {
+        // Line mode
+        scrollOffset -= scrollDelta * scrollSensitivity * 20;
+    } else {
+        // Pixel mode
+        scrollOffset -= scrollDelta * scrollSensitivity;
+    }
+    
+    velocity = -scrollDelta * scrollSensitivity * 0.01;
+    
+    updateMilestones();
+    
+    // Check if we should release scroll
+    const currentDate = dateForZPosition(scrollOffset);
+    if (currentDate >= new Date(2041, 0, 1)) {
+        isTimelineActive = false;
+        // Allow normal page scroll
+        document.body.style.overflow = 'auto';
+        setTimeout(() => {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+    }
+}
+
+// Touch support
+let touchStartY = 0;
+let touchStartOffset = 0;
+
+function handleTouchStart(event) {
+    if (!isTimelineActive) return;
+    touchStartY = event.touches[0].clientY;
+    touchStartOffset = scrollOffset;
+    isInertiaActive = false;
+}
+
+function handleTouchMove(event) {
+    if (!isTimelineActive) return;
+    event.preventDefault();
+    
+    const touchY = event.touches[0].clientY;
+    const deltaY = touchStartY - touchY;
+    
+    scrollOffset = touchStartOffset - deltaY * scrollSensitivity;
+    updateMilestones();
+    
+    // Check if we should release
+    const currentDate = dateForZPosition(scrollOffset);
+    if (currentDate >= new Date(2041, 0, 1)) {
+        isTimelineActive = false;
+        document.body.style.overflow = 'auto';
+        setTimeout(() => {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+    }
+}
+
+function handleTouchEnd() {
+    isInertiaActive = true;
+    animationFrameId = requestAnimationFrame(handleInertia);
+}
+
+// Keyboard navigation (from Timeline3DView.swift line 307-381)
+function handleKeyDown(event) {
+    if (!isTimelineActive) return;
+    
+    const today = new Date();
+    const todayZ = zPositionForDate(today);
+    
+    if (event.code === 'ArrowLeft' || event.code === 'ArrowUp') {
+        event.preventDefault();
+        scrollOffset -= 100;
+        updateMilestones();
+    } else if (event.code === 'ArrowRight' || event.code === 'ArrowDown') {
+        event.preventDefault();
+        scrollOffset += 100;
+        updateMilestones();
+    } else if (event.code === 'KeyT' && event.metaKey) {
+        // Jump to today (Cmd+T like in app)
+        event.preventDefault();
+        scrollOffset = todayZ;
+        updateMilestones();
+    }
+}
+
+// Initialize
 function initTimeline() {
-    // Start at beginning
-    updateTimeline(0);
+    // Start at today
+    const today = new Date();
+    scrollOffset = zPositionForDate(today);
     
-    // Add scroll listener
-    let scrollTimeout;
-    window.addEventListener('wheel', (e) => {
-        if (isTimelineActive) {
-            e.preventDefault();
-            handleScroll(e);
-        }
-    }, { passive: false });
+    // Prevent body scroll initially
+    document.body.style.overflow = 'hidden';
     
-    // Touch support for mobile
-    let touchStartY = 0;
-    let touchStartProgress = 0;
+    // Initial render
+    updateMilestones();
     
-    window.addEventListener('touchstart', (e) => {
-        if (isTimelineActive) {
-            touchStartY = e.touches[0].clientY;
-            touchStartProgress = timelineProgress;
-        }
-    }, { passive: true });
+    // Add event listeners
+    window.addEventListener('wheel', handleScrollWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('keydown', handleKeyDown);
     
-    window.addEventListener('touchmove', (e) => {
-        if (isTimelineActive) {
-            e.preventDefault();
-            const touchY = e.touches[0].clientY;
-            const deltaY = touchStartY - touchY;
-            const sensitivity = 0.001;
-            
-            timelineProgress = touchStartProgress + deltaY * sensitivity;
-            
-            if (timelineProgress >= 1) {
-                isTimelineActive = false;
-                timelineProgress = 1;
-                updateTimeline(1);
-                setTimeout(() => {
-                    featuresSection.scrollIntoView({ behavior: 'smooth' });
-                }, 300);
-            } else {
-                updateTimeline(timelineProgress);
-            }
-        }
-    }, { passive: false });
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        screenSize.width = window.innerWidth;
+        screenSize.height = window.innerHeight;
+        updateMilestones();
+    });
     
-    // Reset when scrolling back up
+    // Intersection observer to reset when scrolling back up
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && entry.target === heroSection) {
-                isTimelineActive = true;
-                timelineProgress = 0;
-                updateTimeline(0);
+                if (!isTimelineActive) {
+                    isTimelineActive = true;
+                    document.body.style.overflow = 'hidden';
+                    scrollOffset = zPositionForDate(new Date());
+                    updateMilestones();
+                }
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
     
     observer.observe(heroSection);
 }
-
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        isTimelineActive = false;
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
-});
 
 // Email form
 const emailForm = document.getElementById('emailForm');
@@ -219,7 +386,7 @@ if (emailForm) {
     });
 }
 
-// Intersection Observer for features fade-in
+// Feature intersection observer
 const featureObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -232,7 +399,6 @@ const featureObserver = new IntersectionObserver((entries) => {
     rootMargin: '0px 0px -50px 0px'
 });
 
-// Observe features
 document.querySelectorAll('.feature').forEach((feature, index) => {
     feature.style.opacity = '0';
     feature.style.transform = 'translateY(30px)';
@@ -240,37 +406,7 @@ document.querySelectorAll('.feature').forEach((feature, index) => {
     featureObserver.observe(feature);
 });
 
-// Initialize everything
+// Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
     initTimeline();
-    
-    // Smooth entry animation
-    setTimeout(() => {
-        document.querySelector('.hero-content h1').style.opacity = '1';
-        document.querySelector('.hero-content h1').style.transform = 'translateY(0)';
-    }, 100);
-});
-
-// Keyboard shortcuts (like the app)
-document.addEventListener('keydown', (e) => {
-    if (isTimelineActive) {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-            e.preventDefault();
-            timelineProgress += 0.05;
-            if (timelineProgress >= 1) {
-                isTimelineActive = false;
-                timelineProgress = 1;
-                updateTimeline(1);
-                setTimeout(() => {
-                    featuresSection.scrollIntoView({ behavior: 'smooth' });
-                }, 300);
-            } else {
-                updateTimeline(timelineProgress);
-            }
-        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-            e.preventDefault();
-            timelineProgress -= 0.05;
-            updateTimeline(timelineProgress);
-        }
-    }
 });
