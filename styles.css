@@ -461,6 +461,7 @@ body {
 
 .day-card-header {
     margin-bottom: 12px;
+    text-align: left;
 }
 
 .day-card-date {
@@ -485,6 +486,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    text-align: left;
 }
 
 .day-habit-row {
@@ -496,6 +498,7 @@ body {
 .day-habit-emoji {
     width: 40px;
     height: 40px;
+    min-width: 40px;
     font-size: 28px;
     display: flex;
     align-items: center;
@@ -513,23 +516,37 @@ body {
     flex: 1;
     font-size: 15px;
     color: white;
+    text-align: left;
 }
 
 .day-habit-checkbox {
     width: 24px;
     height: 24px;
+    min-width: 24px;
     font-size: 24px;
-    color: rgba(255, 255, 255, 0.3);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-shrink: 0;
 }
 
-.day-habit-checkbox.completed {
-    color: #4CD964;
+/* Empty circle (uncompleted) */
+.day-habit-checkbox::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    position: absolute;
+}
+
+/* Filled green circle with checkmark (completed) */
+.day-habit-checkbox.completed::after {
+    background: #4CD964;
+    border-color: #4CD964;
 }
 
 .day-habit-checkbox.completed::before {
@@ -538,6 +555,7 @@ body {
     font-size: 14px;
     font-weight: bold;
     color: white;
+    z-index: 1;
 }
 
 .day-habit-checkbox:hover {

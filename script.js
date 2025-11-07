@@ -639,9 +639,7 @@ function loadPersonaHabits(persona) {
                                 <div class="day-habit-emoji ${completed ? 'completed' : ''}">${h.emoji}</div>
                                 <div class="day-habit-title">${h.name}</div>
                                 <div class="day-habit-checkbox ${completed ? 'completed' : ''}" 
-                                     data-habit="${i}">
-                                    ${completed ? '●' : '○'}
-                                </div>
+                                     data-habit="${i}"></div>
                             </div>
                         `;
                     }).join('')}
@@ -741,16 +739,9 @@ function setupHabitCheckboxes() {
             const row = checkbox.closest('.day-habit-row');
             const emoji = row.querySelector('.day-habit-emoji');
             
-            // Toggle completion state
+            // Toggle completion state (CSS will handle the visual change)
             checkbox.classList.toggle('completed');
             emoji.classList.toggle('completed');
-            
-            // Update checkbox display (the ::before pseudo-element will handle the checkmark)
-            if (checkbox.classList.contains('completed')) {
-                checkbox.textContent = '●';
-            } else {
-                checkbox.textContent = '○';
-            }
             
             // Update completion count
             const card = checkbox.closest('.habit-card');
