@@ -117,6 +117,43 @@ const personaMilestones = {
 
 let milestones = [];
 
+// Persona Habits Data
+const personaHabits = {
+    student: [
+        { emoji: '📚', name: 'Study Session', streak: 12 },
+        { emoji: '💪', name: 'Exercise', streak: 8 },
+        { emoji: '📝', name: 'Homework', streak: 15 },
+        { emoji: '💻', name: 'Code Practice', streak: 5 }
+    ],
+    professional: [
+        { emoji: '💼', name: 'Work Tasks', streak: 22 },
+        { emoji: '📧', name: 'Check Emails', streak: 30 },
+        { emoji: '🏃', name: 'Morning Run', streak: 18 },
+        { emoji: '📖', name: 'Read Industry News', streak: 14 }
+    ],
+    entrepreneur: [
+        { emoji: '💡', name: 'Product Work', streak: 45 },
+        { emoji: '📊', name: 'Review Metrics', streak: 27 },
+        { emoji: '🤝', name: 'Network', streak: 10 },
+        { emoji: '✍️', name: 'Content Creation', streak: 12 }
+    ],
+    parent: [
+        { emoji: '👨‍👩‍👧', name: 'Family Time', streak: 60 },
+        { emoji: '🍳', name: 'Cook Healthy Meal', streak: 35 },
+        { emoji: '📚', name: 'Bedtime Story', streak: 42 },
+        { emoji: '🧘', name: 'Self Care', streak: 8 }
+    ],
+    creative: [
+        { emoji: '🎨', name: 'Create Art', streak: 28 },
+        { emoji: '📷', name: 'Photo Session', streak: 16 },
+        { emoji: '✍️', name: 'Journal', streak: 22 },
+        { emoji: '🎵', name: 'Practice Music', streak: 19 }
+    ]
+};
+
+let habitCompletions = {};
+let habitViewMode = 'week';
+
 // Get screen size
 const screenSize = {
     width: window.innerWidth,
@@ -555,6 +592,91 @@ document.querySelectorAll('.feature').forEach((feature, index) => {
     featureObserver.observe(feature);
 });
 
+// Load habits for persona
+function loadPersonaHabits(persona) {
+    const habits = personaHabits[persona];
+    const container = document.getElementById('habit-cards');
+    
+    container.innerHTML = '';
+    
+    habits.forEach((habit, index) => {
+        const habitCard = document.createElement('div');
+        habitCard.className = 'habit-card';
+        
+        if (habitViewMode === 'week') {
+            habitCard.innerHTML = `
+                <div class="habit-header">
+                    <div class="habit-icon">${habit.emoji}</div>
+                    <div class="habit-info">
+                        <div class="habit-name">${habit.name}</div>
+                        <div class="habit-streak">${habit.streak} day streak 🔥</div>
+                    </div>
+                </div>
+                <div class="habit-week-grid">
+                    ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, dayIndex) => `
+                        <div class="habit-day">
+                            <div class="day-label">${day}</div>
+                            <div class="day-checkbox ${dayIndex < 5 ? 'completed' : ''}" 
+                                 data-habit="${index}" 
+                                 data-day="${dayIndex}"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        } else {
+            habitCard.innerHTML = `
+                <div class="habit-header">
+                    <div class="habit-icon">${habit.emoji}</div>
+                    <div class="habit-info">
+                        <div class="habit-name">${habit.name}</div>
+                        <div class="habit-streak">${habit.streak} day streak 🔥</div>
+                    </div>
+                </div>
+                <div class="habit-day-single">
+                    <div class="day-checkbox completed" 
+                         data-habit="${index}" 
+                         data-day="0"></div>
+                </div>
+            `;
+        }
+        
+        container.appendChild(habitCard);
+    });
+    
+    // Add click handlers
+    setupHabitCheckboxes();
+}
+
+// Setup habit checkbox click handlers
+function setupHabitCheckboxes() {
+    const checkboxes = document.querySelectorAll('.day-checkbox');
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', () => {
+            checkbox.classList.toggle('completed');
+        });
+    });
+}
+
+// Time scale toggle handlers
+function setupTimeScaleToggle() {
+    const timeBtns = document.querySelectorAll('.time-btn');
+    
+    timeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const scale = btn.dataset.scale;
+            
+            // Update active state
+            timeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update view mode and reload habits
+            habitViewMode = scale;
+            loadPersonaHabits(currentPersona);
+        });
+    });
+}
+
 // Persona selector handlers
 function setupPersonaSelector() {
     const personaBtns = document.querySelectorAll('.persona-btn');
@@ -567,9 +689,10 @@ function setupPersonaSelector() {
             personaBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // Load new persona milestones
+            // Load new persona milestones and habits
             currentPersona = persona;
             loadPersonaMilestones(persona);
+            loadPersonaHabits(persona);
         });
     });
 }
@@ -578,9 +701,13 @@ function setupPersonaSelector() {
 document.addEventListener('DOMContentLoaded', () => {
     // Load initial persona
     loadPersonaMilestones(currentPersona);
+    loadPersonaHabits(currentPersona);
     
     // Setup persona selector
     setupPersonaSelector();
+    
+    // Setup time scale toggle
+    setupTimeScaleToggle();
     
     // Initialize timeline
     initTimeline();

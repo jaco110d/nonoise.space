@@ -337,6 +337,178 @@ body {
     border-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Habits Section */
+.habits-section {
+    padding: 120px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.habits-section h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3rem;
+}
+
+/* Time Scale Toggle */
+.time-scale-toggle {
+    display: inline-flex;
+    gap: 0;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border-radius: 100px;
+    margin-bottom: 3rem;
+}
+
+.time-btn {
+    padding: 8px 24px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.time-btn.active {
+    background: var(--control-bg);
+    color: white;
+}
+
+/* Habit Cards Container */
+.habit-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Individual Habit Card (from HabitStripView.swift) */
+.habit-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.habit-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--card-border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px var(--shadow-medium);
+}
+
+.habit-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.habit-icon {
+    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--emoji-bg);
+    border-radius: 12px;
+}
+
+.habit-info {
+    flex: 1;
+    text-align: left;
+}
+
+.habit-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.habit-streak {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Habit Grid (Week View) */
+.habit-week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.habit-day {
+    text-align: center;
+}
+
+.day-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.day-checkbox {
+    width: 100%;
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 16px;
+}
+
+.day-checkbox:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--card-border-hover);
+}
+
+.day-checkbox.completed {
+    background: rgba(76, 217, 100, 0.2);
+    border-color: #4CD964;
+}
+
+.day-checkbox.completed::after {
+    content: '✓';
+    color: #4CD964;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* Day View */
+.habit-day-single {
+    text-align: center;
+}
+
+.habit-day-single .day-checkbox {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    font-size: 24px;
+}
+
 /* Features Section */
 .features {
     padding: 120px 40px;
