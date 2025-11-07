@@ -431,7 +431,7 @@ function handleScrollWheel(event) {
         isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
-            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('habits').scrollIntoView({ behavior: 'smooth' });
         }, 300);
     }
     // Release when reaching the past (2003 or earlier)
@@ -439,7 +439,7 @@ function handleScrollWheel(event) {
         isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
-            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('habits').scrollIntoView({ behavior: 'smooth' });
         }, 300);
     }
 }
@@ -471,7 +471,7 @@ function handleTouchMove(event) {
         isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
-            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('habits').scrollIntoView({ behavior: 'smooth' });
         }, 300);
     }
 }
