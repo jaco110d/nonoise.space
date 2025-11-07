@@ -741,14 +741,15 @@ function setupHabitCheckboxes() {
             const row = checkbox.closest('.day-habit-row');
             const emoji = row.querySelector('.day-habit-emoji');
             
+            // Toggle completion state
+            checkbox.classList.toggle('completed');
+            emoji.classList.toggle('completed');
+            
+            // Update checkbox display (the ::before pseudo-element will handle the checkmark)
             if (checkbox.classList.contains('completed')) {
-                checkbox.classList.remove('completed');
-                checkbox.textContent = '○';
-                emoji.classList.remove('completed');
-            } else {
-                checkbox.classList.add('completed');
                 checkbox.textContent = '●';
-                emoji.classList.add('completed');
+            } else {
+                checkbox.textContent = '○';
             }
             
             // Update completion count
