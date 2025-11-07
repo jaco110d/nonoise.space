@@ -681,14 +681,35 @@ function loadPersonaHabits(persona) {
                 `).join('')}
             </div>
             <div class="week-habits-rows">
-                ${habits.map((habit, habitIndex) => `
+                ${habits.map((habit, habitIndex) => {
+                    // Different day patterns for different habits to show flexibility
+                    let plannedDays;
+                    switch(habitIndex) {
+                        case 0: // First habit - weekdays only (M-F)
+                            plannedDays = [0, 1, 2, 3, 4];
+                            break;
+                        case 1: // Second habit - all 7 days
+                            plannedDays = [0, 1, 2, 3, 4, 5, 6];
+                            break;
+                        case 2: // Third habit - Mon, Wed, Fri
+                            plannedDays = [0, 2, 4];
+                            break;
+                        case 3: // Fourth habit - weekends only
+                            plannedDays = [5, 6];
+                            break;
+                        default: // Any other habits
+                            plannedDays = [0, 1, 2, 3, 4];
+                    }
+                    
+                    return `
                     <div class="week-habit-row">
                         <div class="week-habit-emoji">${habit.emoji}</div>
                         <div class="week-habit-title">${habit.name}</div>
                         ${[0, 1, 2, 3, 4, 5, 6].map(dayIndex => {
-                            // Random completion for demo (more completed earlier in week)
-                            const isPlanned = dayIndex < 6; // Most days planned
-                            const isCompleted = isPlanned && dayIndex < 4; // First 4 days completed
+                            const isPlanned = plannedDays.includes(dayIndex);
+                            // Mark some as completed for demo (first 2-3 planned days)
+                            const completedDays = plannedDays.slice(0, Math.min(3, plannedDays.length));
+                            const isCompleted = completedDays.includes(dayIndex);
                             
                             if (!isPlanned) {
                                 return `<div class="week-day-cell empty"></div>`;
@@ -703,7 +724,8 @@ function loadPersonaHabits(persona) {
                             `;
                         }).join('')}
                     </div>
-                `).join('')}
+                `;
+                }).join('')}
             </div>
         `;
         
