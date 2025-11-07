@@ -13,27 +13,14 @@
         <!-- Toolbar (like in app) -->
         <div class="toolbar">
             <div class="toolbar-content">
-                <div class="toolbar-left">
-                    <button class="tool-btn circle">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                            <path d="M8 4v8M4 8h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </button>
-                    <button class="tool-btn circle">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                            <path d="M4 8h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </button>
-                    <div class="divider"></div>
-                    <button class="tool-btn capsule">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
-                            <rect x="2" y="2" width="10" height="10" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
-                            <text x="7" y="10" text-anchor="middle" font-size="8" fill="white">15</text>
-                        </svg>
-                        <span>Today</span>
-                    </button>
+                <div class="toolbar-brand">
+                    <span class="brand-name">NoNoise</span>
+                    <span class="brand-product">Timeline</span>
                 </div>
-                <div class="logo">Timeline</div>
+                <div class="toolbar-nav">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#download" class="nav-link">Download</a>
+                </div>
             </div>
         </div>
 
@@ -49,189 +36,18 @@
             <!-- Date markers (generated dynamically like in app) -->
             <div id="date-markers"></div>
 
-            <!-- Milestone cards (16 total: 8 before 2020, 8 after) -->
-            
-            <!-- Past milestones (2004-2018) -->
-            <div class="milestone-3d" data-date="2004-09-01">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🎒</span>
-                    </div>
-                    <div class="card-title">Started School</div>
-                    <div class="card-date">Sep 2004</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2008-07-15">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🏆</span>
-                    </div>
-                    <div class="card-title">First Award</div>
-                    <div class="card-date">Jul 2008</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2011-03-20">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">💻</span>
-                    </div>
-                    <div class="card-title">First Computer</div>
-                    <div class="card-date">Mar 2011</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2013-06-10">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🎸</span>
-                    </div>
-                    <div class="card-title">Learned Guitar</div>
-                    <div class="card-date">Jun 2013</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2015-08-25">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">✈️</span>
-                    </div>
-                    <div class="card-title">First Solo Trip</div>
-                    <div class="card-date">Aug 2015</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2017-01-15">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🚗</span>
-                    </div>
-                    <div class="card-title">Driver's License</div>
-                    <div class="card-date">Jan 2017</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2018-05-20">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🎬</span>
-                    </div>
-                    <div class="card-title">First Project</div>
-                    <div class="card-date">May 2018</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2019-11-08">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🌟</span>
-                    </div>
-                    <div class="card-title">Big Achievement</div>
-                    <div class="card-date">Nov 2019</div>
-                </div>
-            </div>
-
-            <!-- Present/Future milestones (2020-2040) -->
-            <div class="milestone-3d" data-date="2020-06-15">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🎓</span>
-                    </div>
-                    <div class="card-title">Graduated</div>
-                    <div class="card-date">Jun 2020</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2022-01-10">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">💼</span>
-                    </div>
-                    <div class="card-title">First Job</div>
-                    <div class="card-date">Jan 2022</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2024-11-07">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🚀</span>
-                    </div>
-                    <div class="card-title">Started Timeline</div>
-                    <div class="card-date">Nov 2024</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2026-03-20">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🏠</span>
-                    </div>
-                    <div class="card-title">Bought House</div>
-                    <div class="card-date">Mar 2026</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2028-08-15">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">💍</span>
-                    </div>
-                    <div class="card-title">Married</div>
-                    <div class="card-date">Aug 2028</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2032-06-10">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🌍</span>
-                    </div>
-                    <div class="card-title">World Trip</div>
-                    <div class="card-date">Jun 2032</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2036-02-28">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">📚</span>
-                    </div>
-                    <div class="card-title">Published Book</div>
-                    <div class="card-date">Feb 2036</div>
-                </div>
-            </div>
-
-            <div class="milestone-3d" data-date="2040-12-31">
-                <div class="milestone-card">
-                    <div class="emoji-container">
-                        <span class="emoji">🎯</span>
-                    </div>
-                    <div class="card-title">Big Goal</div>
-                    <div class="card-date">Dec 2040</div>
-                </div>
-            </div>
+            <!-- Milestone cards (dynamically populated by JavaScript based on persona) -->
         </div>
 
-        <!-- Bottom Control (like in app) -->
-        <div class="bottom-control">
-            <div class="control-segment">
-                <button class="segment-btn active">Timeline</button>
-                <button class="segment-btn">Habits</button>
-            </div>
-            <div class="divider"></div>
-            <button class="control-btn">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="white">
-                    <path d="M2 2h4v4H2zM8 2h4v4H8zM2 8h4v4H2zM8 8h4v4H8z" fill="white" opacity="0.8"/>
-                </svg>
-                <span>3D</span>
-            </button>
-            <div class="divider"></div>
-            <div class="scale-selector">
-                <button class="scale-btn">Week</button>
-                <button class="scale-btn active">Month</button>
-                <button class="scale-btn">Year</button>
+        <!-- Persona Selector (bottom control style) -->
+        <div class="persona-selector">
+            <div class="persona-label">View as:</div>
+            <div class="persona-buttons">
+                <button class="persona-btn active" data-persona="student">🎓 Student</button>
+                <button class="persona-btn" data-persona="professional">💼 Professional</button>
+                <button class="persona-btn" data-persona="entrepreneur">🚀 Entrepreneur</button>
+                <button class="persona-btn" data-persona="parent">👨‍👩‍👧 Parent</button>
+                <button class="persona-btn" data-persona="creative">🎨 Creative</button>
             </div>
         </div>
     </section>

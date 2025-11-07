@@ -53,6 +53,7 @@ body {
 .toolbar-content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 24px;
     padding: 12px 24px;
     background: rgba(255, 255, 255, 0.08);
@@ -64,52 +65,47 @@ body {
     pointer-events: auto;
 }
 
-.toolbar-left {
+.toolbar-brand {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
-.tool-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 13px;
+.brand-name {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.brand-product {
+    font-size: 15px;
     font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
 }
 
-.tool-btn.circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+.toolbar-nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
 }
 
-.tool-btn.capsule {
-    padding: 8px 16px;
-    border-radius: 100px;
+.nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
-.tool-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
+.nav-link:hover {
+    color: white;
 }
 
 .divider {
     width: 1px;
     height: 24px;
     background: rgba(255, 255, 255, 0.2);
-}
-
-.logo {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
 }
 
 /* Hero Section */
@@ -287,15 +283,15 @@ body {
 }
 
 
-/* Bottom Control (BottomControl.swift) */
-.bottom-control {
+/* Persona Selector (Bottom Control Style) */
+.persona-selector {
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 16px;
     padding: 12px 24px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(20px) saturate(180%);
@@ -306,69 +302,39 @@ body {
     z-index: 100;
 }
 
-/* Segmented control (line 27-63 in BottomControl.swift) */
-.control-segment {
-    display: flex;
-    gap: 0;
-    padding: 4px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    border-radius: 100px;
+.persona-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
 }
 
-.segment-btn {
-    padding: 8px 20px;
+.persona-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.persona-btn {
+    padding: 8px 16px;
     background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    color: rgba(255, 255, 255, 0.7);
     font-size: 13px;
     font-weight: 500;
-    border-radius: 100px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
-.segment-btn.active {
+.persona-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.persona-btn.active {
     background: var(--control-bg);
     color: white;
-}
-
-.control-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: var(--control-bg);
-    border: none;
-    border-radius: 100px;
-    color: white;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-/* Scale selector (line 98-116 in BottomControl.swift) */
-.scale-selector {
-    display: flex;
-    gap: 12px;
-}
-
-.scale-btn {
-    padding: 6px 12px;
-    background: transparent;
-    border: none;
-    border-radius: 100px;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 12px;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.scale-btn.active {
-    background: var(--control-bg);
-    color: white;
-    font-weight: 600;
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Features Section */

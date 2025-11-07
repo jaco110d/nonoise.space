@@ -11,6 +11,7 @@ let velocity = 0;
 let isInertiaActive = false;
 let isTimelineActive = true;
 let animationFrameId = null;
+let currentPersona = 'student';
 
 // Reference date (January 1, 2000 - same as app)
 const referenceDate = new Date(2000, 0, 1);
@@ -19,7 +20,102 @@ const referenceDate = new Date(2000, 0, 1);
 const heroSection = document.getElementById('hero-section');
 const timeline3d = document.getElementById('timeline-3d');
 const dateMarkersContainer = document.getElementById('date-markers');
-const milestones = document.querySelectorAll('.milestone-3d');
+
+// Persona Milestones Data
+const personaMilestones = {
+    student: [
+        { date: '2006-09-01', emoji: '🎒', title: 'Started School', text: 'Sep 2006' },
+        { date: '2010-06-15', emoji: '🏆', title: 'First Award', text: 'Jun 2010' },
+        { date: '2014-09-01', emoji: '📚', title: 'High School', text: 'Sep 2014' },
+        { date: '2018-06-10', emoji: '🎓', title: 'Graduated HS', text: 'Jun 2018' },
+        { date: '2018-09-01', emoji: '🎓', title: 'Started College', text: 'Sep 2018' },
+        { date: '2020-03-15', emoji: '💻', title: 'First Coding Project', text: 'Mar 2020' },
+        { date: '2021-08-20', emoji: '🚀', title: 'Internship', text: 'Aug 2021' },
+        { date: '2022-06-15', emoji: '🎉', title: 'Graduated College', text: 'Jun 2022' },
+        { date: '2022-09-01', emoji: '💼', title: 'First Job', text: 'Sep 2022' },
+        { date: '2024-03-10', emoji: '📈', title: 'Promotion', text: 'Mar 2024' },
+        { date: '2025-06-01', emoji: '🏠', title: 'First Apartment', text: 'Jun 2025' },
+        { date: '2027-01-15', emoji: '✈️', title: 'Study Abroad', text: 'Jan 2027' },
+        { date: '2028-05-20', emoji: '🎯', title: 'Masters Degree', text: 'May 2028' },
+        { date: '2030-09-10', emoji: '🌟', title: 'Dream Job', text: 'Sep 2030' },
+        { date: '2035-12-01', emoji: '📚', title: 'PhD Complete', text: 'Dec 2035' },
+        { date: '2040-06-15', emoji: '🏆', title: 'Professor', text: 'Jun 2040' }
+    ],
+    professional: [
+        { date: '2008-09-01', emoji: '🎓', title: 'Graduated', text: 'Sep 2008' },
+        { date: '2009-01-15', emoji: '💼', title: 'First Job', text: 'Jan 2009' },
+        { date: '2012-06-20', emoji: '📈', title: 'Promotion', text: 'Jun 2012' },
+        { date: '2015-03-10', emoji: '🏢', title: 'Senior Role', text: 'Mar 2015' },
+        { date: '2017-08-15', emoji: '💰', title: 'Big Raise', text: 'Aug 2017' },
+        { date: '2019-11-01', emoji: '🎯', title: 'Team Lead', text: 'Nov 2019' },
+        { date: '2021-04-20', emoji: '🚀', title: 'VP Position', text: 'Apr 2021' },
+        { date: '2023-09-15', emoji: '🏆', title: 'Industry Award', text: 'Sep 2023' },
+        { date: '2025-02-10', emoji: '💡', title: 'C-Level', text: 'Feb 2025' },
+        { date: '2027-06-01', emoji: '🌍', title: 'Global Role', text: 'Jun 2027' },
+        { date: '2029-03-15', emoji: '📊', title: 'Board Member', text: 'Mar 2029' },
+        { date: '2032-01-20', emoji: '🎤', title: 'Keynote Speaker', text: 'Jan 2032' },
+        { date: '2035-08-10', emoji: '📚', title: 'Published Book', text: 'Aug 2035' },
+        { date: '2038-05-15', emoji: '🏅', title: 'Lifetime Achievement', text: 'May 2038' },
+        { date: '2040-11-01', emoji: '🌟', title: 'Retirement', text: 'Nov 2040' },
+        { date: '2042-03-20', emoji: '🎯', title: 'Consulting', text: 'Mar 2042' }
+    ],
+    entrepreneur: [
+        { date: '2010-03-15', emoji: '💡', title: 'First Idea', text: 'Mar 2010' },
+        { date: '2012-06-01', emoji: '💻', title: 'Started Coding', text: 'Jun 2012' },
+        { date: '2015-09-10', emoji: '🚀', title: 'Launched MVP', text: 'Sep 2015' },
+        { date: '2016-02-20', emoji: '👥', title: 'First Customer', text: 'Feb 2016' },
+        { date: '2017-07-15', emoji: '💰', title: 'Seed Funding', text: 'Jul 2017' },
+        { date: '2018-11-01', emoji: '📈', title: 'Revenue Milestone', text: 'Nov 2018' },
+        { date: '2020-04-10', emoji: '🎯', title: 'Series A', text: 'Apr 2020' },
+        { date: '2022-01-15', emoji: '🏢', title: 'Opened Office', text: 'Jan 2022' },
+        { date: '2024-08-20', emoji: '🌍', title: 'Global Expansion', text: 'Aug 2024' },
+        { date: '2026-03-05', emoji: '💎', title: 'Series B', text: 'Mar 2026' },
+        { date: '2028-10-10', emoji: '🏆', title: 'Profitable', text: 'Oct 2028' },
+        { date: '2030-06-15', emoji: '📊', title: 'IPO', text: 'Jun 2030' },
+        { date: '2033-02-20', emoji: '🤝', title: 'Major Partnership', text: 'Feb 2033' },
+        { date: '2036-09-01', emoji: '🌟', title: 'Unicorn Status', text: 'Sep 2036' },
+        { date: '2039-05-15', emoji: '🎯', title: 'Acquired', text: 'May 2039' },
+        { date: '2041-12-01', emoji: '💡', title: 'New Venture', text: 'Dec 2041' }
+    ],
+    parent: [
+        { date: '2008-06-15', emoji: '💍', title: 'Got Married', text: 'Jun 2008' },
+        { date: '2010-03-20', emoji: '🏠', title: 'Bought House', text: 'Mar 2010' },
+        { date: '2012-08-15', emoji: '👶', title: 'First Child', text: 'Aug 2012' },
+        { date: '2014-11-10', emoji: '👶', title: 'Second Child', text: 'Nov 2014' },
+        { date: '2017-09-01', emoji: '🎒', title: 'First Day School', text: 'Sep 2017' },
+        { date: '2019-05-20', emoji: '🎉', title: 'Family Vacation', text: 'May 2019' },
+        { date: '2021-12-25', emoji: '🎄', title: 'New Tradition', text: 'Dec 2021' },
+        { date: '2024-06-15', emoji: '🏆', title: "Kid's Achievement", text: 'Jun 2024' },
+        { date: '2026-09-01', emoji: '🎓', title: 'High School Starts', text: 'Sep 2026' },
+        { date: '2029-03-10', emoji: '🚗', title: "Driver's License", text: 'Mar 2029' },
+        { date: '2031-06-20', emoji: '🎓', title: 'Graduation Day', text: 'Jun 2031' },
+        { date: '2033-09-01', emoji: '🏠', title: 'Empty Nest', text: 'Sep 2033' },
+        { date: '2036-02-14', emoji: '💑', title: 'Renewed Vows', text: 'Feb 2036' },
+        { date: '2038-12-25', emoji: '👴👵', title: 'Grandparents', text: 'Dec 2038' },
+        { date: '2041-08-15', emoji: '🌍', title: 'World Tour', text: 'Aug 2041' },
+        { date: '2043-06-01', emoji: '🏡', title: 'Retirement Home', text: 'Jun 2043' }
+    ],
+    creative: [
+        { date: '2009-03-15', emoji: '🎨', title: 'First Artwork', text: 'Mar 2009' },
+        { date: '2011-08-20', emoji: '📷', title: 'Bought Camera', text: 'Aug 2011' },
+        { date: '2013-05-10', emoji: '🖌️', title: 'Art School', text: 'May 2013' },
+        { date: '2015-11-01', emoji: '🎬', title: 'First Exhibition', text: 'Nov 2015' },
+        { date: '2017-06-15', emoji: '🏆', title: 'Won Award', text: 'Jun 2017' },
+        { date: '2019-02-20', emoji: '💼', title: 'Freelance Career', text: 'Feb 2019' },
+        { date: '2021-09-05', emoji: '🎭', title: 'Major Project', text: 'Sep 2021' },
+        { date: '2023-04-10', emoji: '🌟', title: 'Gallery Feature', text: 'Apr 2023' },
+        { date: '2025-12-01', emoji: '📚', title: 'Published Book', text: 'Dec 2025' },
+        { date: '2027-07-15', emoji: '🎪', title: 'Solo Show', text: 'Jul 2027' },
+        { date: '2029-03-20', emoji: '🏅', title: 'International Recognition', text: 'Mar 2029' },
+        { date: '2031-10-10', emoji: '🎨', title: 'Opened Studio', text: 'Oct 2031' },
+        { date: '2034-05-15', emoji: '🎬', title: 'Documentary', text: 'May 2034' },
+        { date: '2037-01-20', emoji: '🌍', title: 'World Tour', text: 'Jan 2037' },
+        { date: '2040-08-25', emoji: '🏛️', title: 'Museum Retrospective', text: 'Aug 2040' },
+        { date: '2042-12-15', emoji: '🎯', title: 'Legacy Project', text: 'Dec 2042' }
+    ]
+};
+
+let milestones = [];
 
 // Get screen size
 const screenSize = {
@@ -187,6 +283,43 @@ function renderDateMarkers() {
         
         dateMarkersContainer.appendChild(markerEl);
     });
+}
+
+// Load milestones for persona
+function loadPersonaMilestones(persona) {
+    const milestonesData = personaMilestones[persona];
+    
+    // Clear existing milestones
+    const existingMilestones = timeline3d.querySelectorAll('.milestone-3d');
+    existingMilestones.forEach(m => m.remove());
+    
+    // Create new milestones
+    milestones = [];
+    milestonesData.forEach((data) => {
+        const milestoneEl = document.createElement('div');
+        milestoneEl.className = 'milestone-3d';
+        milestoneEl.dataset.date = data.date;
+        
+        milestoneEl.innerHTML = `
+            <div class="milestone-card">
+                <div class="emoji-container">
+                    <span class="emoji">${data.emoji}</span>
+                </div>
+                <div class="card-title">${data.title}</div>
+                <div class="card-date">${data.text}</div>
+            </div>
+        `;
+        
+        timeline3d.appendChild(milestoneEl);
+        milestones.push(milestoneEl);
+    });
+    
+    // Reset scroll to today
+    const today = new Date();
+    scrollOffset = zPositionForDate(today);
+    
+    // Initial update
+    updateMilestones();
 }
 
 // Update all milestones
@@ -422,7 +555,33 @@ document.querySelectorAll('.feature').forEach((feature, index) => {
     featureObserver.observe(feature);
 });
 
+// Persona selector handlers
+function setupPersonaSelector() {
+    const personaBtns = document.querySelectorAll('.persona-btn');
+    
+    personaBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const persona = btn.dataset.persona;
+            
+            // Update active state
+            personaBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Load new persona milestones
+            currentPersona = persona;
+            loadPersonaMilestones(persona);
+        });
+    });
+}
+
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
+    // Load initial persona
+    loadPersonaMilestones(currentPersona);
+    
+    // Setup persona selector
+    setupPersonaSelector();
+    
+    // Initialize timeline
     initTimeline();
 });
