@@ -1004,7 +1004,7 @@ body {
 
 /* Footer */
 .footer {
-    padding: 40px;
+    padding: 40px 40px 120px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -1018,6 +1018,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 .footer-sep {
