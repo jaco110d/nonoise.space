@@ -217,9 +217,8 @@
             <ul>
                 <li>Open NoNoise app → Click logo → Settings → Delete All Data</li>
                 <li>Or uninstall the NoNoise app from your Mac</li>
-                <li>(Optional) Remove the app data: <code>~/Library/Containers/com.mediavikings.NoNoise/</code></li>
             </ul>
-            <p>All your local data will be permanently deleted.</p>
+            <p>All your local data will be permanently deleted when you uninstall the app.</p>
 
             <h3>Children's Privacy</h3>
             <p>NoNoise does not knowingly collect any personal information from children under 13 years of age. Since all data is stored locally on your device and we do not collect any information, the app is safe for all ages.</p>
@@ -251,11 +250,8 @@
 
             <h2>Technical Details</h2>
 
-            <h3>Data Storage Location</h3>
-            <p><code>~/Library/Containers/com.mediavikings.NoNoise/Data/Library/Preferences/</code></p>
-
-            <h3>Data Format</h3>
-            <p>Data is stored using UserDefaults in Apple's Property List (.plist) format, encrypted by macOS FileVault (if enabled).</p>
+            <h3>Data Storage</h3>
+            <p>Data is stored using UserDefaults in Apple's Property List format within the app's sandboxed container. Your data is encrypted by macOS FileVault (if enabled).</p>
 
             <h3>App Sandbox</h3>
             <p>NoNoise runs in Apple's App Sandbox with limited permissions:</p>
