@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - NoNoise</title>
+    <meta name="description" content="Get help with NoNoise - Contact support for any questions or issues.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: linear-gradient(180deg, #0B0B0C 0%, #121316 100%);
+            color: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .support-options {
+            display: grid;
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .support-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .support-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .support-card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+        }
+
+        .icon {
+            font-size: 28px;
+        }
+
+        .email-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background: rgba(76, 217, 100, 0.15);
+            border: 1px solid rgba(76, 217, 100, 0.3);
+            border-radius: 14px;
+            color: #4CD964;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            margin-top: 16px;
+        }
+
+        .email-button:hover {
+            background: rgba(76, 217, 100, 0.25);
+            border-color: rgba(76, 217, 100, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(76, 217, 100, 0.2);
+        }
+
+        .faq-section {
+            margin-top: 48px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .faq-item h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .faq-item p {
+            margin-bottom: 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', monospace;
+            font-size: 13px;
+        }
+
+        ul {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 32px 24px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .support-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">NoNoise</div>
+            <h1>Support</h1>
+            <p class="subtitle">We're here to help</p>
+        </div>
+
+        <div class="content">
+            <h2>Get Help</h2>
+            <p>Need assistance with NoNoise? We're here to help! Choose one of the options below to get in touch.</p>
+
+            <div class="support-options">
+                <div class="support-card">
+                    <h3><span class="icon">📧</span> Email Support</h3>
+                    <p>Send us an email with your questions, issues, or feedback. We typically respond within 24 hours.</p>
+                    <a href="mailto:jgh@mediavikings.dk?subject=NoNoise%20-%20Support%20ticket" class="email-button">
+                        <span>Send Support Email</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <h3>How do I delete all my data?</h3>
+                    <p>Click the NoNoise logo in the top-left corner → Settings → Delete All Data. This will permanently remove all your habits, milestones, and completion history.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Where is my data stored?</h3>
+                    <p>All your data is stored locally on your Mac in: <code>~/Library/Containers/com.mediavikings.NoNoise/</code></p>
+                    <p>We never send your data to any servers. Everything stays on your device.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I backup my data?</h3>
+                    <p>Your NoNoise data is automatically included in:</p>
+                    <ul>
+                        <li>Time Machine backups</li>
+                        <li>iCloud backups (if enabled for macOS)</li>
+                    </ul>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I use NoNoise on multiple Macs?</h3>
+                    <p>Yes! Install NoNoise on each Mac. However, data does not sync between devices - each Mac maintains its own local data.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What macOS version do I need?</h3>
+                    <p>NoNoise requires macOS 13.0 or later. It works on both Apple Silicon and Intel Macs.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I add a new habit?</h3>
+                    <p>Click on the Habits view → Click the "+" button at the bottom → Fill in the habit details → Save.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I add a milestone?</h3>
+                    <p>Click on the Timeline view → Click the "+" button at the bottom → Enter the date, title, and choose an emoji → Add Milestone.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>The app isn't responding. What should I do?</h3>
+                    <p>Try these steps:</p>
+                    <ul>
+                        <li>Quit and restart NoNoise (Cmd+Q)</li>
+                        <li>Restart your Mac</li>
+                        <li>If the problem persists, contact support with details about what you were doing when it happened</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Still Need Help?</h2>
+            <p>If you couldn't find the answer you were looking for, please reach out to us directly:</p>
+            <ul>
+                <li><strong>Email:</strong> jgh@mediavikings.dk</li>
+                <li><strong>Subject:</strong> NoNoise - Support ticket</li>
+                <li><strong>Response time:</strong> Typically within 24 hours</li>
+            </ul>
+
+            <p style="margin-top: 32px; padding-top: 32px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <strong>Include in your email:</strong><br>
+                • macOS version<br>
+                • NoNoise version (found in Settings)<br>
+                • Description of the issue<br>
+                • Screenshots if applicable
+            </p>
+        </div>
+
+        <a href="/" class="back-link">
+            <span>←</span>
+            <span>Back to Home</span>
+        </a>
+    </div>
+</body>
+</html>
+

@@ -1004,8 +1004,9 @@ body {
 
 /* Footer */
 .footer {
-    padding: 40px 40px 120px;
+    padding: 40px 40px 160px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 80px;
 }
 
 .footer-content {
