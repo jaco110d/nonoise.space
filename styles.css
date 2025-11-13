@@ -359,339 +359,360 @@ body {
     margin-bottom: 3rem;
 }
 
-/* Time Scale Toggle */
-.time-scale-toggle {
-    display: inline-flex;
-    gap: 0;
-    padding: 4px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    border-radius: 100px;
-    margin-bottom: 0.75rem;
+/* 24-Hour Habit Clock - EXACT sizing from Mac app */
+.habit-clock-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    padding: 40px;
 }
 
-.time-btn {
-    padding: 8px 24px;
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 100px;
+.habit-clock {
+    position: relative;
+    /* Mac app uses 70% of available space */
+    width: min(70vw, 70vh);
+    height: min(70vw, 70vh);
+    max-width: 800px;
+    max-height: 800px;
+    min-width: 400px;
+    min-height: 400px;
+}
+
+/* Clock Ring (SVG) - EXACT from Mac app */
+.clock-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* SVG text styling for clock numbers */
+.clock-ring text {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Make major hour markers more prominent */
+.clock-ring line {
+    shape-rendering: crispEdges;
+}
+
+/* Habit Arcs Container - EXACT from Mac app */
+.habit-arcs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Individual Habit Arc */
+.habit-arc {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.habit-arc svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.habit-arc path {
+    transition: opacity 0.3s ease;
+}
+
+.habit-arc .clickable {
     cursor: pointer;
-    transition: all 0.2s ease;
+    pointer-events: auto;
 }
 
-.time-btn.active {
-    background: var(--control-bg);
+/* Habit Emoji on Arc - EXACT from Mac app */
+.habit-emoji-on-arc {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 5;
+    transition: opacity 0.3s ease;
+    user-select: none;
+}
+
+/* Checkmark for completed habits - EXACT from Mac app */
+.habit-checkmark {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 6;
+    animation: checkmarkAppear 0.3s ease-out;
+}
+
+.habit-checkmark svg {
+    display: block;
+}
+
+@keyframes checkmarkAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Live Time Indicator - EXACT from Mac app */
+.time-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.time-indicator-pulse {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    transform: translate(-50%, -50%);
+}
+
+.time-indicator-pulse.animating {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.time-indicator-dot {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.time-indicator-dot::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0.3;
+    }
+}
+
+/* Clock Center Content */
+.clock-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 240px;
+    max-width: 48%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.clock-date-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.clock-date {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.clock-weekday {
+    font-size: 18px;
+    font-weight: 700;
     color: white;
 }
 
-/* Habit Cards Container */
-.habit-cards-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: 500px;
-    position: relative;
-}
-
-/* Day View Container - 3 cards with depth */
-.habit-cards-container.day-layout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0;
-    perspective: 1000px;
-}
-
-/* Week View Container - Single centered card */
-.habit-cards-container.week-layout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Day View Habit Card (from DayHabitCard in HabitsTimelineView.swift) */
-.habit-card.day-view {
-    width: 300px;
+.current-habit-card {
+    width: 100%;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.current-habit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.current-habit-card.completed {
+    background: rgba(255, 255, 255, 0.04);
+    transform: scale(0.98);
+}
+
+.habit-emoji-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+}
+
+.habit-emoji-container .emoji {
+    font-size: 32px;
+}
+
+.habit-emoji-container.completed .emoji {
+    opacity: 0.5;
+}
+
+.habit-emoji-container .checkmark-badge {
     position: absolute;
-}
-
-/* Center card (today) */
-.habit-card.day-view.center {
-    z-index: 3;
-    opacity: 1;
-    transform: scale(1) translateX(0);
-}
-
-.habit-card.day-view.center:hover {
-    transform: scale(1.02) translateX(0) translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-}
-
-/* Left card (yesterday) */
-.habit-card.day-view.left {
-    z-index: 2;
-    opacity: 0.4;
-    transform: scale(0.85) translateX(-280px);
-    filter: blur(1px);
-    pointer-events: none;
-}
-
-/* Right card (tomorrow) */
-.habit-card.day-view.right {
-    z-index: 1;
-    opacity: 0.4;
-    transform: scale(0.85) translateX(280px);
-    filter: blur(1px);
-    pointer-events: none;
-}
-
-.day-card-header {
-    margin-bottom: 12px;
-    text-align: left;
-}
-
-.day-card-date {
-    font-size: 17px;
-    font-weight: 600;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
     color: white;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+.habit-now-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
     margin-bottom: 4px;
 }
 
-.day-card-completion {
+.habit-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.habit-time-range {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
 }
 
-.day-card-divider {
-    height: 1px;
-    background: rgba(255, 255, 255, 0.1);
-    margin-bottom: 12px;
+.habit-hint {
+    font-size: 9px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
 }
 
-.day-habits-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-align: left;
-}
-
-.day-habit-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.day-habit-emoji {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    font-size: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    transition: background 0.2s ease;
-}
-
-.day-habit-emoji.completed {
-    background: rgba(76, 217, 100, 0.15);
-}
-
-.day-habit-title {
-    flex: 1;
-    font-size: 15px;
-    color: white;
-    text-align: left;
-}
-
-.day-habit-checkbox {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex-shrink: 0;
-}
-
-/* Empty circle (uncompleted) */
-.day-habit-checkbox::after {
-    content: '';
-    width: 24px;
-    height: 24px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    position: absolute;
-}
-
-/* Filled green circle with checkmark (completed) */
-.day-habit-checkbox.completed::after {
-    background: #4CD964;
-    border-color: #4CD964;
-}
-
-.day-habit-checkbox.completed::before {
-    content: '✓';
-    position: absolute;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    z-index: 1;
-}
-
-.day-habit-checkbox:hover {
-    transform: scale(1.1);
-}
-
-/* Week View Habit Card (from WeekHabit3DCard in Habits3DView.swift) */
-.habit-card.week-view {
-    width: 550px;
-    padding: 24px;
-    background: rgba(255, 255, 255, 0.04);
+/* Free time card */
+.free-time-card {
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
-    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
-.habit-card.week-view:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-}
-
-.week-card-header {
-    margin-bottom: 16px;
-    text-align: left;
-}
-
-.week-card-title {
-    font-size: 17px;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 2px;
-    text-align: left;
-}
-
-.week-card-date-range {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
-    text-align: left;
-}
-
-.week-card-divider {
-    height: 1px;
-    background: rgba(255, 255, 255, 0.1);
-    margin-bottom: 16px;
-}
-
-.week-days-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-    text-align: left;
-}
-
-.week-days-header .emoji-space {
-    width: 40px;
-    text-align: left;
-}
-
-.week-days-header .title-space {
-    width: 100px;
-    text-align: left;
-}
-
-.week-days-header .day-label {
-    width: 36px;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-    text-align: center;
-    font-weight: 500;
-}
-
-.week-habits-rows {
+/* Upcoming habits list */
+.upcoming-habits {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.upcoming-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
     text-align: left;
 }
 
-.week-habit-row {
+.upcoming-habit-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    text-align: left;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
 }
 
-.week-habit-emoji {
-    width: 40px;
-    font-size: 22px;
-    text-align: center;
+.upcoming-habit-emoji {
+    font-size: 16px;
 }
 
-.week-habit-title {
-    width: 100px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.9);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-}
-
-.week-day-cell {
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.08);
+.upcoming-habit-info {
+    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    flex-direction: column;
+    gap: 2px;
 }
 
-.week-day-cell:hover {
-    background: rgba(255, 255, 255, 0.12);
+.upcoming-habit-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: left;
 }
 
-.week-day-cell.completed {
-    background: rgba(76, 217, 100, 0.2);
-}
-
-.week-day-cell.completed .checkmark {
-    color: #4CD964;
+.upcoming-habit-time {
     font-size: 10px;
-    font-weight: bold;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: left;
 }
 
-.week-day-cell.empty {
-    background: transparent;
-    cursor: default;
-}
+
 
 /* Features Section */
 .features {
@@ -1061,8 +1082,15 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
     
-    .habit-card.week-view {
-        width: 480px;
+    .habit-clock-container {
+        min-height: 550px;
+    }
+    
+    .habit-clock {
+        width: min(60vw, 60vh);
+        height: min(60vw, 60vh);
+        max-width: 600px;
+        max-height: 600px;
     }
 }
 
@@ -1170,19 +1198,65 @@ body {
         padding: 80px 20px;
     }
     
-    .habit-card.day-view {
-        transform: scale(0.9);
+    .habit-clock-container {
+        min-height: 550px;
+        padding: 20px 10px;
     }
     
-    .habit-card.day-view.left,
-    .habit-card.day-view.right {
-        display: none;
+    .habit-clock {
+        width: min(80vw, 80vh);
+        height: min(80vw, 80vh);
+        max-width: 500px;
+        max-height: 500px;
+        min-width: 350px;
+        min-height: 350px;
     }
     
-    .habit-card.week-view {
-        width: 100%;
-        max-width: 450px;
-        padding: 20px;
-        overflow-x: auto;
+    .clock-center {
+        width: 200px;
+        max-width: 42%;
+        gap: 12px;
+    }
+    
+    .clock-ring text {
+        font-size: 8px;
+    }
+    
+    .habit-emoji-container {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .habit-emoji-container .emoji {
+        font-size: 28px;
+    }
+    
+    .habit-title {
+        font-size: 13px;
+    }
+    
+    .habit-time-range {
+        font-size: 10px;
+    }
+    
+    .current-habit-card,
+    .free-time-card {
+        padding: 16px;
+    }
+    
+    .upcoming-habit-item {
+        padding: 6px 10px;
+    }
+    
+    .upcoming-habit-emoji {
+        font-size: 14px;
+    }
+    
+    .upcoming-habit-title {
+        font-size: 10px;
+    }
+    
+    .upcoming-habit-time {
+        font-size: 9px;
     }
 }

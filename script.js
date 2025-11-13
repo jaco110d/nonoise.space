@@ -117,42 +117,53 @@ const personaMilestones = {
 
 let milestones = [];
 
-// Persona Habits Data
+// Persona Habits Data with time ranges (24-hour format)
 const personaHabits = {
     student: [
-        { emoji: '📚', name: 'Study Session', streak: 12 },
-        { emoji: '💪', name: 'Exercise', streak: 8 },
-        { emoji: '📝', name: 'Homework', streak: 15 },
-        { emoji: '💻', name: 'Code Practice', streak: 5 }
+        { emoji: '🏃', name: 'Morning Run', start: 7, end: 8, color: '#FF6B6B' },
+        { emoji: '📚', name: 'Study Session', start: 9, end: 12, color: '#4ECDC4' },
+        { emoji: '🍱', name: 'Lunch Break', start: 12, end: 13, color: '#95E1D3' },
+        { emoji: '💻', name: 'Code Practice', start: 14, end: 17, color: '#F38181' },
+        { emoji: '💪', name: 'Gym', start: 18, end: 19, color: '#AA96DA' },
+        { emoji: '📝', name: 'Homework', start: 20, end: 22, color: '#FCBAD3' }
     ],
     professional: [
-        { emoji: '💼', name: 'Work Tasks', streak: 22 },
-        { emoji: '📧', name: 'Check Emails', streak: 30 },
-        { emoji: '🏃', name: 'Morning Run', streak: 18 },
-        { emoji: '📖', name: 'Read Industry News', streak: 14 }
+        { emoji: '☕', name: 'Morning Coffee', start: 7, end: 8, color: '#FFB347' },
+        { emoji: '💼', name: 'Deep Work', start: 9, end: 12, color: '#6C5CE7' },
+        { emoji: '🥗', name: 'Lunch', start: 12, end: 13, color: '#00D2A0' },
+        { emoji: '📧', name: 'Emails & Meetings', start: 14, end: 17, color: '#74B9FF' },
+        { emoji: '🏃', name: 'Evening Run', start: 18, end: 19, color: '#FF6B6B' },
+        { emoji: '📖', name: 'Read & Unwind', start: 21, end: 22, color: '#A29BFE' }
     ],
     entrepreneur: [
-        { emoji: '💡', name: 'Product Work', streak: 45 },
-        { emoji: '📊', name: 'Review Metrics', streak: 27 },
-        { emoji: '🤝', name: 'Network', streak: 10 },
-        { emoji: '✍️', name: 'Content Creation', streak: 12 }
+        { emoji: '🧘', name: 'Morning Routine', start: 6, end: 7, color: '#FD79A8' },
+        { emoji: '💡', name: 'Strategy Time', start: 8, end: 10, color: '#FDCB6E' },
+        { emoji: '🚀', name: 'Product Work', start: 10, end: 13, color: '#6C5CE7' },
+        { emoji: '🤝', name: 'Meetings', start: 14, end: 16, color: '#74B9FF' },
+        { emoji: '📊', name: 'Review Metrics', start: 17, end: 18, color: '#00B894' },
+        { emoji: '✍️', name: 'Content Creation', start: 19, end: 21, color: '#A29BFE' }
     ],
     parent: [
-        { emoji: '👨‍👩‍👧', name: 'Family Time', streak: 60 },
-        { emoji: '🍳', name: 'Cook Healthy Meal', streak: 35 },
-        { emoji: '📚', name: 'Bedtime Story', streak: 42 },
-        { emoji: '🧘', name: 'Self Care', streak: 8 }
+        { emoji: '👨‍👩‍👧', name: 'Morning Routine', start: 7, end: 8, color: '#FFB6C1' },
+        { emoji: '💼', name: 'Work', start: 9, end: 15, color: '#87CEEB' },
+        { emoji: '🚗', name: 'School Pickup', start: 15, end: 16, color: '#FFD700' },
+        { emoji: '🍳', name: 'Cook Dinner', start: 17, end: 18, color: '#FF6B6B' },
+        { emoji: '👨‍👩‍👧', name: 'Family Time', start: 18, end: 20, color: '#98D8C8' },
+        { emoji: '📚', name: 'Bedtime Story', start: 20, end: 21, color: '#F7DC6F' }
     ],
     creative: [
-        { emoji: '🎨', name: 'Create Art', streak: 28 },
-        { emoji: '📷', name: 'Photo Session', streak: 16 },
-        { emoji: '✍️', name: 'Journal', streak: 22 },
-        { emoji: '🎵', name: 'Practice Music', streak: 19 }
+        { emoji: '☕', name: 'Morning Coffee', start: 8, end: 9, color: '#FFB347' },
+        { emoji: '🎨', name: 'Create Art', start: 9, end: 13, color: '#E17055' },
+        { emoji: '🍲', name: 'Lunch', start: 13, end: 14, color: '#00D2A0' },
+        { emoji: '📷', name: 'Photo Session', start: 15, end: 17, color: '#74B9FF' },
+        { emoji: '✍️', name: 'Journal', start: 18, end: 19, color: '#FDCB6E' },
+        { emoji: '🎵', name: 'Practice Music', start: 20, end: 22, color: '#A29BFE' }
     ]
 };
 
 let habitCompletions = {};
-let habitViewMode = 'week';
+let currentHabitClock = null;
+let clockUpdateInterval = null;
 
 // Get screen size
 const screenSize = {
@@ -592,230 +603,417 @@ document.querySelectorAll('.feature').forEach((feature, index) => {
     featureObserver.observe(feature);
 });
 
-// Load habits for persona
-function loadPersonaHabits(persona) {
-    const habits = personaHabits[persona];
-    const container = document.getElementById('habit-cards');
+// 24-Hour Habit Clock Functions
+
+// Render clock ring with hour markers - EXACT from Mac app ClockRing
+function renderClockRing() {
+    const svg = document.getElementById('clock-ring');
+    const clockContainer = document.getElementById('habit-clock');
     
-    container.innerHTML = '';
+    if (!clockContainer) return;
     
-    if (habitViewMode === 'day') {
-        // Day view - 3 cards (yesterday, today, tomorrow) with depth effect
-        container.className = 'habit-cards-container day-layout';
+    // Get actual clock size
+    const containerSize = clockContainer.offsetWidth;
+    const viewBoxSize = 1000; // Use larger viewBox for better precision
+    
+    svg.setAttribute('viewBox', `0 0 ${viewBoxSize} ${viewBoxSize}`);
+    svg.innerHTML = '';
+    
+    const center = viewBoxSize / 2;
+    const radius = (viewBoxSize / 2) - 10; // Slight padding
+    
+    // Outer ring circle - opacity 0.05 from Mac app (line 90)
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', center);
+    circle.setAttribute('cy', center);
+    circle.setAttribute('r', radius);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', 'rgba(255, 255, 255, 0.05)');
+    circle.setAttribute('stroke-width', '1');
+    svg.appendChild(circle);
+    
+    // Hour markers and labels
+    for (let hour = 0; hour < 24; hour++) {
+        const angle = hour * 15; // 15 degrees per hour (360/24)
+        const radians = ((angle - 90) * Math.PI) / 180;
         
-        const today = new Date();
-        const yesterday = new Date(today);
-        yesterday.setDate(yesterday.getDate() - 1);
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        // Marker lines
+        const isMajor = hour % 6 === 0;
+        const markerHeight = isMajor ? 12 : 6;
+        const markerWidth = isMajor ? 2 : 1;
+        const markerOpacity = isMajor ? 0.3 : 0.1;
         
-        const formatDate = (date) => {
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]}`;
-        };
+        // Create marker as a line from edge inward
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const innerRadius = radius;
+        const outerRadius = radius + markerHeight;
+        const x1 = center + Math.cos(radians) * innerRadius;
+        const y1 = center + Math.sin(radians) * innerRadius;
+        const x2 = center + Math.cos(radians) * outerRadius;
+        const y2 = center + Math.sin(radians) * outerRadius;
         
-        const cards = [
-            { date: yesterday, position: 'left', completedCount: 4 },
-            { date: today, position: 'center', completedCount: 2 },
-            { date: tomorrow, position: 'right', completedCount: 0 }
-        ];
-        
-        cards.forEach(cardData => {
-            const habitCard = document.createElement('div');
-            habitCard.className = `habit-card day-view ${cardData.position}`;
-            
-            habitCard.innerHTML = `
-                <div class="day-card-header">
-                    <div class="day-card-date">${formatDate(cardData.date)}</div>
-                    <div class="day-card-completion">${cardData.completedCount}/${habits.length} completed</div>
-                </div>
-                <div class="day-card-divider"></div>
-                <div class="day-habits-list">
-                    ${habits.map((h, i) => {
-                        const completed = i < cardData.completedCount;
-                        return `
-                            <div class="day-habit-row">
-                                <div class="day-habit-emoji ${completed ? 'completed' : ''}">${h.emoji}</div>
-                                <div class="day-habit-title">${h.name}</div>
-                                <div class="day-habit-checkbox ${completed ? 'completed' : ''}" 
-                                     data-habit="${i}"></div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-            
-            container.appendChild(habitCard);
-        });
-    } else {
-        // Week view - single centered card
-        container.className = 'habit-cards-container week-layout';
-        // Week view - WeekHabit3DCard from Habits3DView.swift
-        const habitCard = document.createElement('div');
-        habitCard.className = 'habit-card week-view';
-        
-        // Get current week info
-        const now = new Date();
-        const weekNumber = getWeekNumber(now);
-        const weekStart = getMonday(now);
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekEnd.getDate() + 6);
-        
-        const formatDate = (date) => {
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            return `${months[date.getMonth()]} ${date.getDate()}`;
-        };
-        
-        habitCard.innerHTML = `
-            <div class="week-card-header">
-                <div class="week-card-title">Week ${weekNumber}</div>
-                <div class="week-card-date-range">${formatDate(weekStart)} - ${formatDate(weekEnd)}</div>
-            </div>
-            <div class="week-card-divider"></div>
-            <div class="week-days-header">
-                <div class="emoji-space"></div>
-                <div class="title-space"></div>
-                ${['M', 'T', 'W', 'T', 'F', 'S', 'S'].map(day => `
-                    <div class="day-label">${day}</div>
-                `).join('')}
-            </div>
-            <div class="week-habits-rows">
-                ${habits.map((habit, habitIndex) => {
-                    // Day patterns based on habit type for each persona
-                    let plannedDays;
-                    const habitName = habit.name.toLowerCase();
-                    
-                    // Determine day pattern based on habit name
-                    if (habitName.includes('study') || habitName.includes('homework') || habitName.includes('work tasks')) {
-                        plannedDays = [0, 1, 2, 3, 4]; // Weekdays only
-                    } else if (habitName.includes('exercise') || habitName.includes('run') || habitName.includes('fitness')) {
-                        plannedDays = [0, 1, 2, 3, 4, 6]; // Weekdays + Sunday
-                    } else if (habitName.includes('code') || habitName.includes('product') || habitName.includes('create art')) {
-                        plannedDays = [0, 2, 4, 5, 6]; // Mon, Wed, Fri, Weekend
-                    } else if (habitName.includes('family') || habitName.includes('bedtime') || habitName.includes('journal')) {
-                        plannedDays = [0, 1, 2, 3, 4, 5, 6]; // Every day
-                    } else if (habitName.includes('cook') || habitName.includes('meal')) {
-                        plannedDays = [0, 1, 2, 3, 4, 5]; // All except Sunday
-                    } else if (habitName.includes('email') || habitName.includes('metrics') || habitName.includes('read')) {
-                        plannedDays = [0, 1, 2, 3, 4]; // Weekdays
-                    } else if (habitName.includes('network') || habitName.includes('photo') || habitName.includes('self care')) {
-                        plannedDays = [2, 5, 6]; // Wed + Weekend
-                    } else if (habitName.includes('content') || habitName.includes('music')) {
-                        plannedDays = [1, 3, 5]; // Tue, Thu, Sat
-                    } else {
-                        // Default pattern
-                        plannedDays = [0, 1, 2, 3, 4, 5, 6];
-                    }
-                    
-                    return `
-                    <div class="week-habit-row">
-                        <div class="week-habit-emoji">${habit.emoji}</div>
-                        <div class="week-habit-title">${habit.name}</div>
-                        ${[0, 1, 2, 3, 4, 5, 6].map(dayIndex => {
-                            const isPlanned = plannedDays.includes(dayIndex);
-                            // Mark some as completed for demo (first 2-3 planned days)
-                            const completedDays = plannedDays.slice(0, Math.min(3, plannedDays.length));
-                            const isCompleted = completedDays.includes(dayIndex);
-                            
-                            if (!isPlanned) {
-                                return `<div class="week-day-cell empty"></div>`;
-                            }
-                            
-                            return `
-                                <div class="week-day-cell ${isCompleted ? 'completed' : ''}" 
-                                     data-habit="${habitIndex}" 
-                                     data-day="${dayIndex}">
-                                    ${isCompleted ? '<span class="checkmark">✓</span>' : ''}
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                `;
-                }).join('')}
-            </div>
-        `;
-        
-        container.appendChild(habitCard);
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', `rgba(255, 255, 255, ${markerOpacity})`);
+        line.setAttribute('stroke-width', markerWidth);
+        line.setAttribute('stroke-linecap', 'round');
+        svg.appendChild(line);
     }
     
-    // Add click handlers
-    setupHabitCheckboxes();
-}
-
-// Helper functions for week view
-function getWeekNumber(date) {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-}
-
-function getMonday(date) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(d.setDate(diff));
-}
-
-// Setup habit checkbox click handlers
-function setupHabitCheckboxes() {
-    // Day view checkboxes
-    const dayCheckboxes = document.querySelectorAll('.day-habit-checkbox');
-    dayCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('click', () => {
-            const row = checkbox.closest('.day-habit-row');
-            const emoji = row.querySelector('.day-habit-emoji');
+    // Add ALL hour labels separately to ensure they render on top
+    for (let hour = 0; hour < 24; hour++) {
+        if (hour % 3 === 0) {
+            const angle = hour * 15; // 15 degrees per hour (360/24)
+            const radians = ((angle - 90) * Math.PI) / 180;
             
-            // Toggle completion state (CSS will handle the visual change)
-            checkbox.classList.toggle('completed');
-            emoji.classList.toggle('completed');
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            const labelRadius = radius + 35; // Position labels outside markers
+            const labelX = center + Math.cos(radians) * labelRadius;
+            const labelY = center + Math.sin(radians) * labelRadius;
             
-            // Update completion count
-            const card = checkbox.closest('.habit-card');
-            const allCheckboxes = card.querySelectorAll('.day-habit-checkbox');
-            const completedCount = Array.from(allCheckboxes).filter(cb => cb.classList.contains('completed')).length;
-            const totalCount = allCheckboxes.length;
-            const completionEl = card.querySelector('.day-card-completion');
-            if (completionEl) {
-                completionEl.textContent = `${completedCount}/${totalCount} completed`;
-            }
-        });
-    });
+            // All hours same style now
+            text.setAttribute('font-size', '16');
+            text.setAttribute('font-weight', 'normal');
+            text.setAttribute('fill', 'rgba(255, 255, 255, 0.6)');
+            text.setAttribute('x', labelX);
+            text.setAttribute('y', labelY);
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'middle');
+            text.setAttribute('font-family', '-apple-system, BlinkMacSystemFont, sans-serif');
+            text.textContent = String(hour).padStart(2, '0');
+            
+            // Add to SVG
+            svg.appendChild(text);
+        }
+    }
+}
+
+// Render habit arcs on the clock - EXACT from Mac app HabitArc
+function renderHabitArcs(habits) {
+    const container = document.getElementById('habit-arcs');
+    container.innerHTML = '';
     
-    // Week view checkboxes
-    const weekCells = document.querySelectorAll('.week-day-cell:not(.empty)');
-    weekCells.forEach(cell => {
-        cell.addEventListener('click', () => {
-            if (cell.classList.contains('completed')) {
-                cell.classList.remove('completed');
-                cell.innerHTML = '';
-            } else {
-                cell.classList.add('completed');
-                cell.innerHTML = '<span class="checkmark">✓</span>';
+    const clockContainer = document.getElementById('habit-clock');
+    const containerSize = clockContainer.offsetWidth;
+    const viewBoxSize = 1000; // Match clock ring viewBox
+    
+    habits.forEach((habit, index) => {
+        const arcDiv = document.createElement('div');
+        arcDiv.className = 'habit-arc';
+        arcDiv.dataset.habitIndex = index;
+        arcDiv.dataset.habitName = habit.name;
+        
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', `0 0 ${viewBoxSize} ${viewBoxSize}`);
+        
+        // Calculate arc parameters - EXACT from Mac app
+        // Mac app uses padding(50) which is 50/size of the total radius
+        const center = viewBoxSize / 2;
+        const padding = 50 * (viewBoxSize / containerSize); // Scale padding proportionally
+        const radius = center - padding;
+        
+        // Convert time to angles - Mac app uses -90 offset
+        const startMinutes = habit.start * 60;
+        const endMinutes = habit.end * 60;
+        const startAngle = (startMinutes / (24 * 60)) * 360 - 90;
+        const endAngle = (endMinutes / (24 * 60)) * 360 - 90;
+        
+        // Calculate arc path parameters
+        const startAngleRad = (startAngle * Math.PI) / 180;
+        const endAngleRad = (endAngle * Math.PI) / 180;
+        const arcLength = ((endAngle - startAngle) / 360) * (2 * Math.PI * radius);
+        
+        // Create arc path for better control
+        const createArcPath = (r) => {
+            const x1 = center + Math.cos(startAngleRad) * r;
+            const y1 = center + Math.sin(startAngleRad) * r;
+            const x2 = center + Math.cos(endAngleRad) * r;
+            const y2 = center + Math.sin(endAngleRad) * r;
+            const largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
+            return `M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`;
+        };
+        
+        // Glow layer - lineWidth: 64 from Mac app, opacity 0.08/0.15
+        const glowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        glowPath.setAttribute('d', createArcPath(radius));
+        glowPath.setAttribute('class', 'glow');
+        glowPath.setAttribute('stroke', habit.color);
+        glowPath.setAttribute('stroke-width', 64 * (viewBoxSize / containerSize));
+        glowPath.setAttribute('fill', 'none');
+        glowPath.setAttribute('stroke-linecap', 'butt');
+        glowPath.setAttribute('opacity', '0.15');
+        glowPath.style.filter = 'blur(8px)';
+        svg.appendChild(glowPath);
+        
+        // Main arc - lineWidth: 48 from Mac app, opacity 0.15/0.35
+        const mainPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainPath.setAttribute('d', createArcPath(radius));
+        mainPath.setAttribute('class', 'main');
+        mainPath.setAttribute('stroke', habit.color);
+        mainPath.setAttribute('stroke-width', 48 * (viewBoxSize / containerSize));
+        mainPath.setAttribute('fill', 'none');
+        mainPath.setAttribute('stroke-linecap', 'butt');
+        mainPath.setAttribute('opacity', '0.35');
+        svg.appendChild(mainPath);
+        
+        // Clickable overlay - EXACT from Mac app (opacity 0.001)
+        const clickablePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        clickablePath.setAttribute('d', createArcPath(radius));
+        clickablePath.setAttribute('class', 'clickable');
+        clickablePath.setAttribute('stroke', 'rgba(255, 255, 255, 0.001)');
+        clickablePath.setAttribute('stroke-width', 48 * (viewBoxSize / containerSize));
+        clickablePath.setAttribute('fill', 'none');
+        clickablePath.setAttribute('stroke-linecap', 'butt');
+        clickablePath.style.cursor = 'pointer';
+        clickablePath.onclick = () => {
+            // Toggle completed state - Mac app uses spring animation
+            const isCompleted = mainPath.getAttribute('opacity') === '0.15';
+            mainPath.setAttribute('opacity', isCompleted ? '0.35' : '0.15');
+            glowPath.setAttribute('opacity', isCompleted ? '0.15' : '0.08');
+            
+            // Update emoji opacity
+            const emojiEl = container.querySelector(`[data-habit="${habit.name}"]`);
+            if (emojiEl) {
+                emojiEl.style.opacity = isCompleted ? '1' : '0.5';
             }
-        });
+            
+            // Add/remove checkmark - EXACT from Mac app (line 218-228)
+            const checkmarkId = `checkmark-${habit.name.replace(/\s+/g, '-')}`;
+            let checkmark = container.querySelector(`#${checkmarkId}`);
+            
+            if (!isCompleted && !checkmark) {
+                // Add checkmark when completing
+                const midAngle = (startAngle + endAngle) / 2;
+                const midAngleRad = (midAngle * Math.PI) / 180;
+                const checkX = center + Math.cos(midAngleRad) * radius + 12 * (viewBoxSize / containerSize);
+                const checkY = center + Math.sin(midAngleRad) * radius - 12 * (viewBoxSize / containerSize);
+                
+                checkmark = document.createElement('div');
+                checkmark.id = checkmarkId;
+                checkmark.className = 'habit-checkmark';
+                checkmark.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 16 16">
+                        <circle cx="8" cy="8" r="8" fill="${habit.color}"/>
+                        <path d="M5 8L7 10L11 6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                `;
+                checkmark.style.left = `${(checkX / viewBoxSize) * 100}%`;
+                checkmark.style.top = `${(checkY / viewBoxSize) * 100}%`;
+                checkmark.style.filter = 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4))';
+                container.appendChild(checkmark);
+            } else if (isCompleted && checkmark) {
+                // Remove checkmark when uncompleting
+                checkmark.remove();
+            }
+        };
+        svg.appendChild(clickablePath);
+        
+        arcDiv.appendChild(svg);
+        container.appendChild(arcDiv);
+        
+        // Position emoji at middle of arc - EXACT from Mac app (size/2 - 50)
+        const midAngle = (startAngle + endAngle) / 2;
+        const midAngleRad = (midAngle * Math.PI) / 180;
+        const emojiRadius = radius; // Same as arc radius
+        const emojiX = center + Math.cos(midAngleRad) * emojiRadius;
+        const emojiY = center + Math.sin(midAngleRad) * emojiRadius;
+        
+        const emojiDiv = document.createElement('div');
+        emojiDiv.className = 'habit-emoji-on-arc';
+        emojiDiv.setAttribute('data-habit', habit.name);
+        emojiDiv.textContent = habit.emoji;
+        emojiDiv.style.left = `${(emojiX / viewBoxSize) * 100}%`;
+        emojiDiv.style.top = `${(emojiY / viewBoxSize) * 100}%`;
+        emojiDiv.style.fontSize = '20px';
+        container.appendChild(emojiDiv);
     });
 }
 
-// Time scale toggle handlers
-function setupTimeScaleToggle() {
-    const timeBtns = document.querySelectorAll('.time-btn');
+// Update time indicator position - EXACT from Mac app LiveTimeIndicator
+function updateTimeIndicator() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
     
-    timeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const scale = btn.dataset.scale;
-            
-            // Update active state
-            timeBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Update view mode and reload habits
-            habitViewMode = scale;
-            loadPersonaHabits(currentPersona);
-        });
+    // Mac app uses totalMinutes for angle calculation - but include seconds for smooth movement
+    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    const angle = ((totalSeconds / (24 * 3600)) * 360 - 90) * (Math.PI / 180);
+    
+    const clockContainer = document.getElementById('habit-clock');
+    if (!clockContainer) return;
+    
+    const containerSize = clockContainer.offsetWidth;
+    const viewBoxSize = 1000; // Match clock ring viewBox
+    const center = viewBoxSize / 2;
+    const radius = center - 10; // Match outer ring radius
+    
+    const x = center + Math.cos(angle) * radius;
+    const y = center + Math.sin(angle) * radius;
+    
+    const indicator = document.getElementById('time-indicator');
+    
+    if (indicator) {
+        // Calculate position as percentage
+        const xPercent = (x / viewBoxSize) * 100;
+        const yPercent = (y / viewBoxSize) * 100;
+        
+        indicator.innerHTML = `
+            <div class="time-indicator-pulse" style="left: ${xPercent}%; top: ${yPercent}%;"></div>
+            <div class="time-indicator-dot" style="left: ${xPercent}%; top: ${yPercent}%;"></div>
+        `;
+        
+        // Ensure animation is running
+        const pulse = indicator.querySelector('.time-indicator-pulse');
+        if (pulse && !pulse.classList.contains('animating')) {
+            pulse.classList.add('animating');
+        }
+    }
+}
+
+// Get current habit based on time
+function getCurrentHabit(habits) {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTime = currentHour + currentMinute / 60;
+    
+    return habits.find(habit => {
+        return currentTime >= habit.start && currentTime < habit.end;
     });
+}
+
+// Get upcoming habits
+function getUpcomingHabits(habits) {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTime = currentHour + currentMinute / 60;
+    
+    return habits
+        .filter(habit => habit.start > currentTime)
+        .sort((a, b) => a.start - b.start)
+        .slice(0, 3);
+}
+
+// Render center content
+function renderClockCenter(habits) {
+    const container = document.getElementById('clock-center');
+    const now = new Date();
+    const currentHabit = getCurrentHabit(habits);
+    const upcomingHabits = getUpcomingHabits(habits);
+    
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const dateStr = `${months[now.getMonth()]} ${now.getDate()}`;
+    const weekdayStr = weekdays[now.getDay()];
+    
+    let centerHTML = `
+        <div class="clock-date-header">
+            <div class="clock-date">${dateStr}</div>
+            <div class="clock-weekday">${weekdayStr}</div>
+        </div>
+    `;
+    
+    if (currentHabit) {
+        const formatTime = (hour) => {
+            const h = Math.floor(hour);
+            const m = Math.round((hour - h) * 60);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return `${h12}:${m.toString().padStart(2, '0')} ${ampm}`;
+        };
+        
+        centerHTML += `
+            <div class="current-habit-card" onclick="toggleHabitCompletion('${currentHabit.name}')">
+                <div class="habit-emoji-container">
+                    <span class="emoji">${currentHabit.emoji}</span>
+                </div>
+                <div class="habit-now-label">NOW</div>
+                <div class="habit-title">${currentHabit.name}</div>
+                <div class="habit-time-range">${formatTime(currentHabit.start)} — ${formatTime(currentHabit.end)}</div>
+                <div class="habit-hint">Demo habit for ${currentPersona}</div>
+            </div>
+        `;
+    } else {
+        centerHTML += `
+            <div class="free-time-card">
+                <div class="habit-emoji-container">
+                    <span class="emoji">⏰</span>
+                </div>
+                <div class="habit-now-label">NOW</div>
+                <div class="habit-title">Free Time</div>
+            </div>
+        `;
+    }
+    
+    if (upcomingHabits.length > 0) {
+        const formatTime = (hour) => {
+            const h = Math.floor(hour);
+            const m = Math.round((hour - h) * 60);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return `${h12}:${m.toString().padStart(2, '0')} ${ampm}`;
+        };
+        
+        centerHTML += `
+            <div class="upcoming-habits">
+                <div class="upcoming-label">UPCOMING</div>
+                ${upcomingHabits.map(habit => `
+                    <div class="upcoming-habit-item">
+                        <div class="upcoming-habit-emoji">${habit.emoji}</div>
+                        <div class="upcoming-habit-info">
+                            <div class="upcoming-habit-title">${habit.name}</div>
+                            <div class="upcoming-habit-time">${formatTime(habit.start)}</div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+    
+    container.innerHTML = centerHTML;
+}
+
+// Load and render habit clock for persona
+function loadPersonaHabitClock(persona) {
+    const habits = personaHabits[persona];
+    
+    // Render all components
+    renderClockRing();
+    renderHabitArcs(habits);
+    updateTimeIndicator();
+    renderClockCenter(habits);
+    
+    // Clear existing interval
+    if (clockUpdateInterval) {
+        clearInterval(clockUpdateInterval);
+    }
+    
+    // Update time indicator every second for live updates
+    clockUpdateInterval = setInterval(() => {
+        updateTimeIndicator();
+        // Also check if we need to update center content (new habit started)
+        const currentHabit = getCurrentHabit(habits);
+        const centerEl = document.querySelector('.current-habit-card, .free-time-card');
+        if (centerEl) {
+            // Check if current habit changed
+            const currentTitle = centerEl.querySelector('.habit-title')?.textContent;
+            const newTitle = currentHabit ? currentHabit.name : 'Free Time';
+            if (currentTitle !== newTitle) {
+                renderClockCenter(habits);
+            }
+        }
+    }, 1000);
+}
+
+// Toggle habit completion (for demo purposes)
+function toggleHabitCompletion(habitName) {
+    // Visual feedback only - this is just a demo
+    console.log('Demo: Toggled completion for', habitName);
 }
 
 // Persona selector handlers
@@ -833,7 +1031,7 @@ function setupPersonaSelector() {
             // Load new persona milestones and habits
             currentPersona = persona;
             loadPersonaMilestones(persona);
-            loadPersonaHabits(persona);
+            loadPersonaHabitClock(persona);
         });
     });
 }
@@ -842,14 +1040,14 @@ function setupPersonaSelector() {
 document.addEventListener('DOMContentLoaded', () => {
     // Load initial persona
     loadPersonaMilestones(currentPersona);
-    loadPersonaHabits(currentPersona);
+    loadPersonaHabitClock(currentPersona);
     
     // Setup persona selector
     setupPersonaSelector();
     
-    // Setup time scale toggle
-    setupTimeScaleToggle();
-    
     // Initialize timeline
     initTimeline();
+    
+    // Start time indicator immediately
+    updateTimeIndicator();
 });
