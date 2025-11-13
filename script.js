@@ -1010,10 +1010,140 @@ function loadPersonaHabitClock(persona) {
     }, 1000);
 }
 
-// Toggle habit completion (for demo purposes)
+// Toggle habit completion - EXACT from Mac app behavior
 function toggleHabitCompletion(habitName) {
-    // Visual feedback only - this is just a demo
-    console.log('Demo: Toggled completion for', habitName);
+    // Find the habit arc for this habit
+    const habitArcsContainer = document.getElementById('habit-arcs');
+    const habitArc = habitArcsContainer.querySelector(`[data-habit-name="${habitName}"]`);
+    
+    if (!habitArc) {
+        console.log('Could not find habit arc for:', habitName);
+        return;
+    }
+    
+    // Find the main path in this habit arc
+    const mainPath = habitArc.querySelector('.main');
+    const glowPath = habitArc.querySelector('.glow');
+    const emojiEl = habitArcsContainer.querySelector(`[data-habit="${habitName}"]`);
+    
+    if (!mainPath || !glowPath) {
+        console.log('Could not find paths for:', habitName);
+        return;
+    }
+    
+    // Check current state
+    const isCompleted = mainPath.getAttribute('opacity') === '0.15';
+    
+    // Toggle state with animation - EXACT from Mac app
+    mainPath.setAttribute('opacity', isCompleted ? '0.35' : '0.15');
+    glowPath.setAttribute('opacity', isCompleted ? '0.15' : '0.08');
+    
+    // Update emoji opacity
+    if (emojiEl) {
+        emojiEl.style.opacity = isCompleted ? '1' : '0.5';
+    }
+    
+    // Add/remove checkmark
+    const checkmarkId = `checkmark-${habitName.replace(/\s+/g, '-')}`;
+    let checkmark = habitArcsContainer.querySelector(`#${checkmarkId}`);
+    
+    if (!isCompleted && !checkmark) {
+        // Find habit data to get color and position
+        const habits = personaHabits[currentPersona];
+        const habit = habits.find(h => h.name === habitName);
+        if (!habit) return;
+        
+        // Calculate checkmark position
+        const clockContainer = document.getElementById('habit-clock');
+        const containerSize = clockContainer.offsetWidth;
+        const viewBoxSize = 1000;
+        const center = viewBoxSize / 2;
+        const padding = 50 * (viewBoxSize / containerSize);
+        const radius = center - padding;
+        
+        const startMinutes = habit.start * 60;
+        const endMinutes = habit.end * 60;
+        const startAngle = (startMinutes / (24 * 60)) * 360 - 90;
+        const endAngle = (endMinutes / (24 * 60)) * 360 - 90;
+        const midAngle = (startAngle + endAngle) / 2;
+        const midAngleRad = (midAngle * Math.PI) / 180;
+        
+        const checkX = center + Math.cos(midAngleRad) * radius + 12 * (viewBoxSize / containerSize);
+        const checkY = center + Math.sin(midAngleRad) * radius - 12 * (viewBoxSize / containerSize);
+        
+        checkmark = document.createElement('div');
+        checkmark.id = checkmarkId;
+        checkmark.className = 'habit-checkmark';
+        checkmark.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 16 16">
+                <circle cx="8" cy="8" r="8" fill="${habit.color}"/>
+                <path d="M5 8L7 10L11 6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `;
+        checkmark.style.left = `${(checkX / viewBoxSize) * 100}%`;
+        checkmark.style.top = `${(checkY / viewBoxSize) * 100}%`;
+        checkmark.style.filter = 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4))';
+        habitArcsContainer.appendChild(checkmark);
+    } else if (isCompleted && checkmark) {
+        // Remove checkmark
+        checkmark.remove();
+    }
+    
+    // Update center card UI
+    const habitCard = document.querySelector('.current-habit-card');
+    if (habitCard) {
+        const emojiContainer = habitCard.querySelector('.habit-emoji-container');
+        const cardEmoji = habitCard.querySelector('.emoji');
+        
+        if (emojiContainer && cardEmoji) {
+            if (!isCompleted) {
+                // Mark as completed
+                emojiContainer.classList.add('completed');
+                cardEmoji.style.opacity = '0.5';
+                habitCard.classList.add('completed');
+                
+                // Add checkmark to card if not exists
+                if (!emojiContainer.querySelector('.checkmark-badge')) {
+                    const habits = personaHabits[currentPersona];
+                    const habit = habits.find(h => h.name === habitName);
+                    if (habit) {
+                        const badge = document.createElement('div');
+                        badge.className = 'checkmark-badge';
+                        badge.innerHTML = `
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="12" fill="${habit.color}"/>
+                                <path d="M7 12L10 15L17 8" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        `;
+                        emojiContainer.appendChild(badge);
+                    }
+                }
+                
+                // Update hint text
+                const hint = habitCard.querySelector('.habit-hint');
+                if (hint) {
+                    hint.textContent = 'Tap to undo';
+                }
+            } else {
+                // Mark as not completed
+                emojiContainer.classList.remove('completed');
+                cardEmoji.style.opacity = '1';
+                habitCard.classList.remove('completed');
+                
+                // Remove checkmark from card
+                const badge = emojiContainer.querySelector('.checkmark-badge');
+                if (badge) {
+                    badge.remove();
+                }
+                
+                // Update hint text
+                const hint = habitCard.querySelector('.habit-hint');
+                if (hint) {
+                    hint.textContent = `Demo habit for ${currentPersona}`;
+                }
+            }
+        }
+    }
 }
 
 // Persona selector handlers

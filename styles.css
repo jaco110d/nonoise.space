@@ -593,6 +593,11 @@ body {
 .current-habit-card.completed {
     background: rgba(255, 255, 255, 0.04);
     transform: scale(0.98);
+    border-width: 2px;
+}
+
+.current-habit-card.completed:hover {
+    transform: scale(0.98) translateY(-2px);
 }
 
 .habit-emoji-container {
@@ -621,7 +626,11 @@ body {
     right: -8px;
     width: 24px;
     height: 24px;
-    color: white;
+    animation: checkmarkAppear 0.3s ease-out;
+}
+
+.habit-emoji-container .checkmark-badge svg {
+    display: block;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
 }
 
