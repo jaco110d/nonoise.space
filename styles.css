@@ -986,35 +986,18 @@ body {
     display: inline-block;
     text-decoration: none;
     margin-bottom: 24px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    border-radius: 12px;
 }
 
-.download-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 32px;
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+.app-store-button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
 }
 
-.download-badge::before {
-    content: '⬇';
-    font-size: 18px;
-}
-
-.app-store-button:hover .download-badge {
-    background: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+.app-store-button svg {
+    display: block;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
 }
 
 .requirements {
@@ -1192,9 +1175,9 @@ body {
         font-size: 28px;
     }
     
-    .download-badge {
-        font-size: 14px;
-        padding: 14px 24px;
+    .app-store-button svg {
+        width: 145px;
+        height: auto;
     }
     
     /* Habits section mobile */
