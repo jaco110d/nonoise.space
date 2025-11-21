@@ -970,17 +970,6 @@ body {
     box-shadow: 0 20px 40px var(--shadow-strong);
 }
 
-.beta-badge {
-    display: inline-block;
-    padding: 8px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--card-border);
-    border-radius: 100px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 24px;
-}
-
 .download-card h2 {
     font-size: 36px;
     font-weight: 700;
@@ -993,46 +982,31 @@ body {
     margin-bottom: 32px;
 }
 
-.email-form {
-    display: flex;
-    gap: 12px;
+.app-store-button {
+    display: inline-block;
+    padding: 0;
     margin-bottom: 24px;
-}
-
-.email-form input {
-    flex: 1;
-    padding: 14px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    color: white;
-    font-size: 15px;
-}
-
-.email-form input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.email-form input:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--card-border-hover);
-}
-
-.submit-btn {
-    padding: 14px 28px;
-    background: var(--control-bg);
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
-.submit-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+.app-store-button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.app-store-button svg {
+    display: block;
+}
+
+.pricing-info {
+    margin-bottom: 16px;
+}
+
+.price-tag {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
 }
 
 .requirements {
@@ -1206,8 +1180,13 @@ body {
         padding: 32px 24px;
     }
     
-    .email-form {
-        flex-direction: column;
+    .download-card h2 {
+        font-size: 28px;
+    }
+    
+    .app-store-button svg {
+        width: 120px;
+        height: auto;
     }
     
     /* Habits section mobile */

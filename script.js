@@ -565,23 +565,7 @@ function initTimeline() {
     });
 }
 
-// Email form
-const emailForm = document.getElementById('emailForm');
-if (emailForm) {
-    emailForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const input = emailForm.querySelector('input');
-        const button = emailForm.querySelector('button span');
-        const originalText = button.textContent;
-        
-        button.textContent = 'Submitted!';
-        input.value = '';
-        
-        setTimeout(() => {
-            button.textContent = originalText;
-        }, 2000);
-    });
-}
+// No email form needed - direct Mac App Store link
 
 // Feature intersection observer
 const featureObserver = new IntersectionObserver((entries) => {
