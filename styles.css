@@ -993,6 +993,32 @@ body {
     margin-bottom: 32px;
 }
 
+.download-card .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--control-bg);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 24px;
+}
+
+.download-card .download-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.download-card .download-btn svg {
+    opacity: 0.8;
+}
+
 .email-form {
     display: flex;
     gap: 12px;
@@ -1033,31 +1059,6 @@ body {
 
 .submit-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-}
-
-.download-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 32px;
-    background: var(--control-bg);
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.download-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.download-btn svg {
-    opacity: 0.8;
 }
 
 .requirements {
