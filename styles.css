@@ -970,6 +970,17 @@ body {
     box-shadow: 0 20px 40px var(--shadow-strong);
 }
 
+.beta-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
 .download-card h2 {
     font-size: 36px;
     font-weight: 700;
@@ -982,22 +993,71 @@ body {
     margin-bottom: 32px;
 }
 
-.app-store-button {
-    display: inline-block;
-    text-decoration: none;
+.email-form {
+    display: flex;
+    gap: 12px;
     margin-bottom: 24px;
-    transition: all 0.2s ease;
+}
+
+.email-form input {
+    flex: 1;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
+    color: white;
+    font-size: 15px;
 }
 
-.app-store-button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+.email-form input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
-.app-store-button svg {
-    display: block;
-    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+.email-form input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--card-border-hover);
+}
+
+.submit-btn {
+    padding: 14px 28px;
+    background: var(--control-bg);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--control-bg);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.download-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.download-btn svg {
+    opacity: 0.8;
 }
 
 .requirements {
@@ -1171,13 +1231,8 @@ body {
         padding: 32px 24px;
     }
     
-    .download-card h2 {
-        font-size: 28px;
-    }
-    
-    .app-store-button svg {
-        width: 155px;
-        height: auto;
+    .email-form {
+        flex-direction: column;
     }
     
     /* Habits section mobile */

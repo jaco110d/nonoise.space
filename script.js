@@ -565,7 +565,7 @@ function initTimeline() {
     });
 }
 
-// No email form needed - direct Mac App Store link
+// No email form needed - app is now available on Mac App Store
 
 // Feature intersection observer
 const featureObserver = new IntersectionObserver((entries) => {
