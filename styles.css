@@ -1326,21 +1326,22 @@ body {
     
     /* Habits section mobile */
     .habits-section {
-        padding: 80px 20px;
+        padding: 60px 20px 40px;
     }
     
     .habit-clock-container {
-        min-height: 500px;
-        padding: 10px 10px;
+        min-height: 450px;
+        padding: 0;
+        height: auto;
     }
     
     .habit-clock {
-        width: min(80vw, 80vh);
-        height: min(80vw, 80vh);
-        max-width: 500px;
-        max-height: 500px;
-        min-width: 350px;
-        min-height: 350px;
+        width: min(90vw, 90vh);
+        height: min(90vw, 90vh);
+        max-width: 450px;
+        max-height: 450px;
+        min-width: 320px;
+        min-height: 320px;
     }
     
     /* Hide upcoming habits on mobile to save space */
@@ -1349,9 +1350,9 @@ body {
     }
     
     .clock-center {
-        width: 200px;
-        max-width: 42%;
-        gap: 12px;
+        width: 180px;
+        max-width: 40%;
+        gap: 10px;
     }
     
     .clock-ring text {
@@ -1359,16 +1360,32 @@ body {
     }
     
     .habit-emoji-container {
-        width: 48px;
-        height: 48px;
+        width: 44px;
+        height: 44px;
     }
     
     .habit-emoji-container .emoji {
-        font-size: 28px;
+        font-size: 26px;
     }
     
     .habit-title {
-        font-size: 13px;
+        font-size: 12px;
+    }
+    
+    .habit-subtitle {
+        font-size: 11px;
+    }
+    
+    .now-label {
+        font-size: 10px;
+    }
+    
+    .current-habit-title {
+        font-size: 15px;
+    }
+    
+    .current-habit-time {
+        font-size: 12px;
     }
     
     .habit-time-range {
