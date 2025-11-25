@@ -318,16 +318,18 @@ body {
 
 .persona-buttons {
     display: flex;
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 
 .persona-btn {
-    padding: 8px 16px;
+    padding: 6px 12px;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 100px;
     color: rgba(255, 255, 255, 0.7);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;

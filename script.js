@@ -11,7 +11,7 @@ let velocity = 0;
 let isInertiaActive = false;
 let isTimelineActive = true;
 let animationFrameId = null;
-let currentPersona = 'student';
+let currentPersona = 'indieHacker';
 
 // Reference date (January 1, 2000 - same as app)
 const referenceDate = new Date(2000, 0, 1);
@@ -21,143 +21,215 @@ const heroSection = document.getElementById('hero-section');
 const timeline3d = document.getElementById('timeline-3d');
 const dateMarkersContainer = document.getElementById('date-markers');
 
-// Persona Milestones Data
+// Helper function to get future date (matching Swift app's calendar.date(byAdding:))
+function getFutureDate(monthsFromNow) {
+    const now = new Date();
+    const future = new Date(now);
+    future.setMonth(future.getMonth() + monthsFromNow);
+    return future;
+}
+
+// Helper function to format date as 'YYYY-MM-DD'
+function formatDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Helper function to format date display text
+function formatDisplayText(date) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// Persona Milestones Data - EXACT from Persona.swift (lines 206-276)
 const personaMilestones = {
-    student: [
-        { date: '2006-09-01', emoji: '🎒', title: 'Started School', text: 'Sep 2006' },
-        { date: '2010-06-15', emoji: '🏆', title: 'First Award', text: 'Jun 2010' },
-        { date: '2014-09-01', emoji: '📚', title: 'High School', text: 'Sep 2014' },
-        { date: '2018-06-10', emoji: '🎓', title: 'Graduated HS', text: 'Jun 2018' },
-        { date: '2018-09-01', emoji: '🎓', title: 'Started College', text: 'Sep 2018' },
-        { date: '2020-03-15', emoji: '💻', title: 'First Coding Project', text: 'Mar 2020' },
-        { date: '2021-08-20', emoji: '🚀', title: 'Internship', text: 'Aug 2021' },
-        { date: '2022-06-15', emoji: '🎉', title: 'Graduated College', text: 'Jun 2022' },
-        { date: '2022-09-01', emoji: '💼', title: 'First Job', text: 'Sep 2022' },
-        { date: '2024-03-10', emoji: '📈', title: 'Promotion', text: 'Mar 2024' },
-        { date: '2025-06-01', emoji: '🏠', title: 'First Apartment', text: 'Jun 2025' },
-        { date: '2027-01-15', emoji: '✈️', title: 'Study Abroad', text: 'Jan 2027' },
-        { date: '2028-05-20', emoji: '🎯', title: 'Masters Degree', text: 'May 2028' },
-        { date: '2030-09-10', emoji: '🌟', title: 'Dream Job', text: 'Sep 2030' },
-        { date: '2035-12-01', emoji: '📚', title: 'PhD Complete', text: 'Dec 2035' },
-        { date: '2040-06-15', emoji: '🏆', title: 'Professor', text: 'Jun 2040' }
+    indieHacker: [
+        { date: formatDateString(getFutureDate(14)), emoji: '🚀', title: 'Launch MVP', text: formatDisplayText(getFutureDate(14)) },
+        { date: formatDateString(getFutureDate(28)), emoji: '💰', title: 'First Paying Customer', text: formatDisplayText(getFutureDate(28)) },
+        { date: formatDateString(getFutureDate(44)), emoji: '👥', title: 'Hire First Employee', text: formatDisplayText(getFutureDate(44)) },
+        { date: formatDateString(getFutureDate(60)), emoji: '📈', title: '10K MRR', text: formatDisplayText(getFutureDate(60)) },
+        { date: formatDateString(getFutureDate(76)), emoji: '🏆', title: 'Exit/Acquisition', text: formatDisplayText(getFutureDate(76)) }
     ],
-    professional: [
-        { date: '2008-09-01', emoji: '🎓', title: 'Graduated', text: 'Sep 2008' },
-        { date: '2009-01-15', emoji: '💼', title: 'First Job', text: 'Jan 2009' },
-        { date: '2012-06-20', emoji: '📈', title: 'Promotion', text: 'Jun 2012' },
-        { date: '2015-03-10', emoji: '🏢', title: 'Senior Role', text: 'Mar 2015' },
-        { date: '2017-08-15', emoji: '💰', title: 'Big Raise', text: 'Aug 2017' },
-        { date: '2019-11-01', emoji: '🎯', title: 'Team Lead', text: 'Nov 2019' },
-        { date: '2021-04-20', emoji: '🚀', title: 'VP Position', text: 'Apr 2021' },
-        { date: '2023-09-15', emoji: '🏆', title: 'Industry Award', text: 'Sep 2023' },
-        { date: '2025-02-10', emoji: '💡', title: 'C-Level', text: 'Feb 2025' },
-        { date: '2027-06-01', emoji: '🌍', title: 'Global Role', text: 'Jun 2027' },
-        { date: '2029-03-15', emoji: '📊', title: 'Board Member', text: 'Mar 2029' },
-        { date: '2032-01-20', emoji: '🎤', title: 'Keynote Speaker', text: 'Jan 2032' },
-        { date: '2035-08-10', emoji: '📚', title: 'Published Book', text: 'Aug 2035' },
-        { date: '2038-05-15', emoji: '🏅', title: 'Lifetime Achievement', text: 'May 2038' },
-        { date: '2040-11-01', emoji: '🌟', title: 'Retirement', text: 'Nov 2040' },
-        { date: '2042-03-20', emoji: '🎯', title: 'Consulting', text: 'Mar 2042' }
+    softwareDeveloper: [
+        { date: formatDateString(getFutureDate(12)), emoji: '🐛', title: 'Ship Major Feature', text: formatDisplayText(getFutureDate(12)) },
+        { date: formatDateString(getFutureDate(26)), emoji: '📚', title: 'Learn New Framework', text: formatDisplayText(getFutureDate(26)) },
+        { date: formatDateString(getFutureDate(40)), emoji: '💼', title: 'Senior Developer', text: formatDisplayText(getFutureDate(40)) },
+        { date: formatDateString(getFutureDate(55)), emoji: '🎯', title: 'Tech Lead', text: formatDisplayText(getFutureDate(55)) },
+        { date: formatDateString(getFutureDate(70)), emoji: '🏆', title: 'Engineering Manager', text: formatDisplayText(getFutureDate(70)) }
     ],
-    entrepreneur: [
-        { date: '2010-03-15', emoji: '💡', title: 'First Idea', text: 'Mar 2010' },
-        { date: '2012-06-01', emoji: '💻', title: 'Started Coding', text: 'Jun 2012' },
-        { date: '2015-09-10', emoji: '🚀', title: 'Launched MVP', text: 'Sep 2015' },
-        { date: '2016-02-20', emoji: '👥', title: 'First Customer', text: 'Feb 2016' },
-        { date: '2017-07-15', emoji: '💰', title: 'Seed Funding', text: 'Jul 2017' },
-        { date: '2018-11-01', emoji: '📈', title: 'Revenue Milestone', text: 'Nov 2018' },
-        { date: '2020-04-10', emoji: '🎯', title: 'Series A', text: 'Apr 2020' },
-        { date: '2022-01-15', emoji: '🏢', title: 'Opened Office', text: 'Jan 2022' },
-        { date: '2024-08-20', emoji: '🌍', title: 'Global Expansion', text: 'Aug 2024' },
-        { date: '2026-03-05', emoji: '💎', title: 'Series B', text: 'Mar 2026' },
-        { date: '2028-10-10', emoji: '🏆', title: 'Profitable', text: 'Oct 2028' },
-        { date: '2030-06-15', emoji: '📊', title: 'IPO', text: 'Jun 2030' },
-        { date: '2033-02-20', emoji: '🤝', title: 'Major Partnership', text: 'Feb 2033' },
-        { date: '2036-09-01', emoji: '🌟', title: 'Unicorn Status', text: 'Sep 2036' },
-        { date: '2039-05-15', emoji: '🎯', title: 'Acquired', text: 'May 2039' },
-        { date: '2041-12-01', emoji: '💡', title: 'New Venture', text: 'Dec 2041' }
+    contentCreator: [
+        { date: formatDateString(getFutureDate(13)), emoji: '📸', title: '1K Followers', text: formatDisplayText(getFutureDate(13)) },
+        { date: formatDateString(getFutureDate(27)), emoji: '🎬', title: '10K Followers', text: formatDisplayText(getFutureDate(27)) },
+        { date: formatDateString(getFutureDate(42)), emoji: '💰', title: 'First Brand Deal', text: formatDisplayText(getFutureDate(42)) },
+        { date: formatDateString(getFutureDate(57)), emoji: '📊', title: '100K Followers', text: formatDisplayText(getFutureDate(57)) },
+        { date: formatDateString(getFutureDate(73)), emoji: '🏆', title: 'Full-Time Creator', text: formatDisplayText(getFutureDate(73)) }
     ],
-    parent: [
-        { date: '2008-06-15', emoji: '💍', title: 'Got Married', text: 'Jun 2008' },
-        { date: '2010-03-20', emoji: '🏠', title: 'Bought House', text: 'Mar 2010' },
-        { date: '2012-08-15', emoji: '👶', title: 'First Child', text: 'Aug 2012' },
-        { date: '2014-11-10', emoji: '👶', title: 'Second Child', text: 'Nov 2014' },
-        { date: '2017-09-01', emoji: '🎒', title: 'First Day School', text: 'Sep 2017' },
-        { date: '2019-05-20', emoji: '🎉', title: 'Family Vacation', text: 'May 2019' },
-        { date: '2021-12-25', emoji: '🎄', title: 'New Tradition', text: 'Dec 2021' },
-        { date: '2024-06-15', emoji: '🏆', title: "Kid's Achievement", text: 'Jun 2024' },
-        { date: '2026-09-01', emoji: '🎓', title: 'High School Starts', text: 'Sep 2026' },
-        { date: '2029-03-10', emoji: '🚗', title: "Driver's License", text: 'Mar 2029' },
-        { date: '2031-06-20', emoji: '🎓', title: 'Graduation Day', text: 'Jun 2031' },
-        { date: '2033-09-01', emoji: '🏠', title: 'Empty Nest', text: 'Sep 2033' },
-        { date: '2036-02-14', emoji: '💑', title: 'Renewed Vows', text: 'Feb 2036' },
-        { date: '2038-12-25', emoji: '👴👵', title: 'Grandparents', text: 'Dec 2038' },
-        { date: '2041-08-15', emoji: '🌍', title: 'World Tour', text: 'Aug 2041' },
-        { date: '2043-06-01', emoji: '🏡', title: 'Retirement Home', text: 'Jun 2043' }
+    employee: [
+        { date: formatDateString(getFutureDate(13)), emoji: '📊', title: 'Q1 Performance Review', text: formatDisplayText(getFutureDate(13)) },
+        { date: formatDateString(getFutureDate(27)), emoji: '🎯', title: 'Complete Certification', text: formatDisplayText(getFutureDate(27)) },
+        { date: formatDateString(getFutureDate(42)), emoji: '📈', title: 'Promotion', text: formatDisplayText(getFutureDate(42)) },
+        { date: formatDateString(getFutureDate(57)), emoji: '💼', title: 'Team Lead Role', text: formatDisplayText(getFutureDate(57)) },
+        { date: formatDateString(getFutureDate(72)), emoji: '🏆', title: 'Manager Position', text: formatDisplayText(getFutureDate(72)) }
     ],
-    creative: [
-        { date: '2009-03-15', emoji: '🎨', title: 'First Artwork', text: 'Mar 2009' },
-        { date: '2011-08-20', emoji: '📷', title: 'Bought Camera', text: 'Aug 2011' },
-        { date: '2013-05-10', emoji: '🖌️', title: 'Art School', text: 'May 2013' },
-        { date: '2015-11-01', emoji: '🎬', title: 'First Exhibition', text: 'Nov 2015' },
-        { date: '2017-06-15', emoji: '🏆', title: 'Won Award', text: 'Jun 2017' },
-        { date: '2019-02-20', emoji: '💼', title: 'Freelance Career', text: 'Feb 2019' },
-        { date: '2021-09-05', emoji: '🎭', title: 'Major Project', text: 'Sep 2021' },
-        { date: '2023-04-10', emoji: '🌟', title: 'Gallery Feature', text: 'Apr 2023' },
-        { date: '2025-12-01', emoji: '📚', title: 'Published Book', text: 'Dec 2025' },
-        { date: '2027-07-15', emoji: '🎪', title: 'Solo Show', text: 'Jul 2027' },
-        { date: '2029-03-20', emoji: '🏅', title: 'International Recognition', text: 'Mar 2029' },
-        { date: '2031-10-10', emoji: '🎨', title: 'Opened Studio', text: 'Oct 2031' },
-        { date: '2034-05-15', emoji: '🎬', title: 'Documentary', text: 'May 2034' },
-        { date: '2037-01-20', emoji: '🌍', title: 'World Tour', text: 'Jan 2037' },
-        { date: '2040-08-25', emoji: '🏛️', title: 'Museum Retrospective', text: 'Aug 2040' },
-        { date: '2042-12-15', emoji: '🎯', title: 'Legacy Project', text: 'Dec 2042' }
+    adhdWarrior: [
+        { date: formatDateString(getFutureDate(12)), emoji: '🎯', title: 'Consistent Routine - 30 days', text: formatDisplayText(getFutureDate(12)) },
+        { date: formatDateString(getFutureDate(26)), emoji: '📚', title: 'Complete Project', text: formatDisplayText(getFutureDate(26)) },
+        { date: formatDateString(getFutureDate(40)), emoji: '💪', title: 'Manage Overwhelm Better', text: formatDisplayText(getFutureDate(40)) },
+        { date: formatDateString(getFutureDate(55)), emoji: '🧠', title: 'Find Working System', text: formatDisplayText(getFutureDate(55)) },
+        { date: formatDateString(getFutureDate(70)), emoji: '🏆', title: 'Thrive, Not Just Survive', text: formatDisplayText(getFutureDate(70)) }
+    ],
+    anxietyManager: [
+        { date: formatDateString(getFutureDate(13)), emoji: '🧘', title: 'Daily Meditation - 30 days', text: formatDisplayText(getFutureDate(13)) },
+        { date: formatDateString(getFutureDate(27)), emoji: '🌱', title: 'Anxiety Tools Mastered', text: formatDisplayText(getFutureDate(27)) },
+        { date: formatDateString(getFutureDate(42)), emoji: '💪', title: 'Handle Stress Better', text: formatDisplayText(getFutureDate(42)) },
+        { date: formatDateString(getFutureDate(57)), emoji: '🎯', title: 'Social Situation Victory', text: formatDisplayText(getFutureDate(57)) },
+        { date: formatDateString(getFutureDate(73)), emoji: '🏆', title: 'Anxiety Under Control', text: formatDisplayText(getFutureDate(73)) }
+    ],
+    burnoutRecovery: [
+        { date: formatDateString(getFutureDate(12)), emoji: '😴', title: 'Regular Sleep Schedule', text: formatDisplayText(getFutureDate(12)) },
+        { date: formatDateString(getFutureDate(26)), emoji: '🌱', title: 'Energy Returning', text: formatDisplayText(getFutureDate(26)) },
+        { date: formatDateString(getFutureDate(40)), emoji: '💼', title: 'Work 4h Comfortably', text: formatDisplayText(getFutureDate(40)) },
+        { date: formatDateString(getFutureDate(55)), emoji: '💪', title: 'Feel Like Myself Again', text: formatDisplayText(getFutureDate(55)) },
+        { date: formatDateString(getFutureDate(70)), emoji: '🏆', title: 'Fully Recovered', text: formatDisplayText(getFutureDate(70)) }
+    ],
+    goalCrusher: [
+        { date: formatDateString(getFutureDate(13)), emoji: '💪', title: 'Fitness Milestone', text: formatDisplayText(getFutureDate(13)) },
+        { date: formatDateString(getFutureDate(27)), emoji: '📚', title: 'Complete Side Project', text: formatDisplayText(getFutureDate(27)) },
+        { date: formatDateString(getFutureDate(42)), emoji: '🎯', title: 'Master New Skill', text: formatDisplayText(getFutureDate(42)) },
+        { date: formatDateString(getFutureDate(57)), emoji: '🏋️', title: 'Peak Physical Form', text: formatDisplayText(getFutureDate(57)) },
+        { date: formatDateString(getFutureDate(73)), emoji: '🏆', title: 'Ultimate Goal Achieved', text: formatDisplayText(getFutureDate(73)) }
     ]
 };
 
 let milestones = [];
 
-// Persona Habits Data with time ranges (24-hour format)
+// Helper function to convert RGB to hex (for colors from Swift app)
+function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(x => {
+        const hex = Math.round(x * 255).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    }).join('');
+}
+
+// Persona Habits Data - EXACT from Persona.swift (lines 69-203)
 const personaHabits = {
-    student: [
-        { emoji: '🏃', name: 'Morning Run', start: 7, end: 8, color: '#FF6B6B' },
-        { emoji: '📚', name: 'Study Session', start: 9, end: 12, color: '#4ECDC4' },
-        { emoji: '🍱', name: 'Lunch Break', start: 12, end: 13, color: '#95E1D3' },
-        { emoji: '💻', name: 'Code Practice', start: 14, end: 17, color: '#F38181' },
-        { emoji: '💪', name: 'Gym', start: 18, end: 19, color: '#AA96DA' },
-        { emoji: '📝', name: 'Homework', start: 20, end: 22, color: '#FCBAD3' }
+    indieHacker: [
+        { emoji: '☕', name: 'Morning Coffee', start: 6, end: 6.5, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '📧', name: 'Email Inbox Zero', start: 7, end: 8, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '👥', name: 'Team Standup', start: 9, end: 9.5, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '🚀', name: 'Product Development', start: 10, end: 12, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '🍱', name: 'Lunch Break', start: 12, end: 13, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '💰', name: 'Business Meetings', start: 13, end: 15, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '📊', name: 'Analytics Review', start: 15, end: 16, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '🎯', name: 'Strategic Planning', start: 16, end: 17.5, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '🏃', name: 'Gym', start: 18, end: 19, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '🍽️', name: 'Dinner', start: 19, end: 20, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '📚', name: 'Learning Time', start: 20, end: 21.5, color: rgbToHex(0.5, 0.4, 0.6) },
+        { emoji: '😴', name: 'Sleep', start: 22, end: 6, color: rgbToHex(0.2, 0.2, 0.4) }
     ],
-    professional: [
-        { emoji: '☕', name: 'Morning Coffee', start: 7, end: 8, color: '#FFB347' },
-        { emoji: '💼', name: 'Deep Work', start: 9, end: 12, color: '#6C5CE7' },
-        { emoji: '🥗', name: 'Lunch', start: 12, end: 13, color: '#00D2A0' },
-        { emoji: '📧', name: 'Emails & Meetings', start: 14, end: 17, color: '#74B9FF' },
-        { emoji: '🏃', name: 'Evening Run', start: 18, end: 19, color: '#FF6B6B' },
-        { emoji: '📖', name: 'Read & Unwind', start: 21, end: 22, color: '#A29BFE' }
+    softwareDeveloper: [
+        { emoji: '☕', name: 'Morning Coffee', start: 7, end: 7.5, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '📧', name: 'Check Messages', start: 7.5, end: 8, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '👥', name: 'Daily Standup', start: 9, end: 9.25, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '💻', name: 'Deep Code Work', start: 9.5, end: 12.5, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '🍱', name: 'Lunch Break', start: 12.5, end: 13.5, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '🔍', name: 'Code Review', start: 13.5, end: 14.5, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '🐛', name: 'Bug Fixing', start: 14.5, end: 16.5, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '📚', name: 'Learning Time', start: 16.5, end: 17.5, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '🏃', name: 'Exercise', start: 18, end: 19, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '🍽️', name: 'Dinner', start: 19, end: 20, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '🎮', name: 'Relax/Gaming', start: 20, end: 22, color: rgbToHex(0.5, 0.4, 0.6) },
+        { emoji: '😴', name: 'Sleep', start: 23, end: 7, color: rgbToHex(0.2, 0.2, 0.4) }
     ],
-    entrepreneur: [
-        { emoji: '🧘', name: 'Morning Routine', start: 6, end: 7, color: '#FD79A8' },
-        { emoji: '💡', name: 'Strategy Time', start: 8, end: 10, color: '#FDCB6E' },
-        { emoji: '🚀', name: 'Product Work', start: 10, end: 13, color: '#6C5CE7' },
-        { emoji: '🤝', name: 'Meetings', start: 14, end: 16, color: '#74B9FF' },
-        { emoji: '📊', name: 'Review Metrics', start: 17, end: 18, color: '#00B894' },
-        { emoji: '✍️', name: 'Content Creation', start: 19, end: 21, color: '#A29BFE' }
+    contentCreator: [
+        { emoji: '🌅', name: 'Morning Routine', start: 7, end: 8, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '💡', name: 'Content Planning', start: 8, end: 9.5, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '📸', name: 'Filming/Shooting', start: 9.5, end: 12.5, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '🍱', name: 'Lunch', start: 12.5, end: 13.5, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '✂️', name: 'Editing', start: 13.5, end: 16.5, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '📱', name: 'Social Engagement', start: 16.5, end: 17.5, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '📊', name: 'Analytics Review', start: 17.5, end: 18.5, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '🍽️', name: 'Dinner', start: 18.5, end: 19.5, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '📝', name: 'Script Writing', start: 19.5, end: 21, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '📚', name: 'Learning/Inspiration', start: 21, end: 22.5, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '😴', name: 'Sleep', start: 23, end: 7, color: rgbToHex(0.5, 0.4, 0.6) }
     ],
-    parent: [
-        { emoji: '👨‍👩‍👧', name: 'Morning Routine', start: 7, end: 8, color: '#FFB6C1' },
-        { emoji: '💼', name: 'Work', start: 9, end: 15, color: '#87CEEB' },
-        { emoji: '🚗', name: 'School Pickup', start: 15, end: 16, color: '#FFD700' },
-        { emoji: '🍳', name: 'Cook Dinner', start: 17, end: 18, color: '#FF6B6B' },
-        { emoji: '👨‍👩‍👧', name: 'Family Time', start: 18, end: 20, color: '#98D8C8' },
-        { emoji: '📚', name: 'Bedtime Story', start: 20, end: 21, color: '#F7DC6F' }
+    employee: [
+        { emoji: '🌅', name: 'Morning Routine', start: 6.5, end: 7.5, color: rgbToHex(0.2, 0.2, 0.4) },
+        { emoji: '🚗', name: 'Commute', start: 7.5, end: 8.5, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '☕', name: 'Coffee & Prep', start: 8.5, end: 9, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '💼', name: 'Deep Work', start: 9, end: 12, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '🍱', name: 'Lunch Break', start: 12, end: 13, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '📞', name: 'Meetings', start: 13, end: 15, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '✉️', name: 'Email & Tasks', start: 15, end: 16.5, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '📊', name: 'Wrap Up', start: 16.5, end: 17, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '🚗', name: 'Commute Home', start: 17, end: 18, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '🍽️', name: 'Dinner', start: 18.5, end: 19.5, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '📺', name: 'Personal Time', start: 19.5, end: 21.5, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '😴', name: 'Sleep', start: 22.5, end: 6.5, color: rgbToHex(0.5, 0.4, 0.6) }
     ],
-    creative: [
-        { emoji: '☕', name: 'Morning Coffee', start: 8, end: 9, color: '#FFB347' },
-        { emoji: '🎨', name: 'Create Art', start: 9, end: 13, color: '#E17055' },
-        { emoji: '🍲', name: 'Lunch', start: 13, end: 14, color: '#00D2A0' },
-        { emoji: '📷', name: 'Photo Session', start: 15, end: 17, color: '#74B9FF' },
-        { emoji: '✍️', name: 'Journal', start: 18, end: 19, color: '#FDCB6E' },
-        { emoji: '🎵', name: 'Practice Music', start: 20, end: 22, color: '#A29BFE' }
+    adhdWarrior: [
+        { emoji: '🌅', name: 'Wake Up Gentle', start: 7, end: 7.5, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '💊', name: 'Medication', start: 7.5, end: 7.75, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '☕', name: 'Breakfast', start: 7.75, end: 8.25, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '🎯', name: 'Focus Block 1', start: 8.5, end: 10, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '🚶', name: 'Break Walk', start: 10, end: 10.25, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '💻', name: 'Focus Block 2', start: 10.25, end: 11.75, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '🍱', name: 'Lunch', start: 12, end: 13, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '🎯', name: 'Focus Block 3', start: 13.25, end: 14.75, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '🧘', name: 'Mindful Break', start: 14.75, end: 15, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '📝', name: 'Admin/Light Tasks', start: 15, end: 16, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '🏃', name: 'Movement', start: 17, end: 18, color: rgbToHex(0.5, 0.4, 0.6) },
+        { emoji: '🍽️', name: 'Dinner', start: 18.5, end: 19.5, color: rgbToHex(0.2, 0.2, 0.4) },
+        { emoji: '📱', name: 'Chill Time', start: 19.5, end: 21.5, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '😴', name: 'Sleep', start: 22.5, end: 7, color: rgbToHex(0.8, 0.3, 0.3) }
+    ],
+    anxietyManager: [
+        { emoji: '🌅', name: 'Gentle Wake Up', start: 7, end: 7.5, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '🧘', name: 'Morning Meditation', start: 7.5, end: 8, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '☕', name: 'Calm Breakfast', start: 8, end: 8.75, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '📝', name: 'Planning/Journal', start: 8.75, end: 9.25, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '💼', name: 'Light Work', start: 9.5, end: 11.5, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '🍱', name: 'Mindful Lunch', start: 12, end: 13, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '🚶', name: 'Nature Walk', start: 13, end: 13.75, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '💻', name: 'Focused Work', start: 14, end: 16, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '☕', name: 'Tea Break', start: 16, end: 16.5, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '🎨', name: 'Creative Outlet', start: 17, end: 18, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '🍽️', name: 'Dinner', start: 18.5, end: 19.5, color: rgbToHex(0.5, 0.4, 0.6) },
+        { emoji: '📚', name: 'Reading', start: 19.5, end: 21, color: rgbToHex(0.2, 0.2, 0.4) },
+        { emoji: '🧘', name: 'Evening Wind Down', start: 21, end: 21.5, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '😴', name: 'Sleep', start: 22, end: 7, color: rgbToHex(0.8, 0.3, 0.3) }
+    ],
+    burnoutRecovery: [
+        { emoji: '🌅', name: 'Sleep In', start: 8, end: 9, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '☕', name: 'Slow Breakfast', start: 9, end: 10, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '🧘', name: 'Meditation', start: 10, end: 10.5, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '💻', name: 'Light Work (2h max)', start: 11, end: 13, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '🍱', name: 'Nourishing Lunch', start: 13, end: 14, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '😴', name: 'Rest/Nap', start: 14, end: 15.5, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '🚶', name: 'Gentle Walk', start: 15.5, end: 16.5, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '🎨', name: 'Creative Hobby', start: 16.5, end: 18, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '🍽️', name: 'Easy Dinner', start: 18, end: 19, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '📺', name: 'Relaxation', start: 19, end: 21, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '📚', name: 'Light Reading', start: 21, end: 22, color: rgbToHex(0.5, 0.4, 0.6) },
+        { emoji: '😴', name: 'Early Sleep', start: 22, end: 8, color: rgbToHex(0.2, 0.2, 0.4) }
+    ],
+    goalCrusher: [
+        { emoji: '🌅', name: 'Early Rise', start: 5.5, end: 6, color: rgbToHex(0.3, 0.5, 0.7) },
+        { emoji: '💧', name: 'Hydrate', start: 6, end: 6.25, color: rgbToHex(0.8, 0.3, 0.3) },
+        { emoji: '🏋️', name: 'Morning Workout', start: 6.25, end: 7.5, color: rgbToHex(0.6, 0.4, 0.2) },
+        { emoji: '🥗', name: 'Protein Breakfast', start: 7.5, end: 8.25, color: rgbToHex(0.4, 0.3, 0.7) },
+        { emoji: '🎯', name: 'Goal Work Session', start: 8.5, end: 11.5, color: rgbToHex(0.3, 0.7, 0.5) },
+        { emoji: '🍱', name: 'Meal Prep Lunch', start: 11.5, end: 12.5, color: rgbToHex(0.5, 0.3, 0.6) },
+        { emoji: '💼', name: 'Work/Study', start: 13, end: 16, color: rgbToHex(0.7, 0.5, 0.3) },
+        { emoji: '📚', name: 'Learning Time', start: 16, end: 17.5, color: rgbToHex(0.9, 0.4, 0.3) },
+        { emoji: '💪', name: 'Evening Exercise', start: 18, end: 19, color: rgbToHex(0.6, 0.5, 0.3) },
+        { emoji: '🍽️', name: 'Healthy Dinner', start: 19, end: 20, color: rgbToHex(0.4, 0.5, 0.7) },
+        { emoji: '📝', name: 'Review & Plan', start: 20, end: 21, color: rgbToHex(0.5, 0.4, 0.6) },
+        { emoji: '📖', name: 'Reading', start: 21, end: 22, color: rgbToHex(0.2, 0.2, 0.4) },
+        { emoji: '😴', name: 'Sleep', start: 22, end: 5.5, color: rgbToHex(0.3, 0.5, 0.7) }
     ]
 };
 
@@ -165,11 +237,22 @@ let habitCompletions = {};
 let currentHabitClock = null;
 let clockUpdateInterval = null;
 
-// Get screen size
-const screenSize = {
+// Get timeline container size (NOT window size - matches Swift's geometry.size)
+function getTimelineSize() {
+    const timeline = document.getElementById('timeline-3d');
+    if (timeline) {
+        return {
+            width: timeline.offsetWidth,
+            height: timeline.offsetHeight
+        };
+    }
+    return {
     width: window.innerWidth,
     height: window.innerHeight
 };
+}
+
+let screenSize = getTimelineSize();
 
 // Parse date from data attribute
 function parseDate(dateStr) {
@@ -189,11 +272,11 @@ function dateForZPosition(zPos) {
     return new Date(referenceDate.getTime() + days * 24 * 60 * 60 * 1000);
 }
 
-// DepthTransform (from Timeline3DView.swift line 386-449)
-function applyDepthTransform(element, zPosition) {
+// depthTransform - EXACT copy from TimelineShowcaseView.swift lines 172-215
+function depthTransform(zPosition, size) {
     const distance = Math.abs(zPosition);
     
-    // Scale (line 390-404)
+    // Scale - EXACT from line 175-186
     const maxScale = 1.5;
     const minScale = 0.15;
     const focusRange = 800;
@@ -206,7 +289,7 @@ function applyDepthTransform(element, zPosition) {
         scale = minScale;
     }
     
-    // Opacity (line 406-418)
+    // Opacity - EXACT from line 188-198
     let opacity;
     if (distance < 100) {
         opacity = 1.0;
@@ -218,7 +301,7 @@ function applyDepthTransform(element, zPosition) {
         opacity = 0.1;
     }
     
-    // Blur (line 420-430)
+    // Blur - EXACT from line 200-208
     let blur;
     if (distance < 100) {
         blur = 0;
@@ -228,32 +311,44 @@ function applyDepthTransform(element, zPosition) {
         blur = 4 + (distance - 500) / 500 * 4;
     }
     
-    // Offsets (line 432-440)
-    const xOffset = (screenSize.width * 0.6) * (zPosition / 400);
-    const yOffset = -(screenSize.height * 0.45) * (zPosition / 400) - 40;
+    // Offsets - EXACT from line 210-212
+    const xOffset = (size.width * 0.6) * (zPosition / 400);
+    const yOffset = -(size.height * 0.45) * (zPosition / 400) - 40;
     
-    // Apply transform
-    element.style.transform = `
-        translate(-50%, -50%)
-        translateX(${xOffset}px)
-        translateY(${yOffset}px)
-        scale(${scale})
-    `;
-    element.style.opacity = opacity;
-    element.style.filter = `blur(${blur}px)`;
+    return { scale, opacity, blur, xOffset, yOffset };
+}
+
+// Apply transform to element - matches Swift's .position() + .scaleEffect()
+function applyDepthTransform(element, zPosition) {
+    const size = getTimelineSize();
+    const transform = depthTransform(zPosition, size);
+    const distance = Math.abs(zPosition);
+    
+    // EXACT from TimelineShowcaseView.swift line 164:
+    // .position(x: size.width / 2 + transform.xOffset, y: size.height / 2 + transform.yOffset)
+    const x = size.width / 2 + transform.xOffset;
+    const y = size.height / 2 + transform.yOffset;
+    
+    element.style.left = `${x}px`;
+    element.style.top = `${y}px`;
+    element.style.transform = `translate(-50%, -50%) scale(${transform.scale})`;
+    element.style.opacity = transform.opacity;
+    element.style.filter = `blur(${transform.blur}px)`;
     element.style.zIndex = Math.round(1000 - distance);
     
     // Update selected state (focused card)
     const card = element.querySelector('.milestone-card');
     const isFocused = distance < depthSpacing / 2;
     
+    if (card) {
     if (isFocused) {
         card.classList.add('selected');
     } else {
         card.classList.remove('selected');
+        }
     }
     
-    return { scale, opacity, blur, distance };
+    return transform;
 }
 
 // Generate visible markers (from Timeline3DView.swift line 170-225)
@@ -279,41 +374,18 @@ function generateVisibleMarkers() {
     return markers;
 }
 
-// Render date markers
+// yearMarkerView - EXACT from TimelineShowcaseView.swift lines 132-152
 function renderDateMarkers() {
     const markers = generateVisibleMarkers();
+    const size = getTimelineSize();
     
     dateMarkersContainer.innerHTML = '';
     
     markers.forEach(marker => {
         const distance = Math.abs(marker.zPos);
         
-        // Same depth transform as milestones
-        const maxScale = 1.5;
-        const minScale = 0.15;
-        const focusRange = 800;
-        
-        let scale;
-        if (distance < focusRange) {
-            const t = distance / focusRange;
-            scale = minScale + (maxScale - minScale) * (1.0 - t);
-        } else {
-            scale = minScale;
-        }
-        
-        let opacity;
-        if (distance < 100) {
-            opacity = 1.0;
-        } else if (distance < 400) {
-            opacity = 1.0 - (distance - 100) / 300 * 0.3;
-        } else if (distance < 1000) {
-            opacity = 0.7 - (distance - 400) / 600 * 0.5;
-        } else {
-            opacity = 0.2;
-        }
-        
-        const xOffset = (screenSize.width * 0.6) * (marker.zPos / 400);
-        const yOffset = -(screenSize.height * 0.45) * (marker.zPos / 400) + 150;
+        // Same depth transform as milestones - EXACT from line 138
+        const transform = depthTransform(marker.zPos, size);
         
         const markerEl = document.createElement('div');
         markerEl.className = 'date-marker';
@@ -321,13 +393,16 @@ function renderDateMarkers() {
             <div class="marker-dot"></div>
             <span>${marker.year}</span>
         `;
-        markerEl.style.transform = `
-            translate(-50%, -50%)
-            translateX(${xOffset}px)
-            translateY(${yOffset}px)
-            scale(${scale})
-        `;
-        markerEl.style.opacity = opacity;
+        
+        // EXACT from line 149:
+        // .position(x: size.width / 2 + transform.xOffset, y: size.height / 2 + transform.yOffset + 150)
+        const x = size.width / 2 + transform.xOffset;
+        const y = size.height / 2 + transform.yOffset + 150;
+        
+        markerEl.style.left = `${x}px`;
+        markerEl.style.top = `${y}px`;
+        markerEl.style.transform = `translate(-50%, -50%) scale(${transform.scale})`;
+        markerEl.style.opacity = distance < 3000 ? transform.opacity : 0;
         
         dateMarkersContainer.appendChild(markerEl);
     });
@@ -370,7 +445,7 @@ function loadPersonaMilestones(persona) {
     updateMilestones();
 }
 
-// Update all milestones
+// milestoneView - EXACT from TimelineShowcaseView.swift lines 155-169
 function updateMilestones() {
     milestones.forEach((milestone) => {
         const dateStr = milestone.dataset.date;
@@ -378,8 +453,10 @@ function updateMilestones() {
         const milestoneZ = zPositionForDate(date);
         const zPosition = milestoneZ - scrollOffset;
         
-        // Only render if within visible range
+        // EXACT from line 158
         const distance = Math.abs(zPosition);
+        
+        // EXACT from line 166: opacity check
         if (distance < 3000) {
             milestone.style.display = 'block';
             applyDepthTransform(milestone, zPosition);
@@ -437,16 +514,16 @@ function handleScrollWheel(event) {
     // Check if we should release scroll (both directions)
     const currentDate = dateForZPosition(scrollOffset);
     
-    // Release when reaching the future (2041+)
-    if (currentDate >= new Date(2041, 0, 1)) {
+    // Release when reaching 2035 or later
+    if (currentDate >= new Date(2035, 0, 1)) {
         isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
             document.getElementById('habits').scrollIntoView({ behavior: 'smooth' });
         }, 300);
     }
-    // Release when reaching the past (2003 or earlier)
-    else if (currentDate <= new Date(2003, 0, 1)) {
+    // Release when reaching 2025 or earlier
+    else if (currentDate <= new Date(2025, 0, 1)) {
         isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
@@ -478,7 +555,7 @@ function handleTouchMove(event) {
     
     // Check if we should release (both directions)
     const currentDate = dateForZPosition(scrollOffset);
-    if (currentDate >= new Date(2041, 0, 1) || currentDate <= new Date(2003, 0, 1)) {
+    if (currentDate >= new Date(2035, 0, 1) || currentDate <= new Date(2025, 0, 1)) {
         isTimelineActive = false;
         document.body.style.overflow = 'auto';
         setTimeout(() => {
@@ -537,8 +614,7 @@ function initTimeline() {
     
     // Handle window resize
     window.addEventListener('resize', () => {
-        screenSize.width = window.innerWidth;
-        screenSize.height = window.innerHeight;
+        screenSize = getTimelineSize();
         updateMilestones();
     });
     
@@ -700,7 +776,14 @@ function renderHabitArcs(habits) {
         
         // Convert time to angles - Mac app uses -90 offset
         const startMinutes = habit.start * 60;
-        const endMinutes = habit.end * 60;
+        let endMinutes = habit.end * 60;
+        
+        // Handle habits that cross midnight - EXACT from Swift app (HabitClockComponents.swift line 149-157)
+        if (endMinutes < startMinutes) {
+            // Add 24 hours (1440 minutes) to end time to handle midnight crossing
+            endMinutes += 24 * 60;
+        }
+        
         const startAngle = (startMinutes / (24 * 60)) * 360 - 90;
         const endAngle = (endMinutes / (24 * 60)) * 360 - 90;
         
@@ -865,7 +948,24 @@ function getCurrentHabit(habits) {
     const currentTime = currentHour + currentMinute / 60;
     
     return habits.find(habit => {
-        return currentTime >= habit.start && currentTime < habit.end;
+        let start = habit.start;
+        let end = habit.end;
+        
+        // Handle habits that cross midnight
+        if (end < start) {
+            // If current time is after start (e.g., 23:00), it matches
+            if (currentTime >= start) {
+                return true;
+            }
+            // If current time is before end (e.g., 2:00), it matches
+            if (currentTime < end) {
+                return true;
+            }
+            return false;
+        }
+        
+        // Normal case: habit doesn't cross midnight
+        return currentTime >= start && currentTime < end;
     });
 }
 
@@ -1046,7 +1146,13 @@ function toggleHabitCompletion(habitName) {
         const radius = center - padding;
         
         const startMinutes = habit.start * 60;
-        const endMinutes = habit.end * 60;
+        let endMinutes = habit.end * 60;
+        
+        // Handle habits that cross midnight
+        if (endMinutes < startMinutes) {
+            endMinutes += 24 * 60;
+        }
+        
         const startAngle = (startMinutes / (24 * 60)) * 360 - 90;
         const endAngle = (endMinutes / (24 * 60)) * 360 - 90;
         const midAngle = (startAngle + endAngle) / 2;
@@ -1152,6 +1258,9 @@ function setupPersonaSelector() {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
+    // Update screenSize now that DOM is loaded
+    screenSize = getTimelineSize();
+    
     // Load initial persona
     loadPersonaMilestones(currentPersona);
     loadPersonaHabitClock(currentPersona);
