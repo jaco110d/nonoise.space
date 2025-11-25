@@ -1402,26 +1402,25 @@ body {
         max-width: calc(100% - 20px);
         padding: 10px 12px;
         gap: 8px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .persona-label {
-        font-size: 11px;
-    }
-    
-    .persona-buttons {
-        width: 100%;
         overflow-x: auto;
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none; /* IE and Edge */
-        padding-bottom: 2px;
     }
     
-    .persona-buttons::-webkit-scrollbar {
+    .persona-selector::-webkit-scrollbar {
         display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .persona-label {
+        font-size: 11px;
+        flex-shrink: 0;
+    }
+    
+    .persona-buttons {
+        gap: 6px;
+        flex-shrink: 0;
     }
     
     .persona-btn {
