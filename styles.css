@@ -308,6 +308,9 @@ body {
     border-radius: 100px;
     box-shadow: 0 5px 10px var(--shadow-medium);
     z-index: 100;
+    max-width: 95vw;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .persona-label {
@@ -1279,14 +1282,26 @@ body {
     
     /* Adjust persona selector for mobile */
     .persona-selector {
-        padding: 12px;
+        padding: 10px 16px;
         gap: 8px;
+        max-width: 98vw;
+    }
+    
+    .persona-label {
+        font-size: 11px;
+        white-space: nowrap;
+    }
+    
+    .persona-buttons {
+        gap: 4px;
+        flex-wrap: nowrap;
     }
     
     .persona-btn {
-        padding: 6px 12px;
-        font-size: 11px;
+        padding: 6px 10px;
+        font-size: 10px;
         min-width: auto;
+        white-space: nowrap;
     }
     
     .timeline-preview {
