@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://nonoise.space/sitemap.xml
 
 # Disallow admin or private directories (if any in the future)
 # Disallow: /admin/
