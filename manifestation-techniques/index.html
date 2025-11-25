@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manifestation Techniques That Actually Work: Science-Backed Methods | NoNoise</title>
+    <meta name="description" content="Learn proven manifestation techniques backed by psychology and neuroscience. Visualization, affirmations, scripting, and the Law of Attraction explained scientifically.">
+    <meta name="keywords" content="manifestation techniques, law of attraction, manifestation methods, visualization techniques, how to manifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="../apple-touch-icon.png">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before, .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(200, 150, 255, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible { opacity: 1; transform: translateY(0); }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover { transform: translateY(-12px) scale(1.01); }
+
+        .hero-image img { width: 100%; height: auto; display: block; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
+        }
+
+        .technique-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 48px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .technique-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(255, 200, 100, 0.6), rgba(200, 150, 255, 0.6));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .technique-card:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            transform: translateY(-12px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .technique-card:hover::before { transform: translateX(0); }
+
+        .technique-number {
+            font-size: 64px;
+            font-weight: 900;
+            background: linear-gradient(135deg, rgba(255, 200, 100, 0.8), rgba(200, 150, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .technique-card h3 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .technique-card p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .technique-steps {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .technique-steps h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 200, 100, 0.9);
+            margin-bottom: 12px;
+        }
+
+        .technique-steps ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .technique-steps li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .technique-steps li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 200, 100, 0.7);
+        }
+
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin: 100px 0;
+        }
+
+        .split-content h3 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .split-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .split-image img {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 968px) {
+            .split-section { grid-template-columns: 1fr; gap: 60px; }
+            .technique-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo { padding: 120px 20px 60px; }
+            .content-section { padding: 80px 20px; }
+            .cta-card { padding: 60px 32px; }
+            .technique-card { padding: 32px 24px; }
+        }
+    </style>
+    <script src="/cookie-banner.js" defer></script>
+</head>
+<body class="seo-page">
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <section class="hero-section-seo">
+        <div class="hero-badge">✨ Science Meets Spirituality</div>
+        <h1>Manifestation<br>Techniques That Work</h1>
+        <p class="subtitle">Learn proven manifestation methods backed by psychology and neuroscience. Move beyond woo-woo into practical techniques that actually create results.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/3.png" alt="Manifestation techniques and visualization">
+        </div>
+    </section>
+
+    <div class="content-section">
+        <div class="section-header">
+            <h2>6 Proven Manifestation Techniques</h2>
+            <p>Evidence-based methods for achieving your goals</p>
+        </div>
+
+        <div class="technique-grid">
+            <div class="technique-card">
+                <div class="technique-number">01</div>
+                <h3>Visual Manifestation (Vision Boards)</h3>
+                <p>The most popular technique for a reason: it works. Your brain processes images 60,000x faster than text, making visual goals more memorable and motivating.</p>
+                <div class="technique-steps">
+                    <h4>How to Do It:</h4>
+                    <ul>
+                        <li>Collect images representing goals achieved</li>
+                        <li>Organize on digital or physical board</li>
+                        <li>Place where you see it daily</li>
+                        <li>Spend 2-5 minutes visualizing each morning</li>
+                        <li>Feel the emotions of achieving each goal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="technique-card">
+                <div class="technique-number">02</div>
+                <h3>Scripting & Future Journaling</h3>
+                <p>Write as if your goals have already happened. This technique leverages neuroplasticity—your brain can't distinguish between vividly imagined and real experiences.</p>
+                <div class="technique-steps">
+                    <h4>How to Do It:</h4>
+                    <ul>
+                        <li>Write in present tense: "I am..." not "I will be..."</li>
+                        <li>Include specific details and emotions</li>
+                        <li>Describe a typical day in your future life</li>
+                        <li>Write for 10-15 minutes daily or weekly</li>
+                        <li>Read your script regularly for reinforcement</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="technique-card">
+                <div class="technique-number">03</div>
+                <h3>Affirmations & Self-Talk</h3>
+                <p>Repetitive positive statements rewire neural pathways. Studies show affirmations activate brain regions associated with self-processing and reward.</p>
+                <div class="technique-steps">
+                    <h4>How to Do It:</h4>
+                    <ul>
+                        <li>Create specific, present-tense statements</li>
+                        <li>Say them out loud with conviction</li>
+                        <li>Repeat 10-20 times daily (morning/night)</li>
+                        <li>Write them down for extra reinforcement</li>
+                        <li>Believe them emotionally, not just intellectually</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="technique-card">
+                <div class="technique-number">04</div>
+                <h3>Mental Rehearsal Visualization</h3>
+                <p>Athletes use this technique to improve performance. Visualizing successful outcomes activates the same brain regions as actual performance.</p>
+                <div class="technique-steps">
+                    <h4>How to Do It:</h4>
+                    <ul>
+                        <li>Close eyes and enter relaxed state</li>
+                        <li>Visualize goal achievement in vivid detail</li>
+                        <li>Engage all senses (sight, sound, touch, smell)</li>
+                        <li>Experience emotions of success</li>
+                        <li>Practice 5-15 minutes daily</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="technique-card">
+                <div class="technique-number">05</div>
+                <h3>The "Act As If" Method</h3>
+                <p>Behave as the person who has already achieved the goal. Your actions influence your beliefs, which influence future actions—a positive feedback loop.</p>
+                <div class="technique-steps">
+                    <h4>How to Do It:</h4>
+                    <ul>
+                        <li>Ask: "What would the future me do right now?"</li>
+                        <li>Make decisions from that identity</li>
+                        <li>Adopt habits of your future self</li>
+                        <li>Dress, speak, and act the part</li>
+                        <li>Consistency builds genuine transformation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="technique-card">
+                <div class="technique-number">06</div>
+                <h3>Gratitude & Abundance Mindset</h3>
+                <p>Neuroscience shows gratitude rewires the brain for positivity, making you notice opportunities you'd otherwise miss. Abundance thinking attracts more abundance.</p>
+                <div class="technique-steps">
+                    <h4>How to Do It:</h4>
+                    <ul>
+                        <li>List 3-5 things you're grateful for daily</li>
+                        <li>Feel genuine appreciation, don't just list</li>
+                        <li>Be grateful for future goals as if received</li>
+                        <li>Notice abundance already in your life</li>
+                        <li>Shift from scarcity to abundance language</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="split-section">
+            <div class="split-content">
+                <h3>The Science Behind Manifestation</h3>
+                <p><strong>Reticular Activating System (RAS):</strong> Your brain filters millions of stimuli. When you focus on a goal, your RAS highlights relevant opportunities you'd normally miss.</p>
+                <p><strong>Neuroplasticity:</strong> Repeated visualization creates new neural pathways. Your brain treats vividly imagined experiences as real, preparing you for success.</p>
+                <p><strong>Self-Fulfilling Prophecy:</strong> Your beliefs influence behavior, which influences outcomes. Believe you'll succeed → act confidently → increase success likelihood.</p>
+                <p><strong>Priming Effect:</strong> Exposure to goals (vision boards, affirmations) primes subconscious to recognize aligned opportunities.</p>
+            </div>
+            <div class="split-image">
+                <img src="../NoNoise billeder mac/3.png" alt="Science of manifestation and visualization">
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="split-section">
+            <div class="split-image">
+                <img src="../NoNoise billeder mac/3.png" alt="Manifestation mistakes to avoid">
+            </div>
+            <div class="split-content">
+                <h3>What Doesn't Work (Common Mistakes)</h3>
+                <p><strong>Passive wishing:</strong> "I want a million dollars" while taking zero action. Manifestation requires aligned behavior, not magical thinking.</p>
+                <p><strong>Vague goals:</strong> "I want to be successful" means nothing to your brain. Specificity is essential.</p>
+                <p><strong>Inconsistency:</strong> Doing one visualization session won't work. Daily practice over weeks/months creates results.</p>
+                <p><strong>Ignoring limiting beliefs:</strong> Conscious affirmations battle subconscious doubts. Address deep beliefs first.</p>
+                <p><strong>No action:</strong> Manifestation isn't about sitting and waiting. It's about clarity → action → results.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Manifest Your Goals Visually</h2>
+            <p>Combine multiple manifestation techniques with NoNoise's vision board feature. Visualize daily, track progress, and turn dreams into reality.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Backed by science</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
+
