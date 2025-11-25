@@ -1328,6 +1328,46 @@ function setupPersonaSelector() {
     });
 }
 
+// Mobile Menu Toggle
+function setupMobileMenu() {
+    const hamburgerMenu = document.getElementById('hamburger-menu');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    
+    if (!hamburgerMenu || !mobileMenuOverlay) return;
+    
+    // Toggle menu
+    hamburgerMenu.addEventListener('click', () => {
+        hamburgerMenu.classList.toggle('active');
+        mobileMenuOverlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (mobileMenuOverlay.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Close menu when clicking on overlay background
+    mobileMenuOverlay.addEventListener('click', (e) => {
+        if (e.target === mobileMenuOverlay) {
+            hamburgerMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Close menu when clicking on a nav link
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburgerMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+}
+
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
     // Update screenSize now that DOM is loaded
@@ -1340,6 +1380,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Setup persona selector
     setupPersonaSelector();
+    
+    // Setup mobile menu
+    setupMobileMenu();
     
     // Initialize timeline
     initTimeline();
