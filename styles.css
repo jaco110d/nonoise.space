@@ -1348,49 +1348,28 @@ body {
         display: none;
     }
     
+    /* Hide habit cards on mobile, only show date */
+    .current-habit-card,
+    .free-time-card {
+        display: none;
+    }
+    
     .clock-center {
-        width: 140px;
-        max-width: 30%;
-        gap: 6px;
+        width: auto;
+        max-width: 90%;
+        gap: 8px;
     }
     
     .clock-ring text {
         font-size: 8px;
     }
     
-    .habit-emoji-container {
-        width: 32px;
-        height: 32px;
-    }
-    
-    .habit-emoji-container .emoji {
-        font-size: 18px;
-    }
-    
-    .habit-title {
-        font-size: 11px;
-    }
-    
-    .habit-time-range {
+    .clock-date {
         font-size: 9px;
     }
     
-    .current-habit-card,
-    .free-time-card {
-        padding: 10px;
-        border-radius: 12px;
-    }
-    
-    .clock-date {
-        font-size: 8px;
-    }
-    
     .clock-weekday {
-        font-size: 14px;
-    }
-    
-    .habit-hint {
-        font-size: 8px;
+        font-size: 16px;
     }
     
     .upcoming-habit-item {
