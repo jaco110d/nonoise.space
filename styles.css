@@ -1326,22 +1326,21 @@ body {
     
     /* Habits section mobile */
     .habits-section {
-        padding: 60px 20px 40px;
+        padding: 80px 20px;
     }
     
     .habit-clock-container {
-        min-height: 450px;
-        padding: 0;
-        height: auto;
+        min-height: 500px;
+        padding: 10px 10px;
     }
     
     .habit-clock {
-        width: min(90vw, 90vh);
-        height: min(90vw, 90vh);
-        max-width: 450px;
-        max-height: 450px;
-        min-width: 320px;
-        min-height: 320px;
+        width: min(80vw, 80vh);
+        height: min(80vw, 80vh);
+        max-width: 500px;
+        max-height: 500px;
+        min-width: 350px;
+        min-height: 350px;
     }
     
     /* Hide upcoming habits on mobile to save space */
@@ -1350,9 +1349,9 @@ body {
     }
     
     .clock-center {
-        width: 180px;
-        max-width: 40%;
-        gap: 10px;
+        width: 140px;
+        max-width: 30%;
+        gap: 6px;
     }
     
     .clock-ring text {
@@ -1360,41 +1359,38 @@ body {
     }
     
     .habit-emoji-container {
-        width: 44px;
-        height: 44px;
+        width: 32px;
+        height: 32px;
     }
     
     .habit-emoji-container .emoji {
-        font-size: 26px;
+        font-size: 18px;
     }
     
     .habit-title {
-        font-size: 12px;
-    }
-    
-    .habit-subtitle {
         font-size: 11px;
     }
     
-    .now-label {
-        font-size: 10px;
-    }
-    
-    .current-habit-title {
-        font-size: 15px;
-    }
-    
-    .current-habit-time {
-        font-size: 12px;
-    }
-    
     .habit-time-range {
-        font-size: 10px;
+        font-size: 9px;
     }
     
     .current-habit-card,
     .free-time-card {
-        padding: 16px;
+        padding: 10px;
+        border-radius: 12px;
+    }
+    
+    .clock-date {
+        font-size: 8px;
+    }
+    
+    .clock-weekday {
+        font-size: 14px;
+    }
+    
+    .habit-hint {
+        font-size: 8px;
     }
     
     .upcoming-habit-item {
