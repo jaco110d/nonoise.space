@@ -71,6 +71,12 @@ body {
     gap: 12px;
 }
 
+.app-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+}
+
 .brand-name {
     font-size: 16px;
     font-weight: 600;
@@ -1326,6 +1332,15 @@ body {
     .toolbar-content {
         padding: 10px 16px;
         gap: 12px;
+    }
+    
+    .app-icon {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .brand-name {
+        font-size: 15px;
     }
     
     /* Hide desktop nav and show hamburger menu on mobile */
