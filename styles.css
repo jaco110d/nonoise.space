@@ -1330,8 +1330,8 @@ body {
     }
     
     .habit-clock-container {
-        min-height: 550px;
-        padding: 20px 10px;
+        min-height: 500px;
+        padding: 10px 10px;
     }
     
     .habit-clock {
@@ -1341,6 +1341,11 @@ body {
         max-height: 500px;
         min-width: 350px;
         min-height: 350px;
+    }
+    
+    /* Hide upcoming habits on mobile to save space */
+    .upcoming-habits {
+        display: none;
     }
     
     .clock-center {
