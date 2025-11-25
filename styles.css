@@ -63,12 +63,15 @@ body {
     border-radius: 100px;
     box-shadow: 0 5px 10px var(--shadow-medium);
     pointer-events: auto;
+    position: relative;
+    z-index: 101;
 }
 
 .toolbar-brand {
     display: flex;
     align-items: center;
     gap: 12px;
+    pointer-events: auto;
 }
 
 .app-icon {
@@ -94,6 +97,7 @@ body {
     display: flex;
     gap: 24px;
     align-items: center;
+    pointer-events: auto;
 }
 
 .nav-link {
@@ -117,8 +121,10 @@ body {
     border: none;
     cursor: pointer;
     padding: 8px;
-    z-index: 101;
+    z-index: 102;
     pointer-events: auto;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .hamburger-menu span {
