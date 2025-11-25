@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Break Bad Habits: Proven Strategies to Quit Unwanted Behaviors | NoNoise</title>
+    <meta name="description" content="Learn proven psychological strategies to break bad habits for good. Discover trigger identification, replacement techniques, and craving surfing methods backed by neuroscience.">
+    <meta name="keywords" content="break bad habits, quit bad habits, stop bad habits, habit reversal, eliminate habits, breaking habits">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        /* Page-specific styles */
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating gradient orbs */
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 100, 100, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 150, 100, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .content-card strong {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(255, 100, 100, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.2) 0%, rgba(255, 100, 100, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        /* Callout Box */
+        .callout-box {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.1) 0%, rgba(255, 150, 100, 0.05) 100%);
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "✕";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 100, 100, 0.6);
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        /* Strategy Box */
+        .strategy-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 24px 0;
+        }
+
+        .strategy-box h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .strategy-box p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo {
+                padding: 120px 20px 60px;
+            }
+
+            .content-section {
+                padding: 80px 20px;
+            }
+
+            .content-card {
+                padding: 40px 24px;
+            }
+
+            .numbered-list li {
+                padding-left: 0;
+                padding-top: 72px;
+            }
+
+            .numbered-list li::before {
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .cta-card {
+                padding: 60px 32px;
+            }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section-seo">
+        <div class="hero-badge">💪 Psychological Strategies</div>
+        <h1>How to Break<br>Bad Habits</h1>
+        <p class="subtitle">Discover proven techniques from neuroscience and behavioral psychology to eliminate unwanted behaviors and replace them with better alternatives.</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Why Bad Habits Are So Hard to Break</h2>
+            <p>Breaking a bad habit is fundamentally harder than building a good one, and understanding why is the first step to success. Bad habits persist because they serve a purpose—even if that purpose is ultimately harmful.</p>
+
+            <div class="highlight-box">
+                <p><strong>The hard truth:</strong> You can't actually "delete" a habit from your brain. The neural pathways remain. This is why old habits can resurface during stress or when you're tired. The key isn't deletion—it's replacement and management.</p>
+            </div>
+
+            <h3>The Hidden Benefits of Bad Habits</h3>
+            <p>Every "bad" habit exists because it's solving a problem for you, even if the solution is destructive. Understanding the hidden benefit is crucial:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Smoking</strong> provides stress relief and social bonding opportunities</li>
+                <li><strong>Procrastination</strong> protects you from the fear of failure or judgment</li>
+                <li><strong>Social media scrolling</strong> fills boredom and provides dopamine hits</li>
+                <li><strong>Overeating</strong> offers comfort, stress relief, or entertainment</li>
+                <li><strong>Nail biting</strong> serves as an outlet for anxiety or nervous energy</li>
+            </ul>
+
+            <p>When you try to simply stop a bad habit without addressing its underlying function, you're fighting an uphill battle. Your brain will keep pulling you back to the behavior because it still needs to solve that problem.</p>
+
+            <h3>The Stress-Habit Connection</h3>
+            <p>Bad habits typically intensify under stress because:</p>
+
+            <p><strong>Stress reduces prefrontal cortex activity:</strong> The part of your brain responsible for self-control and decision-making gets compromised. You default to autopilot behaviors—your habits.</p>
+
+            <p><strong>Stress increases craving:</strong> Your brain seeks quick relief, making the cue-reward connection of bad habits even more appealing.</p>
+
+            <p><strong>Willpower is a limited resource:</strong> When stressed, you have less willpower available for resisting temptation. This is why diet failures often happen during stressful periods.</p>
+
+            <div class="callout-box">
+                <h3>The Extinction Burst Phenomenon</h3>
+                <p>When you first try to stop a bad habit, it often gets <em>worse</em> before it gets better. This is called an extinction burst. Your brain, noticing the usual reward isn't coming, tries the behavior more intensely. This is a sign you're on the right track—but most people give up during this phase, thinking their strategy isn't working.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>The Replacement Strategy: Don't Stop, Substitute</h2>
+            <p>The most effective way to break a bad habit isn't to eliminate it—it's to replace it with something better that serves the same purpose.</p>
+
+            <h3>The Habit Swap Framework</h3>
+            <ol class="numbered-list">
+                <li>
+                    <h4>Identify the Cue</h4>
+                    <p>What triggers your bad habit? Track when it happens. Most cues fall into five categories: time, location, emotional state, other people, or immediately preceding action. Keep a log for a week to identify patterns.</p>
+                </li>
+                <li>
+                    <h4>Recognize the Reward</h4>
+                    <p>What are you actually getting from this habit? Stress relief? Social connection? Entertainment? Energy boost? Be honest about the real benefit, not what you think it should be.</p>
+                </li>
+                <li>
+                    <h4>Find a Healthier Alternative</h4>
+                    <p>Discover a new behavior that provides the same reward but without the negative consequences. The key: it must satisfy the same craving. If you smoke for stress relief, deep breathing might work. If you smoke for social connection, you need a different social ritual.</p>
+                </li>
+                <li>
+                    <h4>Make the Swap</h4>
+                    <p>When you notice the cue, immediately execute the replacement behavior. This isn't easy at first—expect to fail sometimes. But each successful swap strengthens the new pathway.</p>
+                </li>
+            </ol>
+
+            <h3>Practical Habit Swaps</h3>
+
+            <div class="strategy-box">
+                <h4>Instead of: Stress Eating</h4>
+                <p><strong>Cue:</strong> Feeling stressed or anxious<br>
+                <strong>Reward:</strong> Temporary comfort and distraction<br>
+                <strong>Replacement:</strong> 10 deep breaths, short walk, call a friend, stress ball, stretching routine</p>
+            </div>
+
+            <div class="strategy-box">
+                <h4>Instead of: Mindless Phone Scrolling</h4>
+                <p><strong>Cue:</strong> Boredom, waiting, or moments of transition<br>
+                <strong>Reward:</strong> Entertainment and stimulation<br>
+                <strong>Replacement:</strong> Read a few pages of a book, do a quick breathing exercise, review your goals, text someone meaningful</p>
+            </div>
+
+            <div class="strategy-box">
+                <h4>Instead of: Procrastination</h4>
+                <p><strong>Cue:</strong> Facing a difficult or unpleasant task<br>
+                <strong>Reward:</strong> Avoiding discomfort and fear of failure<br>
+                <strong>Replacement:</strong> 2-minute start (just begin for 2 minutes), break task into tiny steps, pair with music or coffee</p>
+            </div>
+
+            <div class="strategy-box">
+                <h4>Instead of: Late Night Snacking</h4>
+                <p><strong>Cue:</strong> Evening downtime, watching TV<br>
+                <strong>Reward:</strong> Pleasure and hand-to-mouth activity<br>
+                <strong>Replacement:</strong> Herbal tea ritual, flavored water, chewing gum, hand fidget toy</p>
+            </div>
+
+            <div class="callout-box">
+                <h3>The 10-Minute Rule</h3>
+                <p>When you feel a craving, tell yourself you'll do the alternative behavior for 10 minutes first. Often, the craving will pass during this time. If it doesn't, you can indulge—but this delay weakens the automatic cue-response connection.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Advanced Strategies for Breaking Persistent Habits</h2>
+            
+            <h3>1. Remove the Cue Entirely</h3>
+            <p>The easiest way to break a bad habit is to eliminate its trigger. This isn't always possible, but when it is, it's devastatingly effective:</p>
+
+            <ul class="bullet-list">
+                <li>Delete social media apps from your phone (not just log out—delete)</li>
+                <li>Don't keep junk food in the house at all</li>
+                <li>Block time-wasting websites at the router level</li>
+                <li>Remove the TV from your bedroom</li>
+                <li>Change your route to avoid triggers (different path to avoid the donut shop)</li>
+            </ul>
+
+            <h3>2. Increase the Friction</h3>
+            <p>Make the bad habit as difficult as possible to execute. Every obstacle you add is a decision point where you might choose differently:</p>
+
+            <p><strong>Examples:</strong></p>
+            <ul class="bullet-list">
+                <li>Put your phone in a lockbox that opens on a timer</li>
+                <li>Freeze your credit card in a block of ice (seriously)</li>
+                <li>Use app blockers that require typing a 32-character code to bypass</li>
+                <li>Keep cigarettes in a locked drawer in another room</li>
+                <li>Unplug your gaming console and put controllers in the attic</li>
+            </ul>
+
+            <h3>3. The Awareness Strategy (Mindfulness)</h3>
+            <p>Sometimes you can't avoid the cue or change the environment. In these cases, awareness itself becomes the intervention.</p>
+
+            <p><strong>How it works:</strong> Instead of trying to stop the habit, you simply observe it without judgment. Notice the craving arise. Notice the thoughts that accompany it. Notice the sensations in your body. Don't resist—just watch.</p>
+
+            <p>This creates a gap between cue and response. In that gap, choice becomes possible. Over time, the automatic nature of the habit weakens.</p>
+
+            <h3>4. Craving Surfing</h3>
+            <p>Cravings aren't permanent—they're waves that rise and fall, typically peaking around 20-30 minutes. Instead of fighting or giving in, you can "surf" the craving:</p>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Notice the Craving</h4>
+                    <p>Acknowledge it without judgment: "I'm having a craving for [X]."</p>
+                </li>
+                <li>
+                    <h4>Locate It in Your Body</h4>
+                    <p>Where do you feel it? Your stomach? Your throat? Your hands? Get curious about the physical sensation.</p>
+                </li>
+                <li>
+                    <h4>Breathe and Observe</h4>
+                    <p>Watch the sensation rise and fall like a wave. Don't try to make it go away—just observe it changing.</p>
+                </li>
+                <li>
+                    <h4>Wait It Out</h4>
+                    <p>The craving will peak and then subside. You're building evidence that cravings are temporary and survivable.</p>
+                </li>
+            </ol>
+
+            <h3>5. The Identity Shift</h3>
+            <p>The most powerful long-term strategy is to change your identity:</p>
+
+            <p>Don't say: "I'm trying to quit smoking"<br>
+            Say: "I'm not a smoker"</p>
+
+            <p>Don't say: "I can't eat sugar"<br>
+            Say: "I don't eat sugar"</p>
+
+            <p>The language matters because it shifts from external restriction (I can't) to internal identity (I don't). When it's part of who you are, no willpower is required.</p>
+
+            <div class="callout-box">
+                <h3>The Relapse is Part of the Process</h3>
+                <p>Most people who successfully break a habit have multiple "failures" first. The difference between people who succeed and those who don't isn't that they never slip up—it's that they get back on track immediately. One mistake is just that: one mistake. It only becomes a problem when it turns into two, then three, then you've fully reverted.</p>
+                <p><strong>The rule:</strong> Never miss twice. Get back on track after the first slip.</p>
+            </div>
+
+            <h3>6. The Implementation Intention for Avoiding</h3>
+            <p>Just as implementation intentions help build good habits, they can help break bad ones:</p>
+
+            <p><strong>"If [TEMPTING SITUATION], then I will [ALTERNATIVE BEHAVIOR]."</strong></p>
+
+            <ul class="bullet-list">
+                <li>If I reach for my phone during work, then I will do 10 pushups instead</li>
+                <li>If I feel the urge to check social media, then I will drink a glass of water</li>
+                <li>If someone offers me a cigarette, then I will say "No thanks, I don't smoke"</li>
+                <li>If I want to buy something online, then I will add it to a list and wait 48 hours</li>
+            </ul>
+
+            <h3>7. Find Your "Why" (And Make It Emotional)</h3>
+            <p>Rational reasons don't work. "I should quit because it's unhealthy" won't sustain you through cravings. You need an emotional anchor:</p>
+
+            <ul class="bullet-list">
+                <li>A specific person you want to be there for</li>
+                <li>A vivid image of your future self</li>
+                <li>A deeply meaningful goal that requires you to change</li>
+                <li>A value you hold sacred that conflicts with the habit</li>
+            </ul>
+
+            <p>Write this down. Return to it when tempted. The emotional connection provides fuel when willpower runs dry.</p>
+
+            <h3>8. Build a Support System</h3>
+            <p>Breaking bad habits alone is exponentially harder. Your environment and social circle matter immensely:</p>
+
+            <p><strong>Tell people your goal:</strong> Public commitment increases follow-through by 65% according to research.</p>
+
+            <p><strong>Find an accountability partner:</strong> Someone who will check in with you regularly and call you out lovingly when you slip.</p>
+
+            <p><strong>Join a community:</strong> Whether it's AA, a Reddit community, or a local group—being around people working on the same change is powerful.</p>
+
+            <p><strong>Change your social circle if necessary:</strong> If your friends are the ones encouraging the bad habit, you may need to limit time with them or find new friends.</p>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Track Your Progress as You Break Bad Habits</h2>
+            <p>Use NoNoise to visualize your journey, celebrate streak-free days, and build the better habits that replace the old ones.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Free habit tracker for macOS</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+

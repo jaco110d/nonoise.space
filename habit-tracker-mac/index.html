@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker for Mac - Visual Daily Routine Planner | NoNoise</title>
+    <meta name="description" content="The best habit tracker for Mac. Visual 24-hour routine planner with beautiful interface, native macOS design, and powerful habit tracking features. Download NoNoise today.">
+    <meta name="keywords" content="habit tracker mac, mac habit app, habit tracker macOS, daily routine app mac, habit planner mac">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        /* Page-specific styles */
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating gradient orbs for depth */
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 100, 255, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(200, 100, 255, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section - More dramatic */
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 
+                0 50px 100px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: 
+                0 60px 120px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.08);
+        }
+
+        .hero-image:hover::before {
+            opacity: 1;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Split Layout Section */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 120px;
+        }
+
+        .split-content h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .split-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .split-content .highlight-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 20px 0;
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
+            padding-left: 24px;
+            margin: 32px 0;
+        }
+
+        .split-image {
+            position: relative;
+        }
+
+        .split-image img {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Feature Grid - More Modern */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .feature-item:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-item:hover::before {
+            transform: translateX(0);
+        }
+
+        .feature-item .emoji {
+            font-size: 48px;
+            margin-bottom: 24px;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        .feature-item h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 0;
+        }
+
+        /* Stats Grid - Animated */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.5) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Steps Layout */
+        .steps-container {
+            display: grid;
+            gap: 32px;
+        }
+
+        .step-item {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 32px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .step-item:hover {
+            transform: translateX(8px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .step-content h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .step-content p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 0;
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(4px);
+        }
+
+        .benefit-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .benefit-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* CTA Section - More Dramatic */
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 968px) {
+            .split-section {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo {
+                padding: 120px 20px 60px;
+            }
+
+            .content-section {
+                padding: 80px 20px;
+            }
+
+            .hero-section-seo h1 {
+                font-size: 40px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .step-item {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .cta-card {
+                padding: 60px 32px;
+            }
+
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <!-- Toolbar (same as main page, but without persona selector) -->
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section-seo">
+        <div class="hero-badge">🏆 Top-Rated Habit Tracker</div>
+        <h1>The Best Habit Tracker<br>for Mac</h1>
+        <p class="subtitle">A beautiful, native macOS app designed to help you build better habits, track your daily routines, and visualize your progress with an elegant 24-hour interface.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="NoNoise Habit Tracker for Mac - 24-hour visual interface" loading="eager">
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="content-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">24hr</span>
+                <span class="stat-label">Visual Timeline</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Native macOS</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <span class="stat-label">Cloud Sync Required</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Customizable</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Mac Section -->
+    <div class="content-section">
+        <div class="split-section">
+            <div class="split-content">
+                <h2>Why You Need a Habit Tracker on Your Mac</h2>
+                <p>Your Mac is where you spend most of your productive hours. Whether you're coding, designing, writing, or managing projects, having a habit tracker that lives natively on your Mac makes it effortless to stay accountable throughout your day.</p>
+                
+                <p>Unlike phone apps that require context switching, a Mac habit tracker sits right in your workflow. With a quick keyboard shortcut or a glance at your screen, you can track completions, review your progress, and stay on top of your goals without breaking focus.</p>
+
+                <div class="highlight-text">
+                    "NoNoise takes a unique approach—instead of boring lists, you get a beautiful 24-hour circular interface that shows your entire day at a glance."
+                </div>
+            </div>
+            <div class="split-image">
+                <img src="../NoNoise billeder mac/1.png" alt="24-hour habit clock interface">
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>Essential Features for Mac Users</h2>
+            <p>Everything you need to build and maintain better habits, designed specifically for macOS</p>
+        </div>
+        
+        <div class="feature-grid">
+            <div class="feature-item">
+                <span class="emoji">⚡</span>
+                <h4>Native Performance</h4>
+                <p>Built with SwiftUI specifically for macOS. Lightning-fast, optimized for Apple Silicon, and perfectly integrated with your Mac.</p>
+            </div>
+
+            <div class="feature-item">
+                <span class="emoji">🔒</span>
+                <h4>Privacy First</h4>
+                <p>All your data stays on your Mac. No cloud sync, no accounts, no tracking. Your habits are yours alone.</p>
+            </div>
+
+            <div class="feature-item">
+                <span class="emoji">⌨️</span>
+                <h4>Keyboard Shortcuts</h4>
+                <p>Navigate with arrows, zoom with brackets, add habits with ⌘N. Everything accessible from your keyboard.</p>
+            </div>
+
+            <div class="feature-item">
+                <span class="emoji">🎨</span>
+                <h4>Beautiful Interface</h4>
+                <p>Gorgeous dark mode design with smooth animations and a stunning 24-hour clock visualization.</p>
+            </div>
+
+            <div class="feature-item">
+                <span class="emoji">📊</span>
+                <h4>Progress Tracking</h4>
+                <p>See your streaks, completion rates, and long-term trends. Visual feedback keeps you motivated.</p>
+            </div>
+
+            <div class="feature-item">
+                <span class="emoji">🎯</span>
+                <h4>Milestone Timeline</h4>
+                <p>Track life goals and achievements alongside your daily habits in a beautiful 3D timeline.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>How NoNoise Makes Habit Tracking Effortless</h2>
+            <p>Five key features that make building habits actually enjoyable</p>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Visual 24-Hour Planning</h3>
+                    <p>Instead of abstract lists, NoNoise shows your habits as colored arcs around a 24-hour clock. You instantly see when you should be doing each habit, how long it takes, and what your day looks like as a whole.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>One-Click Completion</h3>
+                    <p>As you complete habits throughout your day, simply click on them to mark them done. A satisfying checkmark appears, and the habit's appearance changes to show completion. It's quick, visual, and rewarding.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Real-Time Live Indicator</h3>
+                    <p>A white dot moves around your habit clock, showing exactly where you are in your day right now. This helps you stay aware of time passing and whether you're on track with your planned routine.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Flexible Scheduling</h3>
+                    <p>Habits can be scheduled for any time and duration. Morning routines, work blocks, exercise sessions, evening wind-down—everything fits naturally into the circular interface.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>No Pressure, Just Progress</h3>
+                    <p>Unlike habit apps that make you feel guilty about broken streaks, NoNoise focuses on long-term progress. Miss a day? No problem. The app shows you patterns over time, not just daily perfection.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Who It's For -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>Perfect For Mac Users Who Want More</h2>
+            <p>NoNoise adapts to your lifestyle and workflow</p>
+        </div>
+        
+        <div class="benefits-list">
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">Build consistent daily routines without complex setup</div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">Visualize their entire day in one beautiful interface</div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">Track habits privately without cloud sync or accounts</div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">Use a native Mac app that feels natural and fast</div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">Combine habit tracking with life milestone tracking</div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">See progress over time with elegant visualizations</div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">Avoid phone distractions by tracking on their Mac</div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">✓</div>
+                <div class="benefit-text">Optimize work routines for maximum productivity</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Start Building Better Habits Today</h2>
+            <p>Join Mac users who are transforming their routines with NoNoise's beautiful, native habit tracker.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download on Mac App Store</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Requires macOS 15.4 or later · Free to download</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        // Scroll animations for content sections
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate stat numbers when visible
+                    if (entry.target.querySelector('.stat-item')) {
+                        animateStats(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Animate stat counters
+        function animateStats(section) {
+            const statNumbers = section.querySelectorAll('.stat-number');
+            statNumbers.forEach((stat, index) => {
+                const text = stat.textContent;
+                
+                // Skip if not a pure number or if already animated
+                if (stat.dataset.animated) return;
+                
+                // Handle "100%" case
+                if (text === '100%') {
+                    let count = 0;
+                    const interval = setInterval(() => {
+                        count += 5;
+                        if (count >= 100) {
+                            count = 100;
+                            clearInterval(interval);
+                        }
+                        stat.textContent = count + '%';
+                    }, 30);
+                    stat.dataset.animated = 'true';
+                }
+                // Handle "0" case
+                else if (text === '0') {
+                    stat.textContent = '0';
+                    stat.dataset.animated = 'true';
+                }
+            });
+        }
+
+        // Stagger animations for feature items
+        const featureObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Observe all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Stagger feature items
+            document.querySelectorAll('.feature-item').forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = `all 0.6s cubic-bezier(0.16, 1, 0.3, 1)`;
+                featureObserver.observe(item);
+            });
+
+            // Stagger step items
+            document.querySelectorAll('.step-item').forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-30px)';
+                item.style.transition = `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`;
+                
+                const stepObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }
+                    });
+                }, { threshold: 0.2 });
+                
+                stepObserver.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>
+

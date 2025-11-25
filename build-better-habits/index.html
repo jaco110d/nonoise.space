@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build Better Habits: Science-Backed Strategies That Work | NoNoise</title>
+    <meta name="description" content="Learn proven strategies to build better habits using neuroscience and behavioral psychology. Discover the habit loop, implementation intentions, and environment design techniques that actually work.">
+    <meta name="keywords" content="how to build habits, create new habits, habit formation, build better habits, habit science, neuroplasticity habits">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        /* Page-specific styles */
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating gradient orbs for depth */
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 200, 255, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(150, 100, 255, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .content-card strong {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        /* Callout Box */
+        .callout-box {
+            background: linear-gradient(135deg, rgba(100, 200, 255, 0.1) 0%, rgba(100, 150, 255, 0.05) 100%);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo {
+                padding: 120px 20px 60px;
+            }
+
+            .content-section {
+                padding: 80px 20px;
+            }
+
+            .content-card {
+                padding: 40px 24px;
+            }
+
+            .numbered-list li {
+                padding-left: 0;
+                padding-top: 72px;
+            }
+
+            .numbered-list li::before {
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .cta-card {
+                padding: 60px 32px;
+            }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section-seo">
+        <div class="hero-badge">🧠 Science-Backed Strategies</div>
+        <h1>How to Build<br>Better Habits</h1>
+        <p class="subtitle">Master the neuroscience and psychology behind habit formation. Learn proven strategies that actually work for creating lasting behavioral change.</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Understanding How Habits Actually Form</h2>
+            <p>Building better habits isn't about willpower or motivation—it's about understanding how your brain creates automatic behaviors. When you know the science, you can work <em>with</em> your neurology instead of against it.</p>
+
+            <div class="highlight-box">
+                <p><strong>The truth:</strong> Your brain doesn't distinguish between "good" and "bad" habits. It simply automates behaviors that get repeated in consistent contexts. This is why understanding the mechanism is so powerful—you can use the same system to build any habit you want.</p>
+            </div>
+
+            <h3>The Habit Loop: How Your Brain Automates Behavior</h3>
+            <p>Every habit follows a neurological pattern called the <strong>habit loop</strong>, discovered by researchers at MIT. This loop has three components:</p>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>The Cue (Trigger)</h4>
+                    <p>A cue is the trigger that tells your brain to go into automatic mode. It can be a time of day, a location, an emotional state, other people, or an immediately preceding action. Your brain is constantly scanning for cues that predict rewards.</p>
+                </li>
+                <li>
+                    <h4>The Routine (Behavior)</h4>
+                    <p>This is the behavior itself—the action you take in response to the cue. It can be physical (like going for a run), mental (like thinking negatively), or emotional (like feeling anxious). The routine is what most people focus on, but it's actually the least important part.</p>
+                </li>
+                <li>
+                    <h4>The Reward (Benefit)</h4>
+                    <p>The reward helps your brain figure out if this particular loop is worth remembering for the future. Rewards can be physical (endorphins), mental (sense of accomplishment), or emotional (stress relief). The reward creates a craving that drives the habit loop.</p>
+                </li>
+            </ol>
+
+            <p>Over time, this loop becomes more and more automatic. The cue and reward become neurologically intertwined, creating a sense of craving or anticipation. This is why you automatically reach for your phone when you're bored, or why you crave coffee when you wake up.</p>
+
+            <h3>The Neuroscience: What Happens in Your Brain</h3>
+            <p>When you repeat a behavior in a consistent context, your brain begins to form neural pathways. Here's what's actually happening:</p>
+
+            <p><strong>Neuroplasticity in Action:</strong> Your brain physically changes through a process called neuroplasticity. Neurons that fire together, wire together. Each time you repeat a behavior, the neural pathway strengthens, making the behavior easier and more automatic.</p>
+
+            <p><strong>The Basal Ganglia:</strong> This part of your brain is responsible for pattern recognition and habit formation. As a habit becomes more established, control shifts from the prefrontal cortex (conscious decision-making) to the basal ganglia (automatic behavior). This is why established habits require almost no willpower.</p>
+
+            <p><strong>Dopamine's Role:</strong> Your brain releases dopamine not when you receive a reward, but in anticipation of it. This is why cravings develop. Once your brain learns to associate a cue with a reward, dopamine is released at the cue, driving you to perform the routine.</p>
+
+            <div class="callout-box">
+                <h3>The Myth of 21 Days (And the Reality of 66)</h3>
+                <p>You've probably heard it takes 21 days to form a habit. This is a myth. Research from University College London found the average time to automaticity is actually <strong>66 days</strong>, but it varies wildly (18 to 254 days) depending on the behavior and person.</p>
+                <p>The key insight: Don't focus on the timeline. Focus on consistency. The habit forms when it becomes automatic, not when a certain number of days pass.</p>
+            </div>
+
+            <h3>Implementation Intentions: The Most Powerful Technique</h3>
+            <p>One of the most research-backed habit strategies is something called <strong>implementation intentions</strong>. Instead of just deciding "I want to exercise more," you create a specific if-then plan:</p>
+
+            <p><strong>"If [SITUATION], then I will [BEHAVIOR]."</strong></p>
+
+            <p>Why this works: Implementation intentions leverage your brain's pattern recognition. By pre-deciding your response to a specific cue, you bypass the need for willpower in the moment. Your brain recognizes the cue and automatically triggers the routine.</p>
+
+            <p>Examples of powerful implementation intentions:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Instead of:</strong> "I'll work out more" → <strong>Try:</strong> "After I pour my morning coffee, I will do 10 pushups"</li>
+                <li><strong>Instead of:</strong> "I should read more" → <strong>Try:</strong> "When I get into bed, I will read for 15 minutes"</li>
+                <li><strong>Instead of:</strong> "I need to meditate" → <strong>Try:</strong> "After I close my laptop for lunch, I will meditate for 5 minutes"</li>
+            </ul>
+
+            <p>Research shows that people who use implementation intentions are 2-3x more likely to follow through on their goals.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Environment Design: Make Good Habits Inevitable</h2>
+            <p>Your environment shapes your behavior more than your intentions do. This is why relying on willpower alone rarely works—you're fighting your surroundings every single day.</p>
+
+            <h3>The Two Laws of Behavior Change</h3>
+            <p><strong>Law 1: Make it Obvious (for good habits)</strong><br>Increase the visibility and accessibility of habit cues. Place your running shoes by your bed. Put fruit on the counter. Leave your guitar on a stand, not in a case.</p>
+
+            <p><strong>Law 2: Make it Invisible (for bad habits)</strong><br>Remove cues for behaviors you want to avoid. Hide your TV remote. Put your phone in another room. Delete social media apps from your home screen.</p>
+
+            <h3>Reduce Friction for Good Habits</h3>
+            <p>Every obstacle between you and your habit is a point where you might give up. The solution: eliminate as much friction as possible.</p>
+
+            <ul class="bullet-list">
+                <li><strong>Meal prep on Sunday</strong> so healthy eating requires zero decisions during the week</li>
+                <li><strong>Sleep in your workout clothes</strong> to remove morning decision fatigue</li>
+                <li><strong>Pre-pack your gym bag</strong> and leave it by the door</li>
+                <li><strong>Use habit tracking apps</strong> that send automatic reminders and make logging effortless</li>
+                <li><strong>Automate recurring tasks</strong> like bill payments or supplement orders</li>
+            </ul>
+
+            <h3>Increase Friction for Bad Habits</h3>
+            <p>Flip the script: make unwanted behaviors more difficult to perform.</p>
+
+            <ul class="bullet-list">
+                <li><strong>Use website blockers</strong> that require you to type out a full sentence to access time-wasting sites</li>
+                <li><strong>Put your phone in a drawer</strong> in another room when you need to focus</li>
+                <li><strong>Keep junk food out of the house</strong> entirely—if you have to drive to get it, you probably won't</li>
+                <li><strong>Delete credit card info</strong> from shopping websites to add steps to impulse purchases</li>
+                <li><strong>Use separate user accounts</strong> without auto-login for distracting apps</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>The 2-Minute Rule:</strong> When starting a new habit, it should take less than two minutes to do. Don't try to "read 30 pages per night"—just read one page. The goal is to establish the behavior pattern, not achieve the end result. You can scale up later.</p>
+            </div>
+
+            <h3>Habit Stacking: Use Existing Habits as Cues</h3>
+            <p>You already have dozens of established habits—behaviors you do automatically every day. Use these as anchors for new habits:</p>
+
+            <p><strong>Formula:</strong> "After I [CURRENT HABIT], I will [NEW HABIT]."</p>
+
+            <ul class="bullet-list">
+                <li>After I pour my morning coffee, I will write three things I'm grateful for</li>
+                <li>After I sit down for lunch, I will text one person to strengthen our relationship</li>
+                <li>After I close my laptop at the end of the workday, I will do 20 pushups</li>
+                <li>After I get into bed, I will read for 10 minutes</li>
+            </ul>
+
+            <p>Habit stacking works because you're leveraging the neural pathway of an established behavior to trigger a new one.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Identity-Based Habits: Become the Person</h2>
+            <p>The most powerful approach to building habits isn't outcome-based ("I want to lose 20 pounds") or process-based ("I want to go to the gym 4x/week"). It's <strong>identity-based</strong>: "I am the type of person who never misses a workout."</p>
+
+            <h3>Why Identity Matters More Than Goals</h3>
+            <p>Most people try to change by focusing on what they want to achieve. But lasting change comes from changing who you believe you are. Here's why:</p>
+
+            <p><strong>Goals create temporary motivation.</strong> Once achieved (or abandoned), the motivation disappears. Identity creates permanent motivation because it's about who you are, not what you're doing.</p>
+
+            <p><strong>Identity shapes decisions unconsciously.</strong> When you see yourself as "a runner," you don't debate whether to go for a run. That's just what runners do. The behavior flows from the identity.</p>
+
+            <p><strong>Identity provides intrinsic motivation.</strong> You're not doing the behavior for external rewards—you're doing it because it's aligned with who you are.</p>
+
+            <h3>How to Build Identity-Based Habits</h3>
+            <ol class="numbered-list">
+                <li>
+                    <h4>Decide the Type of Person You Want to Be</h4>
+                    <p>What kind of person do you want to become? A healthy person? A creative person? A organized person? A learner? Get specific about the identity, not just the outcomes.</p>
+                </li>
+                <li>
+                    <h4>Prove It to Yourself with Small Wins</h4>
+                    <p>Every action you take is a vote for the type of person you want to become. You don't need to be perfect—you just need more votes for your desired identity than against it. Each habit is a brick in building your identity.</p>
+                </li>
+                <li>
+                    <h4>Use Identity-Based Language</h4>
+                    <p>Instead of "I'm trying to quit smoking," say "I'm not a smoker." Instead of "I should exercise," say "I'm an athlete." The language you use shapes how you see yourself.</p>
+                </li>
+            </ol>
+
+            <div class="callout-box">
+                <h3>The Power of "Casting Votes"</h3>
+                <p>You don't need to be perfect. You don't even need to be consistent 100% of the time. You just need to win more votes than you lose. If you work out 3 times this week, you have more evidence that you're "an athlete" than someone who worked out 0 times. The identity strengthens with each vote.</p>
+            </div>
+
+            <h3>Practical Strategies for Building Better Habits</h3>
+            
+            <p><strong>Start Ridiculously Small:</strong> Can't meditate for 20 minutes? Meditate for 2 minutes. Can't run for 30 minutes? Put on running shoes and walk outside. Can't write 1000 words? Write 50 words. The key is establishing the behavior pattern, not achieving the result.</p>
+
+            <p><strong>Never Miss Twice:</strong> Missing once is an accident. Missing twice is the start of a new (bad) habit. If you break your streak, make your first priority getting back on track as quickly as possible.</p>
+
+            <p><strong>Track Your Habits Visually:</strong> Research shows that tracking itself can increase adherence by 30-50%. Use a habit tracker that shows your streak and makes progress visible. There's something deeply satisfying about not breaking a chain.</p>
+
+            <p><strong>Combine Habits with Pleasures (Temptation Bundling):</strong> Pair habits you need to do with activities you want to do. Only watch your favorite show while on the treadmill. Only get coffee from your favorite cafe after you've completed your morning writing. Only check social media after finishing a work session.</p>
+
+            <p><strong>Join a Culture Where Your Desired Behavior Is Normal:</strong> Your habits are largely determined by the people around you. Join a running club if you want to run more. Hang out with readers if you want to read more. Surround yourself with people who have the habits you want.</p>
+
+            <p><strong>Make It Satisfying Immediately:</strong> The human brain prioritizes immediate rewards over delayed rewards. Add immediate pleasure to habits with delayed rewards: Give yourself a small reward after meditating, track your progress immediately after studying, enjoy the feeling of crossing an item off your list.</p>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Start Building Better Habits Today</h2>
+            <p>Use NoNoise to track your habits visually, see your progress, and build the identity you want—one day at a time.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Free habit tracker for macOS</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+

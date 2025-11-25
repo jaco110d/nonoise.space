@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning Routine Tracker for Mac - Optimize Your Morning Habits | NoNoise</title>
+    <meta name="description" content="Build the perfect morning routine with a visual tracker for Mac. Learn science-backed strategies for morning optimization, chronotypes, and peak performance timing.">
+    <meta name="keywords" content="morning routine tracker, morning habits mac, morning routine app, optimize morning, morning habits tracker, chronotype">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        /* Page-specific styles */
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating gradient orbs */
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 150, 200, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 
+                0 50px 100px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .content-card strong {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(255, 200, 100, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Routine Box */
+        .routine-box {
+            background: linear-gradient(135deg, rgba(255, 200, 100, 0.1) 0%, rgba(255, 150, 100, 0.05) 100%);
+            border: 1px solid rgba(255, 200, 100, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 32px 0;
+        }
+
+        .routine-box h3 {
+            margin-top: 0;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 24px;
+        }
+
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin: 16px 0;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .time-block:last-child {
+            border-bottom: none;
+        }
+
+        .time-stamp {
+            font-weight: 700;
+            color: rgba(255, 200, 100, 0.9);
+            min-width: 80px;
+            font-size: 16px;
+        }
+
+        .time-activity {
+            flex: 1;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+
+        /* Numbered List */
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(255, 200, 100, 0.2) 0%, rgba(255, 200, 100, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        /* Callout Box */
+        .callout-box {
+            background: linear-gradient(135deg, rgba(255, 200, 100, 0.1) 0%, rgba(255, 150, 100, 0.05) 100%);
+            border: 1px solid rgba(255, 200, 100, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Bullet List */
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "☀";
+            position: absolute;
+            left: 0;
+            color: rgba(255, 200, 100, 0.7);
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo {
+                padding: 120px 20px 60px;
+            }
+
+            .content-section {
+                padding: 80px 20px;
+            }
+
+            .content-card {
+                padding: 40px 24px;
+            }
+
+            .numbered-list li {
+                padding-left: 0;
+                padding-top: 72px;
+            }
+
+            .numbered-list li::before {
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .cta-card {
+                padding: 60px 32px;
+            }
+
+            .time-block {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section-seo">
+        <div class="hero-badge">☀️ Morning Optimization</div>
+        <h1>Morning Routine<br>Tracker for Mac</h1>
+        <p class="subtitle">Build the perfect morning routine with visual tracking. Master your chronotype, optimize your energy, and set yourself up for peak performance every day.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="Morning routine tracker showing 24-hour schedule" loading="eager">
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Why Your Morning Matters More Than You Think</h2>
+            <p>The first few hours of your day disproportionately impact the remaining hours. Your morning routine isn't just about productivity—it's about setting your neurochemistry, energy levels, and decision-making capacity for the entire day.</p>
+
+            <div class="highlight-box">
+                <p><strong>The science:</strong> Your willpower, decision-making ability, and discipline are highest in the morning and deplete throughout the day. This is why successful people automate their mornings and tackle important work first.</p>
+            </div>
+
+            <h3>The Cortisol Awakening Response</h3>
+            <p>When you wake up, your body experiences a natural surge of cortisol (30-50% increase in the first 30-45 minutes). This is your body's built-in wake-up mechanism, designed to get you alert and ready for action.</p>
+
+            <p><strong>The problem:</strong> Most people sabotage this natural process by checking their phone, hitting snooze, or immediately stressing about the day. The cortisol surge then becomes associated with stress instead of focused energy.</p>
+
+            <p><strong>The opportunity:</strong> By leveraging this natural cortisol spike with the right activities, you can set yourself up for exceptional performance. The key is working <em>with</em> your biology, not against it.</p>
+
+            <h3>Circadian Rhythm and Peak Performance</h3>
+            <p>Your body operates on a 24-hour cycle called the circadian rhythm, controlled by the suprachiasmatic nucleus in your brain. This rhythm regulates:</p>
+
+            <ul class="bullet-list">
+                <li>Body temperature and metabolism</li>
+                <li>Hormone production (cortisol, melatonin, testosterone)</li>
+                <li>Alertness and cognitive function</li>
+                <li>Digestion and hunger</li>
+                <li>Physical strength and coordination</li>
+            </ul>
+
+            <p>Your morning routine either reinforces or disrupts this rhythm. Consistent wake times, morning light exposure, and strategic activity timing can optimize your circadian rhythm for peak performance.</p>
+
+            <div class="callout-box">
+                <h3>The 5AM Club Myth (And Reality)</h3>
+                <p>You don't need to wake up at 5AM to be successful. The "5AM Club" works for some people because it provides quiet, uninterrupted time—not because 5AM is magical. What matters is consistency with YOUR chronotype and enough high-quality sleep (7-9 hours for most adults).</p>
+                <p>A 7AM wake time with a solid routine beats a 5AM wake time with sleep deprivation every time.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Understanding Your Chronotype</h2>
+            <p>Not everyone is wired the same. Your <strong>chronotype</strong> is your body's natural preference for sleep and wake times, determined by genetics. Fighting your chronotype is like swimming upstream—possible, but exhausting.</p>
+
+            <h3>The Four Chronotypes</h3>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Lions (15-20% of people)</h4>
+                    <p><strong>Natural wake time:</strong> 5:30-6:30 AM<br>
+                    <strong>Peak productivity:</strong> Morning (8-12 PM)<br>
+                    <strong>Best for:</strong> Early exercise, deep work before noon, important decisions in morning<br>
+                    <strong>Challenge:</strong> Energy crashes afternoon, needs earlier sleep</p>
+                </li>
+                <li>
+                    <h4>Bears (50% of people)</h4>
+                    <p><strong>Natural wake time:</strong> 7-8 AM<br>
+                    <strong>Peak productivity:</strong> Mid-morning to afternoon (10 AM-2 PM)<br>
+                    <strong>Best for:</strong> Following the sun—wake with sunrise, sleep with sunset<br>
+                    <strong>Most flexible:</strong> Can adapt to most schedules but needs full sleep cycle</p>
+                </li>
+                <li>
+                    <h4>Wolves (15-20% of people)</h4>
+                    <p><strong>Natural wake time:</strong> 7:30-9 AM (or later)<br>
+                    <strong>Peak productivity:</strong> Late afternoon to evening (12 PM-8 PM)<br>
+                    <strong>Best for:</strong> Creative work evening, strategic planning afternoon<br>
+                    <strong>Challenge:</strong> Society is structured for Lions; require deliberate morning routine</p>
+                </li>
+                <li>
+                    <h4>Dolphins (10% of people)</h4>
+                    <p><strong>Natural wake time:</strong> Variable, often difficulty sleeping<br>
+                    <strong>Peak productivity:</strong> Mid-morning to early afternoon (10 AM-2 PM)<br>
+                    <strong>Best for:</strong> Detail-oriented work when alert, flexible schedule<br>
+                    <strong>Challenge:</strong> Insomnia tendencies, overthinking, need more routine structure</p>
+                </li>
+            </ol>
+
+            <div class="highlight-box">
+                <p><strong>Key insight:</strong> Design your morning routine around your chronotype, not against it. A Wolf trying to do deep work at 6AM is setting themselves up for failure. Better to optimize for YOUR peak hours.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>The Perfect Morning Routine Framework</h2>
+            <p>There's no one-size-fits-all morning routine, but there are universal principles that work across chronotypes. Here's a flexible framework you can customize:</p>
+
+            <div class="routine-box">
+                <h3>The Optimized Morning Sequence</h3>
+                
+                <div class="time-block">
+                    <div class="time-stamp">0-5 min</div>
+                    <div class="time-activity"><strong>Wake Without Snooze</strong> – Place phone across room, use natural light alarm, no snooze button (each snooze disrupts your sleep cycle)</div>
+                </div>
+
+                <div class="time-block">
+                    <div class="time-stamp">5-10 min</div>
+                    <div class="time-activity"><strong>Hydrate Immediately</strong> – Drink 16-32oz water (you're dehydrated after 7-8 hours), add lemon for liver support and vitamin C</div>
+                </div>
+
+                <div class="time-block">
+                    <div class="time-stamp">10-15 min</div>
+                    <div class="time-activity"><strong>Morning Light Exposure</strong> – Get outside or near window, 10-15 minutes of natural light (triggers cortisol, suppresses melatonin, sets circadian rhythm)</div>
+                </div>
+
+                <div class="time-block">
+                    <div class="time-stamp">15-30 min</div>
+                    <div class="time-activity"><strong>Movement</strong> – Light exercise: stretching, yoga, walk, or full workout depending on energy and chronotype</div>
+                </div>
+
+                <div class="time-block">
+                    <div class="time-stamp">30-40 min</div>
+                    <div class="time-activity"><strong>Mindfulness Practice</strong> – Meditation, breathing, journaling, or gratitude practice (5-10 minutes minimum)</div>
+                </div>
+
+                <div class="time-block">
+                    <div class="time-stamp">40-60 min</div>
+                    <div class="time-activity"><strong>Fuel Your Body</strong> – Protein-rich breakfast within 90 minutes of waking (stabilizes blood sugar and hunger hormones)</div>
+                </div>
+
+                <div class="time-block">
+                    <div class="time-stamp">60-90 min</div>
+                    <div class="time-activity"><strong>Deep Work Block</strong> – No email, no meetings, just your most important work when your brain is sharpest</div>
+                </div>
+            </div>
+
+            <h3>The Non-Negotiables</h3>
+            <p>While you can customize everything else, these three elements are scientifically proven to optimize your morning:</p>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>No Phone for First 30-60 Minutes</h4>
+                    <p>Every notification, email, or message is someone else's agenda for your day. Checking your phone first thing triggers reactive mode instead of proactive mode. Your brain shifts from creation to consumption. Delay phone use until after your morning routine is complete.</p>
+                </li>
+                <li>
+                    <h4>Natural Light Within 30 Minutes of Waking</h4>
+                    <p>This is the single most powerful circadian regulator. Bright light (especially blue wavelengths from sunlight) tells your brain it's morning, triggering cortisol production and suppressing melatonin. 10-30 minutes of morning light exposure improves sleep quality that same night by 20-30%.</p>
+                </li>
+                <li>
+                    <h4>Consistent Wake Time (±30 minutes)</h4>
+                    <p>Your body craves consistency. Waking at wildly different times disrupts your circadian rhythm and makes every morning harder. Even on weekends, try to wake within 30-60 minutes of your weekday time. This single change can transform your sleep quality.</p>
+                </li>
+            </ol>
+
+            <div class="callout-box">
+                <h3>The 90-Minute Rule</h3>
+                <p>Your brain operates in 90-minute cycles called ultradian rhythms. Plan your morning in 90-minute blocks: 90 minutes for routine (wake to work start), then 90 minutes of deep work, then a break. This aligns with your natural attention cycles.</p>
+            </div>
+
+            <h3>Common Morning Routine Mistakes</h3>
+
+            <p><strong>Mistake #1: Hitting Snooze</strong><br>
+            Every snooze cycle starts a new sleep cycle you won't complete, making you groggier. You're training your brain that your alarm doesn't mean wake up. Place your phone/alarm across the room where you must stand to turn it off.</p>
+
+            <p><strong>Mistake #2: Checking Email/Social Media Immediately</strong><br>
+            This triggers stress and puts you in reactive mode. Your brain releases cortisol in response to perceived threats (urgent emails, others' problems). Save this for after your routine when you're mentally prepared.</p>
+
+            <p><strong>Mistake #3: Skipping Breakfast</strong><br>
+            While intermittent fasting works for some, most people perform better with protein within 90 minutes of waking. This stabilizes blood sugar, supports muscle maintenance, and provides steady energy. If you fast, have it later in the day (skip dinner, not breakfast).</p>
+
+            <p><strong>Mistake #4: No Transition Time</strong><br>
+            Jumping straight from bed to computer to meetings is jarring for your nervous system. Build in 15-30 minutes of transition: movement, breathing, coffee, review your goals. This preparation makes everything else easier.</p>
+
+            <p><strong>Mistake #5: Overambitious Routines</strong><br>
+            A 2-hour morning routine sounds great but isn't sustainable. Start with 15-30 minutes of non-negotiables. You can always add more later. Better to do 20 minutes consistently than 90 minutes occasionally.</p>
+
+            <h3>Morning Routine Examples by Chronotype</h3>
+
+            <div class="routine-box">
+                <h3>Lion Chronotype (Early Riser)</h3>
+                <p><strong>Wake:</strong> 5:30 AM<br>
+                <strong>Advantage:</strong> Maximum willpower and focus in early morning</p>
+                
+                <div class="time-block">
+                    <div class="time-stamp">5:30 AM</div>
+                    <div class="time-activity">Wake + water + light exposure (sunrise walk)</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">6:00 AM</div>
+                    <div class="time-activity">Workout/exercise (peak testosterone for morning training)</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">7:00 AM</div>
+                    <div class="time-activity">Protein breakfast + coffee</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">7:30 AM</div>
+                    <div class="time-activity">Deep work (most important project)</div>
+                </div>
+            </div>
+
+            <div class="routine-box">
+                <h3>Bear Chronotype (Mid-Riser)</h3>
+                <p><strong>Wake:</strong> 7:00 AM<br>
+                <strong>Advantage:</strong> Most aligned with solar cycle and society</p>
+                
+                <div class="time-block">
+                    <div class="time-stamp">7:00 AM</div>
+                    <div class="time-activity">Wake + water + morning light</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">7:15 AM</div>
+                    <div class="time-activity">10-minute meditation or stretching</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">7:30 AM</div>
+                    <div class="time-activity">Breakfast + coffee, review goals</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">8:00 AM</div>
+                    <div class="time-activity">Light admin work (warm up brain)</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">9:00 AM</div>
+                    <div class="time-activity">Deep work block (hitting your peak)</div>
+                </div>
+            </div>
+
+            <div class="routine-box">
+                <h3>Wolf Chronotype (Late Riser)</h3>
+                <p><strong>Wake:</strong> 8:00 AM<br>
+                <strong>Advantage:</strong> Peak creativity and problem-solving afternoon/evening</p>
+                
+                <div class="time-block">
+                    <div class="time-stamp">8:00 AM</div>
+                    <div class="time-activity">Wake + water (critical for Wolves—you're very dehydrated)</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">8:15 AM</div>
+                    <div class="time-activity">Bright light exposure (absolute must for Wolves)</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">8:30 AM</div>
+                    <div class="time-activity">Light movement (yoga, walk—not intense workout)</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">9:00 AM</div>
+                    <div class="time-activity">Coffee + easy breakfast</div>
+                </div>
+                <div class="time-block">
+                    <div class="time-stamp">9:30 AM</div>
+                    <div class="time-activity">Admin work (emails, planning—save deep work for afternoon)</div>
+                </div>
+            </div>
+
+            <h3>Tracking Your Morning Routine</h3>
+            <p>What gets measured gets managed. Tracking your morning routine serves multiple purposes:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Accountability:</strong> Seeing your streak motivates consistency</li>
+                <li><strong>Pattern Recognition:</strong> Identify which days you feel best and what you did differently</li>
+                <li><strong>Celebration:</strong> Visual progress builds positive reinforcement</li>
+                <li><strong>Adjustment:</strong> Data helps you optimize what's working and drop what isn't</li>
+            </ul>
+
+            <p>Use a visual tracker (like NoNoise) that shows your entire day, making it easy to see your morning routine in context and adjust for better flow into your work day.</p>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Track Your Perfect Morning Routine</h2>
+            <p>Use NoNoise's visual 24-hour interface to design, track, and optimize your morning habits for peak performance.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Free morning routine tracker for macOS</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+
