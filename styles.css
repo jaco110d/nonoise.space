@@ -376,17 +376,17 @@ body {
     align-items: center;
     width: 100%;
     height: 100vh;
-    min-height: 600px;
+    min-height: 700px;
     padding: 40px;
 }
 
 .habit-clock {
     position: relative;
-    /* Mac app uses 70% of available space */
-    width: min(70vw, 70vh);
-    height: min(70vw, 70vh);
-    max-width: 800px;
-    max-height: 800px;
+    /* Larger size for better visibility */
+    width: min(80vw, 80vh);
+    height: min(80vw, 80vh);
+    max-width: 1000px;
+    max-height: 1000px;
     min-width: 400px;
     min-height: 400px;
 }
@@ -732,6 +732,92 @@ body {
 }
 
 
+
+/* Vision Board Section - EXACT from VisionCard.swift and VisionShowcaseView.swift */
+.vision-section {
+    padding: 120px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.vision-section h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+}
+
+.vision-cards-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.vision-cards {
+    display: flex;
+    gap: 30px; /* EXACT from VisionShowcaseView.swift line 34: HStack(spacing: 30) */
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 720px; /* 3 cards * 200px + 2 gaps * 30px + some padding */
+}
+
+/* Vision Card - EXACT from VisionCard.swift lines 17-97 */
+.vision-card {
+    width: 200px; /* EXACT from line 96 */
+    height: 200px;
+    border-radius: 12px; /* EXACT from line 21: cornerRadius: 12 */
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vision-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.vision-card-image {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.vision-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* EXACT from line 34: .scaledToFill() */
+    display: block;
+}
+
+/* Title overlay - EXACT from lines 74-94 */
+.vision-card-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 12px; /* EXACT from lines 83-84 */
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.7)
+    ); /* EXACT from lines 86-92 */
+}
+
+.vision-card-title span {
+    font-size: 13px; /* EXACT from line 77 */
+    font-weight: 600; /* semibold */
+    color: white;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* Features Section */
 .features {
@@ -1128,14 +1214,14 @@ body {
     }
     
     .habit-clock-container {
-        min-height: 550px;
+        min-height: 650px;
     }
     
     .habit-clock {
-        width: min(60vw, 60vh);
-        height: min(60vw, 60vh);
-        max-width: 600px;
-        max-height: 600px;
+        width: min(75vw, 75vh);
+        height: min(75vw, 75vh);
+        max-width: 750px;
+        max-height: 750px;
     }
 }
 

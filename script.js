@@ -233,6 +233,50 @@ const personaHabits = {
     ]
 };
 
+// Persona Vision Board Data - EXACT from Persona.swift lines 280-330
+const personaVisions = {
+    indieHacker: [
+        { title: "Workspace", imageURL: "https://i.pinimg.com/1200x/9c/0f/ea/9c0fea32ebc989bf3ffe9f04da22b3b6.jpg", order: 0 },
+        { title: "Dream car", imageURL: "https://i.pinimg.com/1200x/e4/9a/47/e49a47f664b8a8c59eb2897362f1bd5e.jpg", order: 1 },
+        { title: "Family goals", imageURL: "https://i.pinimg.com/1200x/c3/96/0f/c3960f8b344a546a6e5df19a23ed898c.jpg", order: 2 }
+    ],
+    softwareDeveloper: [
+        { title: "Dream setup", imageURL: "https://i.pinimg.com/1200x/19/21/c5/1921c5400fe0a867433e346548887a7d.jpg", order: 0 },
+        { title: "Happy family", imageURL: "https://i.pinimg.com/736x/cd/aa/93/cdaa93feb14200b6df76a9a5d9eff885.jpg", order: 1 },
+        { title: "Work remotely", imageURL: "https://i.pinimg.com/1200x/92/82/df/9282dfcf02a29efbee8e68aa785565d7.jpg", order: 2 }
+    ],
+    contentCreator: [
+        { title: "Studio dreams", imageURL: "https://i.pinimg.com/1200x/5e/d6/f6/5ed6f6160f99e48563aca2a34039ccdd.jpg", order: 0 },
+        { title: "Freedom to travel", imageURL: "https://i.pinimg.com/736x/be/18/6b/be186bd76ee4815dad861f543a42cdf0.jpg", order: 1 },
+        { title: "Win big award", imageURL: "https://i.pinimg.com/736x/3d/59/7a/3d597ae549f7c9f3c7fcf74430bb9047.jpg", order: 2 }
+    ],
+    employee: [
+        { title: "Exciting job", imageURL: "https://i.pinimg.com/736x/f8/c5/ef/f8c5ef5e69be14200ff3672ea2a98bf2.jpg", order: 0 },
+        { title: "Weekend freedom", imageURL: "https://i.pinimg.com/736x/92/1c/9d/921c9d2571f74851bc7c34170b0f2830.jpg", order: 1 },
+        { title: "Financial goals", imageURL: "https://i.pinimg.com/736x/86/ae/a9/86aea9715d102b51d81db6c7e9bee84d.jpg", order: 2 }
+    ],
+    adhdWarrior: [
+        { title: "Organized space", imageURL: "https://i.pinimg.com/1200x/f2/b2/41/f2b2413644da4f99e28e6f8f6aac9805.jpg", order: 0 },
+        { title: "Focus time", imageURL: "https://i.pinimg.com/736x/cc/26/6d/cc266d35262e6ac66c7e6f953e39d130.jpg", order: 1 },
+        { title: "Appreciate life", imageURL: "https://i.pinimg.com/736x/e8/62/23/e8622378f7775508ee8de9fff1f24d50.jpg", order: 2 }
+    ],
+    anxietyManager: [
+        { title: "Safe space", imageURL: "https://i.pinimg.com/1200x/1f/ea/c2/1feac2015b81b77adbcce6e180c4a6d7.jpg", order: 0 },
+        { title: "Inner peace", imageURL: "https://i.pinimg.com/736x/b5/e9/17/b5e917941175d4dc94066462edd75162.jpg", order: 1 },
+        { title: "Appreciate life", imageURL: "https://i.pinimg.com/1200x/93/19/de/9319de625a134b257e64efa5ab858665.jpg", order: 2 }
+    ],
+    burnoutRecovery: [
+        { title: "Rest deeply", imageURL: "https://i.pinimg.com/736x/6e/d7/ef/6ed7efd0e7dbeda502a402c096887ebf.jpg", order: 0 },
+        { title: "Walk in nature", imageURL: "https://i.pinimg.com/736x/7a/50/1f/7a501f94bdd5b801671c36f0888abb92.jpg", order: 1 },
+        { title: "Slow living", imageURL: "https://i.pinimg.com/736x/09/91/58/099158ccfa65c3f778425e9a1aed6789.jpg", order: 2 }
+    ],
+    goalCrusher: [
+        { title: "Dream physique", imageURL: "https://i.pinimg.com/736x/c5/33/c6/c533c688e504be6fc6a28486d3594079.jpg", order: 0 },
+        { title: "Productive morning", imageURL: "https://i.pinimg.com/1200x/29/5a/03/295a03fd990f58ae00a8a69573e67f89.jpg", order: 1 },
+        { title: "Eat real food", imageURL: "https://i.pinimg.com/736x/47/d1/57/47d15763cabfd6b919d8b2201e9be385.jpg", order: 2 }
+    ]
+};
+
 let habitCompletions = {};
 let currentHabitClock = null;
 let clockUpdateInterval = null;
@@ -1236,6 +1280,33 @@ function toggleHabitCompletion(habitName) {
     }
 }
 
+// Load and render vision board for persona - EXACT from VisionShowcaseView.swift
+function loadPersonaVisionBoard(persona) {
+    const visions = personaVisions[persona];
+    const container = document.getElementById('vision-cards');
+    
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    // HStack with spacing: 30 (from VisionShowcaseView.swift line 34)
+    visions.forEach(vision => {
+        const card = document.createElement('div');
+        card.className = 'vision-card';
+        
+        card.innerHTML = `
+            <div class="vision-card-image">
+                <img src="${vision.imageURL}" alt="${vision.title}" loading="lazy">
+                <div class="vision-card-title">
+                    <span>${vision.title}</span>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+}
+
 // Persona selector handlers
 function setupPersonaSelector() {
     const personaBtns = document.querySelectorAll('.persona-btn');
@@ -1248,10 +1319,11 @@ function setupPersonaSelector() {
             personaBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // Load new persona milestones and habits
+            // Load new persona milestones, habits, and visions
             currentPersona = persona;
             loadPersonaMilestones(persona);
             loadPersonaHabitClock(persona);
+            loadPersonaVisionBoard(persona);
         });
     });
 }
@@ -1264,6 +1336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load initial persona
     loadPersonaMilestones(currentPersona);
     loadPersonaHabitClock(currentPersona);
+    loadPersonaVisionBoard(currentPersona);
     
     // Setup persona selector
     setupPersonaSelector();
