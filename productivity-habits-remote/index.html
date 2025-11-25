@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Habits for Remote Workers - Mac Routine Tracker | NoNoise</title>
+    <meta name="description" content="Build productivity habits designed for remote work. Master boundaries, deep work, async communication, and work-life balance from home on Mac.">
+    <meta name="keywords" content="remote work productivity, work from home habits, remote worker routine, productivity tracker mac, remote work schedule">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(100, 200, 150, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(255, 200, 100, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(255, 200, 100, 0.2) 0%, rgba(255, 200, 100, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .callout-box {
+            background: linear-gradient(135deg, rgba(255, 200, 100, 0.1) 0%, rgba(100, 200, 150, 0.05) 100%);
+            border: 1px solid rgba(255, 200, 100, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "💼";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .comparison-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .comparison-card p {
+            font-size: 16px;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .schedule-block {
+            background: linear-gradient(135deg, rgba(255, 200, 100, 0.1) 0%, rgba(100, 200, 150, 0.05) 100%);
+            border: 1px solid rgba(255, 200, 100, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 32px 0;
+        }
+
+        .schedule-row {
+            display: flex;
+            gap: 20px;
+            margin: 12px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-time {
+            font-weight: 700;
+            color: rgba(255, 200, 100, 0.9);
+            min-width: 100px;
+            font-size: 15px;
+        }
+
+        .schedule-activity {
+            flex: 1;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo { padding: 120px 20px 60px; }
+            .content-section { padding: 80px 20px; }
+            .content-card { padding: 40px 24px; }
+            .cta-card { padding: 60px 32px; }
+            .numbered-list li { padding-left: 0; padding-top: 72px; }
+            .numbered-list li::before { left: 50%; transform: translateX(-50%); }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .schedule-row { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <section class="hero-section-seo">
+        <div class="hero-badge">💼 Built for Remote Work</div>
+        <h1>Productivity Habits for<br>Remote Workers</h1>
+        <p class="subtitle">Master the unique challenges of working from home. Build boundaries, protect deep work, and maintain work-life balance with structured habits.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="Productivity habit tracker for remote workers">
+        </div>
+    </section>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>The Remote Work Productivity Paradox</h2>
+            <p>Remote work offers incredible freedom: no commute, flexible schedule, comfortable environment. Yet many remote workers report feeling <em>less</em> productive, more scattered, and perpetually "on" without clear boundaries.</p>
+
+            <div class="highlight-box">
+                <p><strong>The paradox:</strong> You have more control over your time but less structure to guide it. Without the physical boundaries of an office, work and life blur together. Productivity requires intentional habits, not just good intentions.</p>
+            </div>
+
+            <h3>The Unique Challenges of Remote Work</h3>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h4>🏢 Office Work</h4>
+                    <p>Built-in structure, physical boundaries, social accountability, defined start/end times, separation of spaces</p>
+                </div>
+                <div class="comparison-card">
+                    <h4>🏠 Remote Work</h4>
+                    <p>Self-created structure, blurred boundaries, isolated accountability, flexible (chaotic?) schedule, work-life overlap</p>
+                </div>
+            </div>
+
+            <h3>Common Remote Work Traps</h3>
+
+            <ul class="bullet-list">
+                <li><strong>Always-on syndrome:</strong> Never truly "off work" because work is always physically present</li>
+                <li><strong>Meeting overload:</strong> Async work becomes sync meetings to compensate for lack of proximity</li>
+                <li><strong>Distraction magnets:</strong> Household chores, family, pets, snacking, Netflix—all one room away</li>
+                <li><strong>Isolation & loneliness:</strong> No casual social interaction, feeling disconnected from team</li>
+                <li><strong>Lack of movement:</strong> Office at least forced walking to meetings; home means sitting all day</li>
+                <li><strong>Neglecting self-care:</strong> No commute transition time, working through lunch, forgetting to shower</li>
+            </ul>
+
+            <p>The solution isn't willpower or discipline—it's <strong>systems and habits</strong> designed specifically for remote work reality.</p>
+
+            <div class="callout-box">
+                <h3>Remote Work Success = Structure + Flexibility</h3>
+                <p>You need enough structure to maintain productivity and boundaries, but enough flexibility to take advantage of remote work's benefits. The sweet spot is <strong>consistent routines with built-in adaptability</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Essential Remote Work Habits</h2>
+
+            <h3>1. The Morning Startup Ritual</h3>
+            <p>Without a commute, you need a <strong>psychological commute</strong>—a ritual that signals "work mode begins now."</p>
+
+            <p><strong>Example Morning Routine:</strong></p>
+
+            <div class="schedule-block">
+                <div class="schedule-row">
+                    <div class="schedule-time">7:00 AM</div>
+                    <div class="schedule-activity">Wake, make bed (start day with completed task)</div>
+                </div>
+                <div class="schedule-row">
+                    <div class="schedule-time">7:15 AM</div>
+                    <div class="schedule-activity">Shower & get dressed (not pajamas—signals work mode)</div>
+                </div>
+                <div class="schedule-row">
+                    <div class="schedule-time">7:30 AM</div>
+                    <div class="schedule-activity">Coffee + breakfast (no screens yet)</div>
+                </div>
+                <div class="schedule-row">
+                    <div class="schedule-time">8:00 AM</div>
+                    <div class="schedule-activity">10-minute walk outside (replaces commute, gets sunlight)</div>
+                </div>
+                <div class="schedule-row">
+                    <div class="schedule-time">8:15 AM</div>
+                    <div class="schedule-activity">Review NoNoise daily plan (set intentions for the day)</div>
+                </div>
+                <div class="schedule-row">
+                    <div class="schedule-time">8:30 AM</div>
+                    <div class="schedule-activity">Deep work begins (most important task first)</div>
+                </div>
+            </div>
+
+            <p><strong>Why this works:</strong> The ritual creates a clear transition. You're not rolling out of bed into Slack. You're intentionally starting your work day.</p>
+
+            <h3>2. Time Blocking for Deep Work</h3>
+            <p>Remote work's biggest advantage: control over your schedule. Biggest trap: losing that schedule to constant interruptions.</p>
+
+            <p><strong>The system:</strong></p>
+            <ul class="bullet-list">
+                <li><strong>2-3 hour deep work blocks</strong> in the morning (no Slack, no email, no meetings)</li>
+                <li><strong>Communication windows</strong> 11-12 PM and 3-4 PM (batch all messaging)</li>
+                <li><strong>Meeting blocks</strong> 1-3 PM only (protect mornings and late afternoons)</li>
+                <li><strong>Admin time</strong> 4-5 PM (email, planning, organizing)</li>
+            </ul>
+
+            <p>Use NoNoise's 24-hour visual tracker to make these blocks visible and non-negotiable.</p>
+
+            <div class="callout-box">
+                <h3>The "Maker vs. Manager" Schedule</h3>
+                <p>Makers (programmers, writers, designers) need long uninterrupted blocks. Managers can work in 1-hour increments. Remote work lets you choose: optimize for your work type, not office defaults.</p>
+            </div>
+
+            <h3>3. Physical Boundaries (Even in Small Spaces)</h3>
+            <p>You need a mental association: <strong>this space = work, that space = life</strong>.</p>
+
+            <p><strong>Ideal scenario (dedicated office):</strong></p>
+            <ul class="bullet-list">
+                <li>Work only happens in that room</li>
+                <li>Close the door at 5 PM—work day is over</li>
+                <li>Don't use that space for leisure (no watching TV at your desk)</li>
+            </ul>
+
+            <p><strong>Small space scenario (no dedicated room):</strong></p>
+            <ul class="bullet-list">
+                <li>Designate one corner/desk as "work zone"</li>
+                <li>Use a specific chair only for work</li>
+                <li>At end of day, close laptop and physically move it out of sight</li>
+                <li>Change location for different task types (couch for reading, table for calls)</li>
+            </ul>
+
+            <h3>4. The Shutdown Ritual</h3>
+            <p>This is critical. Without it, work never truly ends.</p>
+
+            <p><strong>5 PM Shutdown Sequence:</strong></p>
+            <ol class="numbered-list">
+                <li>
+                    <h4>Review Today in NoNoise</h4>
+                    <p>Check off completed habits. Celebrate what got done (not what didn't).</p>
+                </li>
+                <li>
+                    <h4>Write Tomorrow's Top 3</h4>
+                    <p>Three priorities for tomorrow. No more. Offload from brain to paper.</p>
+                </li>
+                <li>
+                    <h4>Check Email One Last Time</h4>
+                    <p>Anything urgent? If yes, decide: handle now or first thing tomorrow. Don't leave in limbo.</p>
+                </li>
+                <li>
+                    <h4>Close All Work Apps</h4>
+                    <p>Quit Slack, email, project management tools. Not minimized—fully closed.</p>
+                </li>
+                <li>
+                    <h4>Physical Shutdown Action</h4>
+                    <p>Close laptop lid, put phone in drawer, change clothes, say out loud "work day is complete."</p>
+                </li>
+            </ol>
+
+            <p>This ritual creates the psychological "commute home" that you're missing.</p>
+
+            <h3>5. Movement & Transition Habits</h3>
+            <p>Office work forces movement (walking to meetings, getting lunch, bathroom breaks). Remote work doesn't. You can sit for 8 hours straight if you're not intentional.</p>
+
+            <p><strong>Movement habits to build in:</strong></p>
+            <ul class="bullet-list">
+                <li><strong>Pomodoro walks:</strong> Every 90 minutes, 5-minute walk around the house/block</li>
+                <li><strong>Standing desk alternation:</strong> 30 minutes sitting, 30 minutes standing</li>
+                <li><strong>Walking meetings:</strong> Phone calls = walking outside, not sitting at desk</li>
+                <li><strong>Exercise block:</strong> Noon or 5 PM—30 minutes non-negotiable movement</li>
+                <li><strong>Water refills:</strong> Small water bottle = more trips to kitchen = more movement</li>
+            </ul>
+
+            <h3>6. Async Communication Habits</h3>
+            <p>Remote work thrives on asynchronous communication, but many teams default to constant real-time messaging (exhausting and unproductive).</p>
+
+            <p><strong>Async habits to adopt:</strong></p>
+            <ul class="bullet-list">
+                <li><strong>Batch messaging:</strong> Check Slack 3x/day (9 AM, 12 PM, 4 PM), not constantly</li>
+                <li><strong>Record video updates:</strong> Loom instead of meetings for status updates</li>
+                <li><strong>Over-communicate in writing:</strong> Detailed messages reduce back-and-forth</li>
+                <li><strong>Set expectations:</strong> "I check messages at X times" in your status</li>
+                <li><strong>Use "Do Not Disturb":</strong> During deep work, be unreachable (the world won't end)</li>
+            </ul>
+
+            <p>Train your team: <em>Urgent = phone call. Important = async message.</em></p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Work-Life Balance for Remote Workers</h2>
+
+            <h3>The "Always Available" Trap</h3>
+            <p>When your office is your home, work is always accessible. Without boundaries, you'll find yourself checking email at 9 PM, working weekends, and never fully relaxing.</p>
+
+            <div class="highlight-box">
+                <p><strong>Truth:</strong> Working more hours doesn't mean more productivity. Remote work success = focused work during work hours + complete disconnection during personal hours.</p>
+            </div>
+
+            <h3>Boundary-Setting Habits</h3>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Hard Start & End Times</h4>
+                    <p>Even with flexibility, set default hours (e.g., 8 AM - 5 PM). You can adjust occasionally, but the structure prevents drift into "always working."</p>
+                </li>
+                <li>
+                    <h4>Notification Management</h4>
+                    <p>Turn off work notifications outside work hours. Use separate devices if possible (work laptop stays closed after 5 PM).</p>
+                </li>
+                <li>
+                    <h4>Lunch Away From Desk</h4>
+                    <p>Eat in a different room. Bonus: go outside. This break prevents burnout and improves afternoon focus.</p>
+                </li>
+                <li>
+                    <h4>Weekend Firewall</h4>
+                    <p>No work email, Slack, or "quick tasks" on weekends. If you must work, time-box it: "Saturday 9-11 AM only, then fully off."</p>
+                </li>
+                <li>
+                    <h4>Evening Routine (Non-Work)</h4>
+                    <p>After shutdown ritual, engage in non-work activities immediately. Cook dinner, exercise, hobby, social time—fill the space so work doesn't creep back in.</p>
+                </li>
+            </ol>
+
+            <h3>Social Connection Habits</h3>
+            <p>Remote work can be isolating. Intentionally build social connection into your routine:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Virtual coffee chats:</strong> 15-minute video calls with teammates (not about work)</li>
+                <li><strong>Coworking sessions:</strong> Work alongside others on video (body doubling)</li>
+                <li><strong>Local coffee shop days:</strong> 1-2x/week, work from a public space (see humans)</li>
+                <li><strong>After-work social plans:</strong> Schedule calls with friends, join classes, go to events</li>
+                <li><strong>Lunch with friends/family:</strong> If you live with others, eat together. If solo, call someone.</li>
+            </ul>
+
+            <p>Loneliness kills productivity. Connection fuels it.</p>
+
+            <div class="callout-box">
+                <h3>The Remote Work Energy Equation</h3>
+                <p><strong>Productive remote work =</strong><br>
+                (Deep work time) + (Clear boundaries) + (Physical movement) + (Social connection) + (Mental rest)</p>
+                <p>Miss any component, and the system degrades.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Remote Work Habit Tracking with NoNoise</h2>
+
+            <h3>Why Visual Tracking Matters for Remote Workers</h3>
+            <p>Office work provides external structure—your boss sees you, colleagues notice patterns, meetings create accountability. Remote work removes all of that. You need self-imposed structure, and <strong>visual tracking makes it tangible</strong>.</p>
+
+            <h3>Key Habits to Track</h3>
+
+            <ul class="bullet-list">
+                <li><strong>Morning startup ritual:</strong> Did you do the full routine or roll into Slack?</li>
+                <li><strong>Deep work blocks:</strong> Track completion, not just time (were you truly focused?)</li>
+                <li><strong>Movement breaks:</strong> Did you move every 90 minutes?</li>
+                <li><strong>Lunch break:</strong> Did you eat away from your desk?</li>
+                <li><strong>Shutdown ritual:</strong> Did you properly close the work day?</li>
+                <li><strong>Async communication:</strong> Did you batch messages or constantly react?</li>
+                <li><strong>Exercise:</strong> 30 minutes of movement daily</li>
+                <li><strong>Social connection:</strong> Did you interact with another human (not screen)?</li>
+            </ul>
+
+            <h3>Using NoNoise's 24-Hour View for Remote Work</h3>
+            <p>The circular clock lets you see your entire remote work day:</p>
+
+            <ul class="bullet-list">
+                <li>Morning routine block (7-8:30 AM)</li>
+                <li>Deep work block (8:30-11:30 AM)</li>
+                <li>Communication window (11:30 AM-12 PM)</li>
+                <li>Lunch break (12-1 PM)</li>
+                <li>Meeting block (1-3 PM)</li>
+                <li>Second deep work (3-4:30 PM)</li>
+                <li>Admin/wrap-up (4:30-5 PM)</li>
+                <li>Evening personal time (5 PM onward)</li>
+            </ul>
+
+            <p>When it's all visible, you immediately see when work bleeds into personal time—and can correct it.</p>
+
+            <h3>Weekly Remote Work Review</h3>
+            <p>Every Friday afternoon (or Monday morning), review your week in NoNoise:</p>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>What Worked?</h4>
+                    <p>Which habits did you maintain? What made you feel most productive?</p>
+                </li>
+                <li>
+                    <h4>What Slipped?</h4>
+                    <p>Did boundaries erode? Did movement disappear? Did deep work get interrupted?</p>
+                </li>
+                <li>
+                    <h4>What to Adjust?</h4>
+                    <p>Change one thing for next week. Maybe shift deep work earlier, add a midday walk, or batch meetings differently.</p>
+                </li>
+                <li>
+                    <h4>Celebrate Wins</h4>
+                    <p>Completed your shutdown ritual 5/5 days? That's worth acknowledging. Small wins compound.</p>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Master Remote Work Productivity</h2>
+            <p>Build the habits that make remote work sustainable: boundaries, deep focus, work-life balance. Track your ideal remote routine with NoNoise.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Built for remote workers</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
+

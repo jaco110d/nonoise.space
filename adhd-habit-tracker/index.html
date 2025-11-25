@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADHD Habit Tracker for Mac - Visual Routine Support | NoNoise</title>
+    <meta name="description" content="A habit tracker designed for ADHD brains. Visual cues, compassionate tracking, microhabits, and executive function support. Built specifically for neurodivergent Mac users.">
+    <meta name="keywords" content="adhd habit tracker, adhd routine app, adhd habits mac, neurodivergent habit tracker, executive function support">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(150, 100, 255, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(100, 150, 255, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(150, 100, 255, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(150, 100, 255, 0.2) 0%, rgba(150, 100, 255, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .callout-box {
+            background: linear-gradient(135deg, rgba(150, 100, 255, 0.1) 0%, rgba(100, 150, 255, 0.05) 100%);
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "🧠";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo { padding: 120px 20px 60px; }
+            .content-section { padding: 80px 20px; }
+            .content-card { padding: 40px 24px; }
+            .cta-card { padding: 60px 32px; }
+            .numbered-list li { padding-left: 0; padding-top: 72px; }
+            .numbered-list li::before { left: 50%; transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <section class="hero-section-seo">
+        <div class="hero-badge">🧠 Built for ADHD Brains</div>
+        <h1>ADHD Habit Tracker<br>for Mac</h1>
+        <p class="subtitle">Finally, a habit tracker that understands how your ADHD brain works. Visual cues, compassionate tracking, and executive function support built right in.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="ADHD-friendly habit tracker with visual 24-hour interface">
+        </div>
+    </section>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Why Most Habit Trackers Fail for ADHD</h2>
+            <p>If you have ADHD, you've probably tried dozens of habit trackers—and abandoned them all within days. It's not because you lack discipline or motivation. It's because most habit trackers are designed for neurotypical brains.</p>
+
+            <div class="highlight-box">
+                <p><strong>The ADHD difference:</strong> Your brain doesn't lack willpower—it has executive function challenges that affect working memory, task initiation, time perception, and emotional regulation. A habit tracker needs to work WITH these challenges, not against them.</p>
+            </div>
+
+            <h3>The Executive Function Challenge</h3>
+            <p>ADHD isn't about not knowing what to do—it's about <strong>doing what you know</strong>. The gap between intention and action is where everything falls apart:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Task Initiation:</strong> Starting is the hardest part. Even simple tasks feel insurmountable</li>
+                <li><strong>Working Memory:</strong> You forget what you were about to do mid-action</li>
+                <li><strong>Time Blindness:</strong> Hours disappear, deadlines sneak up, routines drift</li>
+                <li><strong>Emotional Regulation:</strong> Frustration spirals quickly when systems don't work</li>
+                <li><strong>Attention Variability:</strong> Hyperfocus on interesting things, can't focus on boring essentials</li>
+            </ul>
+
+            <p>Traditional habit trackers ask you to remember to check them, decide what to do, and maintain motivation. For an ADHD brain, that's three executive function demands before you even start the habit.</p>
+
+            <h3>Why NoNoise Works for ADHD</h3>
+            <p>NoNoise is designed around ADHD-friendly principles:</p>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Visual External Memory</h4>
+                    <p>Your 24-hour routine is always visible. You don't need to remember what comes next—you see it. The circular clock shows time spatially, helping with time blindness. Past, present, and future are all visible simultaneously.</p>
+                </li>
+                <li>
+                    <h4>Zero Judgment Tracking</h4>
+                    <p>Miss a day? The app doesn't scold you. No guilt-inducing red X's or broken streaks that make you want to abandon the system. Track what you did, not what you "should" have done.</p>
+                </li>
+                <li>
+                    <h4>Reduces Decision Fatigue</h4>
+                    <p>Once set up, your routine is automatic. No daily decisions about what to do when. The system remembers for you. Your limited decision-making energy goes to actually doing the habits.</p>
+                </li>
+                <li>
+                    <h4>Immediate Visual Feedback</h4>
+                    <p>Click = satisfaction. Every completion gives instant visual change. The dopamine hit of seeing progress happens immediately, not days later.</p>
+                </li>
+            </ol>
+
+            <div class="callout-box">
+                <h3>The ADHD Paradox: Structure AND Flexibility</h3>
+                <p>ADHD brains need structure (to offload executive function) but also flexibility (because rigid systems feel suffocating). NoNoise provides both: consistent visual structure that you can adjust anytime without guilt.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>ADHD-Specific Habit Strategies</h2>
+            
+            <h3>1. Microhabits: Make It Impossibly Small</h3>
+            <p>ADHD brains resist starting tasks that feel big. The solution: make habits so small they're laughable.</p>
+
+            <ul class="bullet-list">
+                <li>Not "exercise 30 minutes" → "Put on gym shoes"</li>
+                <li>Not "clean house" → "Put one item away"</li>
+                <li>Not "meditate 20 minutes" → "Take three breaths"</li>
+                <li>Not "write daily" → "Write one sentence"</li>
+            </ul>
+
+            <p><strong>Why this works:</strong> Task initiation is the hardest part for ADHD. Once you start, momentum often carries you further. But you need to actually start first.</p>
+
+            <h3>2. External Triggers (Because Internal Ones Fail)</h3>
+            <p>Neurotypical advice says "build discipline" and "remember your why." For ADHD, external cues are far more reliable:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Visual placement:</strong> Running shoes by door, medication on coffee maker, book on pillow</li>
+                <li><strong>Automatic reminders:</strong> Calendar alerts, app notifications, visual timers</li>
+                <li><strong>Habit stacking:</strong> Link new habit to existing automatic one</li>
+                <li><strong>Body doubling:</strong> Do habits with others (even on video call)</li>
+            </ul>
+
+            <h3>3. Interest-Based Nervous System</h3>
+            <p>ADHD isn't a deficit of attention—it's interest-based attention. You can hyperfocus for hours on something engaging but can't sustain attention on boring tasks no matter how important.</p>
+
+            <p><strong>Strategy:</strong> Add novelty and interest to habits:</p>
+
+            <ul class="bullet-list">
+                <li>Gamify it: Track streaks, create challenges, compete with friends</li>
+                <li>Temptation bundling: Pair boring habit with something you love</li>
+                <li>Variety: Rotate exercises, change locations, try different approaches</li>
+                <li>Stimulation: Use music, podcasts, or audiobooks during habits</li>
+            </ul>
+
+            <h3>4. The 5-Minute Rule</h3>
+            <p>Tell yourself you only need to do the habit for 5 minutes. After 5 minutes, you can stop guilt-free. Usually, starting is the only barrier—once you're doing it, continuing is easier. But even if you stop at 5 minutes, you still succeeded.</p>
+
+            <h3>5. Compassionate Accountability</h3>
+            <p>Harsh self-criticism makes ADHD worse (shame increases executive dysfunction). Instead:</p>
+
+            <ul class="bullet-list">
+                <li>Celebrate any progress, no matter how small</li>
+                <li>Track effort, not just outcomes</li>
+                <li>Expect inconsistency and plan for it</li>
+                <li>Focus on getting back on track, not staying perfect</li>
+            </ul>
+
+            <div class="callout-box">
+                <h3>The "Never Miss Twice" Rule</h3>
+                <p>Perfect for ADHD: You will miss habits. That's inevitable. The rule isn't "never miss"—it's "never miss twice in a row." One miss is life. Two misses is a pattern forming. Get back on track after the first miss.</p>
+            </div>
+
+            <h3>6. Working WITH Your Variability</h3>
+            <p>ADHD symptoms vary day to day based on stress, sleep, medication, interest, and mysterious brain factors. Instead of fighting this:</p>
+
+            <ul class="bullet-list">
+                <li>Have A, B, and C versions of habits (full version, minimal version, micro version)</li>
+                <li>Allow yourself to choose based on current capacity</li>
+                <li>Track your patterns to understand your rhythm</li>
+                <li>Don't commit to the same routine every single day</li>
+            </ul>
+
+            <h3>7. Visual Progress Matters More</h3>
+            <p>Abstract tracking doesn't work well for ADHD. You need to SEE progress:</p>
+
+            <ul class="bullet-list">
+                <li>Physical evidence: Check marks, filled calendars, visual chains</li>
+                <li>Visible results: Clean space, organized desk, completed projects</li>
+                <li>Before/after photos: Document changes you might not notice</li>
+                <li>Streak counters: Simple numbers going up provide dopamine</li>
+            </ul>
+
+            <h3>8. Environment Design Is Everything</h3>
+            <p>Your environment needs to work for you automatically:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Remove friction:</strong> Make good habits require zero extra steps</li>
+                <li><strong>Add friction to bad habits:</strong> Make them require 3+ steps</li>
+                <li><strong>Visual cues everywhere:</strong> Post-its, objects as reminders, visual timers</li>
+                <li><strong>Reset daily:</strong> Nighttime reset routine so morning environment is habit-ready</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Sample ADHD-Friendly Routines</h2>
+            
+            <h3>Morning Routine (Minimal Version)</h3>
+            <ol class="numbered-list">
+                <li>
+                    <h4>Medication + Water (0-2 min)</h4>
+                    <p>Keep by bed. Take before even sitting up. Set phone alarm as backup.</p>
+                </li>
+                <li>
+                    <h4>Immediate Dopamine (2-10 min)</h4>
+                    <p>Do something you enjoy first. Coffee, favorite song, scroll Reddit—whatever gets you vertical and engaged. Controversial but effective.</p>
+                </li>
+                <li>
+                    <h4>Body Wake-Up (10-15 min)</h4>
+                    <p>Stretch, walk outside for light exposure, splash face with cold water. Physical movement before cognitive tasks.</p>
+                </li>
+                <li>
+                    <h4>External Brain Setup (15-20 min)</h4>
+                    <p>Review visual calendar, check NoNoise for today's habits, set 3 priority tasks visible on desk.</p>
+                </li>
+            </ol>
+
+            <h3>Focus Block Setup (Transitions Are Hard)</h3>
+            <p>ADHD struggles with transitions. Build a ritual for entering focus:</p>
+
+            <ul class="bullet-list">
+                <li>Same music playlist every time (classical, lo-fi, white noise)</li>
+                <li>Same beverage (coffee, tea, water with lemon)</li>
+                <li>Same physical setup (desk clear, phone away, timer visible)</li>
+                <li>Same starting action (open specific app, review task list)</li>
+            </ul>
+
+            <p>The ritual becomes the cue that tells your brain "focus time now."</p>
+
+            <div class="callout-box">
+                <h3>Medication & Habits</h3>
+                <p>If you take ADHD medication: Schedule important habits for when meds are active. Don't beat yourself up for struggling during off-hours. Work with your medication curve, not against it.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Track Habits the ADHD-Friendly Way</h2>
+            <p>Visual tracking, compassionate progress, and zero judgment. NoNoise works with your ADHD brain, not against it.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Made for ADHD brains</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
+

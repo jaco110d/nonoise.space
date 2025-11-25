@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Habit Tracker with Calendar View for Mac | NoNoise</title>
+    <meta name="description" content="Track habits visually with calendar heat maps, progress graphs, and the Seinfeld chain method. See patterns at a glance and build unstoppable momentum on Mac.">
+    <meta name="keywords" content="visual habit tracker, habit calendar, habit heat map, seinfeld method, visual progress tracker mac">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 255, 150, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(100, 200, 255, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(100, 255, 150, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(100, 255, 150, 0.2) 0%, rgba(100, 255, 150, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .callout-box {
+            background: linear-gradient(135deg, rgba(100, 255, 150, 0.1) 0%, rgba(100, 200, 255, 0.05) 100%);
+            border: 1px solid rgba(100, 255, 150, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "📊";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .comparison-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .comparison-card p {
+            font-size: 16px;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo { padding: 120px 20px 60px; }
+            .content-section { padding: 80px 20px; }
+            .content-card { padding: 40px 24px; }
+            .cta-card { padding: 60px 32px; }
+            .numbered-list li { padding-left: 0; padding-top: 72px; }
+            .numbered-list li::before { left: 50%; transform: translateX(-50%); }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <section class="hero-section-seo">
+        <div class="hero-badge">📊 See Your Progress</div>
+        <h1>Visual Habit Tracker<br>for Mac</h1>
+        <p class="subtitle">Track habits with beautiful calendar views, heat maps, and progress graphs. See patterns instantly and build unstoppable momentum.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="Visual habit tracker with calendar and progress visualization">
+        </div>
+    </section>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Why Visualization Transforms Habit Tracking</h2>
+            <p>Your brain processes visual information 60,000 times faster than text. When you <em>see</em> your habits instead of just listing them, something remarkable happens: patterns emerge, motivation increases, and consistency becomes self-reinforcing.</p>
+
+            <div class="highlight-box">
+                <p><strong>The science:</strong> Visual progress triggers the brain's reward system more effectively than abstract data. A calendar full of check marks activates the same neural pathways as achieving the habit itself—creating positive reinforcement loops.</p>
+            </div>
+
+            <h3>The Seinfeld "Don't Break the Chain" Method</h3>
+            <p>Comedian Jerry Seinfeld famously used a simple visual technique to write jokes daily:</p>
+
+            <ul class="bullet-list">
+                <li>Get a big wall calendar showing the whole year</li>
+                <li>Each day you do the habit, mark it with a big X</li>
+                <li>After a few days, you'll have a chain</li>
+                <li>Your only job: don't break the chain</li>
+            </ul>
+
+            <p><strong>Why this works:</strong> The visual chain becomes its own motivator. You don't want to see a gap. The longer the chain, the more you're invested in maintaining it. Loss aversion (not wanting to lose your streak) becomes stronger than the initial motivation.</p>
+
+            <div class="callout-box">
+                <h3>The Psychological Shift</h3>
+                <p>Without visualization: "I should exercise today."<br>
+                With visualization: "I have a 28-day streak. I'm not going to break it now."</p>
+                <p>The identity shifts from someone who <em>tries</em> to exercise to someone who <em>exercises consistently</em>.</p>
+            </div>
+
+            <h3>Different Visual Tracking Methods</h3>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Calendar View (Monthly Overview)</h4>
+                    <p>See the entire month at once. Completed days are marked, creating a visual pattern. Great for: Understanding weekly rhythms, noticing trends (do you always skip Mondays?), celebrating consistency.</p>
+                </li>
+                <li>
+                    <h4>Heat Map (Intensity Over Time)</h4>
+                    <p>Like GitHub's contribution graph—darker colors indicate more activity or higher completion rates. Great for: Tracking frequency, seeing improvement over time, identifying peak productivity periods.</p>
+                </li>
+                <li>
+                    <h4>24-Hour Circular View</h4>
+                    <p>NoNoise's specialty—see your daily habits arranged in a clock. Great for: Time-based habits, routine visualization, understanding how habits connect throughout the day.</p>
+                </li>
+                <li>
+                    <h4>Streak Counter</h4>
+                    <p>Simple number that goes up with each consecutive completion. Great for: Gamification, quick motivation check, long-term consistency goals.</p>
+                </li>
+                <li>
+                    <h4>Progress Graphs</h4>
+                    <p>Line or bar graphs showing completion rates over weeks/months. Great for: Analytical minds, long-term trend analysis, comparing multiple habits.</p>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>What Visual Tracking Reveals</h2>
+            <p>When you track habits visually over time, you discover patterns you'd never notice otherwise:</p>
+
+            <h3>1. Weekly Rhythm Patterns</h3>
+            <p>You might notice: Perfect compliance Monday-Thursday, total collapse Friday-Saturday, moderate Sunday. This reveals the habit isn't the problem—your weekend routine is. Solution: Design different weekend versions of the habit.</p>
+
+            <h3>2. Correlation Between Habits</h3>
+            <p>Visual tracking shows: Days you meditate, you also exercise. Days you skip one, you skip both. Insight: These habits are linked. Protect the keystone (meditation) to maintain the chain.</p>
+
+            <h3>3. Monthly Cycles</h3>
+            <p>Some people notice: First week of the month is strong, third week crashes. Could be: paycheck cycle, energy patterns, work deadlines, or biological rhythms. Adjust expectations and strategies for "weak" weeks.</p>
+
+            <h3>4. Time-of-Day Impact</h3>
+            <p>Morning habits: 90% completion rate. Evening habits: 40% completion rate. Solution: Move evening habits to morning, or create environmental triggers that don't rely on willpower.</p>
+
+            <h3>5. Slow Drift</h3>
+            <p>Visual view shows: You didn't suddenly stop—the habit gradually shifted 30 minutes later each week until it disappeared. Solution: Track time as well as completion, reset drift immediately.</p>
+
+            <div class="callout-box">
+                <h3>The "Two Types of Data" Principle</h3>
+                <p><strong>Lag measures:</strong> Did I do it? (binary yes/no)<br>
+                <strong>Lead measures:</strong> How did it feel? Quality? Duration?</p>
+                <p>Track both. Sometimes you maintain the streak but quality drops—the visual data won't show this unless you track it separately.</p>
+            </div>
+
+            <h3>Visual Feedback Loops</h3>
+            <p>The power of visual tracking isn't just analysis—it's the feedback loop:</p>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h4>❌ Without Visual Tracking</h4>
+                    <p>Complete habit → feel briefly good → forget → repeat tomorrow (maybe)</p>
+                </div>
+                <div class="comparison-card">
+                    <h4>✅ With Visual Tracking</h4>
+                    <p>Complete habit → mark it visually → see progress → dopamine hit → reinforcement → excited for tomorrow</p>
+                </div>
+            </div>
+
+            <p>The visual mark isn't just record-keeping—it's part of the reward.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Advanced Visual Tracking Strategies</h2>
+
+            <h3>1. Color Coding by Habit Type</h3>
+            <p>Different colors for different categories:</p>
+            <ul class="bullet-list">
+                <li><strong>Physical health:</strong> Green (exercise, sleep, nutrition)</li>
+                <li><strong>Mental health:</strong> Blue (meditation, therapy, journaling)</li>
+                <li><strong>Productivity:</strong> Orange (deep work, learning, side projects)</li>
+                <li><strong>Relationships:</strong> Pink (calls, quality time, gratitude)</li>
+            </ul>
+            <p>At a glance, you see: "I'm crushing physical health but neglecting relationships."</p>
+
+            <h3>2. The "Almost Perfect" Strategy</h3>
+            <p>Instead of binary done/not done, track three states:</p>
+            <ul class="bullet-list">
+                <li>✅ Full completion</li>
+                <li>➖ Partial completion (did something, not the full habit)</li>
+                <li>❌ Skipped</li>
+            </ul>
+            <p><strong>Why this helps:</strong> Perfectionism kills habits. "I only had time for 10 minutes, so I'll skip it entirely." Wrong. 10 minutes maintains the chain and the identity.</p>
+
+            <h3>3. Tracking Environmental Conditions</h3>
+            <p>Add tags or notes to visual tracking:</p>
+            <ul class="bullet-list">
+                <li>☀️ Normal day</li>
+                <li>✈️ Traveling</li>
+                <li>🤒 Sick or low energy</li>
+                <li>🎉 Special event</li>
+            </ul>
+            <p>After months, you'll see: "I maintain habits 95% of normal days, 60% when traveling, 30% when sick." Adjust expectations accordingly.</p>
+
+            <h3>4. The "Year in Pixels" Approach</h3>
+            <p>Popularized by habit tracking apps—each day is one pixel in a larger pattern. From far away, you see the shape of your year:</p>
+            <ul class="bullet-list">
+                <li>Mostly green = successful year</li>
+                <li>Blocks of red = identifiable problems</li>
+                <li>Random scatter = inconsistent system</li>
+            </ul>
+
+            <h3>5. Progress Photos Alongside Data</h3>
+            <p>For physical habits (exercise, organization, creative projects), visual tracking should include <em>visual results</em>:</p>
+            <ul class="bullet-list">
+                <li>Weekly progress photos (fitness transformation)</li>
+                <li>Before/after room photos (cleaning habits)</li>
+                <li>Project galleries (creative work)</li>
+                <li>Screenshots (learning, productivity)</li>
+            </ul>
+            <p>Seeing real-world results amplifies the data's motivational power.</p>
+
+            <div class="callout-box">
+                <h3>The "Feedback Delay" Problem</h3>
+                <p>Most habits have delayed results. You don't see fitness results for weeks. This is where visual tracking saves you—it provides <strong>immediate feedback</strong> (the marked calendar) while you wait for long-term results.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Common Visual Tracking Mistakes</h2>
+
+            <h3>Mistake 1: Too Many Habits</h3>
+            <p>Tracking 20 habits simultaneously creates visual overwhelm. Your calendar becomes a confusing mess. <strong>Solution:</strong> Focus on 3-5 core habits. Master those, then add more.</p>
+
+            <h3>Mistake 2: No Review Rhythm</h3>
+            <p>You track diligently but never look at the big picture. <strong>Solution:</strong> Weekly review (analyze the past week), monthly review (spot patterns, adjust strategy), yearly review (see long-term trends).</p>
+
+            <h3>Mistake 3: Treating Streaks as Sacred</h3>
+            <p>You get sick, life happens, streak breaks, you abandon the entire system. <strong>Solution:</strong> Streaks are motivational tools, not moral judgments. Missing one day is fine. Just restart immediately.</p>
+
+            <h3>Mistake 4: Vanity Metrics</h3>
+            <p>You track what's easy to measure, not what matters. 100-day streak of "checking habit tracker" means nothing if the underlying behavior hasn't changed. <strong>Solution:</strong> Track outcomes and behaviors, not just activity.</p>
+
+            <h3>Why NoNoise Makes Visual Tracking Effortless</h3>
+            <p>Most habit trackers require manual input, separate calendar views, and mental effort to see patterns. NoNoise integrates:</p>
+
+            <ul class="bullet-list">
+                <li>24-hour circular view (see today's habits in context)</li>
+                <li>Calendar history (spot weekly and monthly patterns)</li>
+                <li>One-click marking (minimal friction to record completion)</li>
+                <li>Automatic streak counting (gamification without effort)</li>
+                <li>Clean visual design (information at a glance, no clutter)</li>
+            </ul>
+
+            <p>The result: You spend less time managing the system and more time doing the habits.</p>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>See Your Habits, Build Your Momentum</h2>
+            <p>Visual tracking that reveals patterns, motivates action, and makes consistency feel effortless. Start building unstoppable chains today.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Visualize your progress</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
+

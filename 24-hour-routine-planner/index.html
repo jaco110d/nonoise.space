@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24-Hour Daily Routine Planner for Mac - Time Block Your Entire Day | NoNoise</title>
+    <meta name="description" content="Plan your entire 24-hour day with visual time blocking. Master ultradian rhythms, energy management, and optimize every hour for peak performance on Mac.">
+    <meta name="keywords" content="24 hour planner, daily routine tracker, time blocking app mac, 24 hour schedule, full day planner">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 200, 200, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(100, 150, 200, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(100, 200, 200, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .time-block-example {
+            background: linear-gradient(135deg, rgba(100, 200, 200, 0.1) 0%, rgba(100, 150, 200, 0.05) 100%);
+            border: 1px solid rgba(100, 200, 200, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 32px 0;
+        }
+
+        .time-row {
+            display: flex;
+            gap: 20px;
+            margin: 12px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .time-row:last-child {
+            border-bottom: none;
+        }
+
+        .time-label {
+            font-weight: 700;
+            color: rgba(100, 200, 200, 0.9);
+            min-width: 100px;
+            font-size: 15px;
+        }
+
+        .time-activity {
+            flex: 1;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+        }
+
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(100, 200, 200, 0.2) 0%, rgba(100, 200, 200, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .callout-box {
+            background: linear-gradient(135deg, rgba(100, 200, 200, 0.1) 0%, rgba(100, 150, 200, 0.05) 100%);
+            border: 1px solid rgba(100, 200, 200, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "⏰";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo { padding: 120px 20px 60px; }
+            .content-section { padding: 80px 20px; }
+            .content-card { padding: 40px 24px; }
+            .cta-card { padding: 60px 32px; }
+            .numbered-list li { padding-left: 0; padding-top: 72px; }
+            .numbered-list li::before { left: 50%; transform: translateX(-50%); }
+            .time-row { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <section class="hero-section-seo">
+        <div class="hero-badge">⏰ Master Your Full Day</div>
+        <h1>24-Hour Daily<br>Routine Planner</h1>
+        <p class="subtitle">Plan and optimize every hour of your day with visual time blocking. See your entire 24-hour schedule at a glance and master energy management.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="24-hour daily planner with circular time view">
+        </div>
+    </section>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Why 24-Hour Planning Beats To-Do Lists</h2>
+            <p>Most people plan their day with to-do lists. They write down tasks and hope to get them done "sometime today." The problem: <strong>time is finite</strong>. You have exactly 24 hours, and most of it is already spoken for.</p>
+
+            <div class="highlight-box">
+                <p><strong>The insight:</strong> You don't need better task management—you need better time awareness. When you see your full 24 hours laid out visually, you understand where your time actually goes and can design a day that works.</p>
+            </div>
+
+            <h3>The Truth About Your 24 Hours</h3>
+            <p>Let's do the math on an average day:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Sleep:</strong> 7-8 hours (ideally)</li>
+                <li><strong>Work:</strong> 8-10 hours (including commute)</li>
+                <li><strong>Meals & prep:</strong> 2-3 hours</li>
+                <li><strong>Personal care:</strong> 1-2 hours (shower, hygiene, getting ready)</li>
+                <li><strong>Household tasks:</strong> 1-2 hours (cleaning, errands, admin)</li>
+            </ul>
+
+            <p>That's 19-25 hours already allocated. Your actual discretionary time is tiny—maybe 2-5 hours on a good day. Understanding this changes everything.</p>
+
+            <h3>The Power of Visual Time Blocking</h3>
+            <p>When you see your entire day as a circle (NoNoise's 24-hour clock), several things become immediately clear:</p>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Time Conflicts Become Obvious</h4>
+                    <p>You can't commit to a 2-hour workout, 1-hour dinner prep, and quality time with family all between 6-8 PM. The visual makes the impossibility clear before you over-commit.</p>
+                </li>
+                <li>
+                    <h4>Energy Patterns Emerge</h4>
+                    <p>You start noticing you always crash at 3 PM, are most creative at 10 AM, or get a second wind at 8 PM. You can then schedule tasks accordingly.</p>
+                </li>
+                <li>
+                    <h4>Transitions Become Intentional</h4>
+                    <p>The space between activities matters. You build in buffer time, transition rituals, and mental reset periods instead of racing from task to task.</p>
+                </li>
+                <li>
+                    <h4>Sleep Naturally Gets Prioritized</h4>
+                    <p>When you see your sleep block as part of the circle, you understand it's not "wasted time"—it's the foundation for everything else.</p>
+                </li>
+            </ol>
+
+            <div class="callout-box">
+                <h3>Parkinson's Law in Reverse</h3>
+                <p>"Work expands to fill the time available for its completion." When you don't time-block, tasks take however long they take. When you allocate specific time, you create natural boundaries that force efficiency.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Ultradian Rhythms: Your Natural 90-Minute Cycles</h2>
+            <p>Your brain doesn't maintain focus consistently throughout the day. It operates in 90-minute cycles called <strong>ultradian rhythms</strong>:</p>
+
+            <ul class="bullet-list">
+                <li><strong>First 20 minutes:</strong> Warm-up phase, attention building</li>
+                <li><strong>Middle 50 minutes:</strong> Peak focus and productivity</li>
+                <li><strong>Final 20 minutes:</strong> Attention fading, natural break point</li>
+            </ul>
+
+            <p><strong>After 90 minutes, your brain needs a break.</strong> Fighting through this causes diminishing returns. A 15-20 minute break resets the cycle.</p>
+
+            <h3>How to Structure Your Day Around Ultradian Rhythms</h3>
+
+            <div class="time-block-example">
+                <h4>Example: Peak Performance Day</h4>
+                
+                <div class="time-row">
+                    <div class="time-label">6:00-7:00 AM</div>
+                    <div class="time-activity">Wake, morning routine, light breakfast</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">7:00-8:30 AM</div>
+                    <div class="time-activity"><strong>Cycle 1:</strong> Most important work (90 min deep work)</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">8:30-9:00 AM</div>
+                    <div class="time-activity"><strong>Break:</strong> Walk, stretch, coffee, no screens</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">9:00-10:30 AM</div>
+                    <div class="time-activity"><strong>Cycle 2:</strong> Second priority work (90 min)</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">10:30-11:00 AM</div>
+                    <div class="time-activity"><strong>Break:</strong> Snack, social time, light movement</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">11:00-12:30 PM</div>
+                    <div class="time-activity"><strong>Cycle 3:</strong> Meetings, email, collaboration (90 min)</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">12:30-1:30 PM</div>
+                    <div class="time-activity"><strong>Extended Break:</strong> Lunch + walk (allow longer midday reset)</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">1:30-3:00 PM</div>
+                    <div class="time-activity"><strong>Cycle 4:</strong> Creative work or learning (90 min)</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">3:00-3:30 PM</div>
+                    <div class="time-activity"><strong>Break:</strong> Avoid post-lunch slump with movement/caffeine</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">3:30-5:00 PM</div>
+                    <div class="time-activity"><strong>Cycle 5:</strong> Admin, planning, wrap-up tasks (90 min)</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">5:00-6:00 PM</div>
+                    <div class="time-activity"><strong>Transition:</strong> Commute, decompress, change environments</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">6:00-10:00 PM</div>
+                    <div class="time-activity">Evening: Dinner, family, hobbies, wind-down routine</div>
+                </div>
+                
+                <div class="time-row">
+                    <div class="time-label">10:00-6:00 AM</div>
+                    <div class="time-activity">Sleep (8 hours - non-negotiable foundation)</div>
+                </div>
+            </div>
+
+            <p><strong>Notice:</strong> Only 5 cycles of focused work. That's all most people can sustain with high quality. More than that leads to burnout and diminishing returns.</p>
+
+            <h3>Energy Management Principles</h3>
+
+            <p><strong>1. Schedule Deep Work During Peak Hours</strong><br>
+            For most people: 9-11 AM and 4-6 PM. Avoid scheduling meetings or admin during these windows.</p>
+
+            <p><strong>2. Match Task Type to Energy Level</strong><br>
+            High energy → Creative, strategic, difficult work<br>
+            Medium energy → Routine, collaborative, communicative tasks<br>
+            Low energy → Admin, organization, planning tomorrow</p>
+
+            <p><strong>3. Build In Physical Movement</strong><br>
+            Sitting still for 8 hours straight destroys energy. Include: morning exercise, walking meetings, stretching breaks, standing work periods.</p>
+
+            <p><strong>4. Protect Your Sleep Block</strong><br>
+            The 24-hour view should include sleep as a non-negotiable block. Everything else works around it, not instead of it.</p>
+
+            <div class="callout-box">
+                <h3>The Afternoon Slump Is Real</h3>
+                <p>Between 2-4 PM, almost everyone experiences an energy dip (related to circadian rhythm and post-lunch digestion). Don't schedule important work then. Instead: take a walk, do admin, have meetings, or if possible, take a 20-minute nap.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Common 24-Hour Planning Mistakes</h2>
+
+            <h3>Mistake 1: Back-to-Back Scheduling</h3>
+            <p>Every block filled with no buffer time. Result: chronic lateness, stress, no room for the unexpected. <strong>Solution:</strong> Build 10-15 minute buffers between major activities.</p>
+
+            <h3>Mistake 2: Ignoring Non-Work Time</h3>
+            <p>Only planning work hours and treating evening/weekend as "free time." Result: personal life feels chaotic, relationships suffer, self-care disappears. <strong>Solution:</strong> Schedule everything—meals, exercise, relationships, hobbies.</p>
+
+            <h3>Mistake 3: Optimistic Time Estimates</h3>
+            <p>Assuming tasks take the minimum possible time. Result: constant feeling of being behind. <strong>Solution:</strong> Add 50% to your estimate. Tasks almost always take longer than you think.</p>
+
+            <h3>Mistake 4: No Recovery Time</h3>
+            <p>Planning intense focus from wake to sleep. Result: burnout, poor work quality, exhaustion. <strong>Solution:</strong> Schedule breaks first, then fit work around them.</p>
+
+            <h3>Mistake 5: Rigid Daily Repetition</h3>
+            <p>Every day looking identical regardless of energy, life events, or variety needs. Result: system feels suffocating, you abandon it. <strong>Solution:</strong> Have A/B/C day templates (full energy, low energy, chaos day).</p>
+
+            <div class="callout-box">
+                <h3>The Rule of Three</h3>
+                <p>You can realistically accomplish three significant things per day. Not ten. Not twenty. Three. Plan accordingly. Everything else is maintenance, not accomplishment.</p>
+            </div>
+
+            <h3>How NoNoise Makes 24-Hour Planning Visual</h3>
+            <p>The circular 24-hour interface gives you instant understanding:</p>
+
+            <ul class="bullet-list">
+                <li>See your entire day at once—no scrolling through hours</li>
+                <li>Time blocks appear as colored arcs, making duration immediately visible</li>
+                <li>A live indicator shows where you are right now</li>
+                <li>Overlapping commitments are impossible to miss</li>
+                <li>Sleep appears as part of the circle, reinforcing its importance</li>
+            </ul>
+
+            <p>This visual approach reduces the mental load of planning and makes time tangible instead of abstract.</p>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Plan Your Perfect 24-Hour Routine</h2>
+            <p>Visualize your entire day, master time blocking, and optimize for peak performance with NoNoise's circular 24-hour planner.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Master your full day</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
+

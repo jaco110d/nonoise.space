@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Streak Tracker & Motivation App for Mac | NoNoise</title>
+    <meta name="description" content="Build unstoppable momentum with streak tracking. Learn the psychology of streaks, recovery strategies, and how to maintain motivation for long-term habit success on Mac.">
+    <meta name="keywords" content="habit streak tracker, streak motivation, habit momentum, consistency tracker mac, streak recovery">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 150, 100, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 100, 150, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(255, 150, 100, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .streak-example {
+            background: linear-gradient(135deg, rgba(255, 150, 100, 0.1) 0%, rgba(255, 100, 150, 0.05) 100%);
+            border: 1px solid rgba(255, 150, 100, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .streak-number {
+            font-size: 72px;
+            font-weight: 900;
+            background: linear-gradient(135deg, rgba(255, 150, 100, 1) 0%, rgba(255, 100, 150, 1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .streak-label {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+        }
+
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(255, 150, 100, 0.2) 0%, rgba(255, 150, 100, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .callout-box {
+            background: linear-gradient(135deg, rgba(255, 150, 100, 0.1) 0%, rgba(255, 100, 150, 0.05) 100%);
+            border: 1px solid rgba(255, 150, 100, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "🔥";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .phase-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .phase-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .phase-card p {
+            font-size: 16px;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo { padding: 120px 20px 60px; }
+            .content-section { padding: 80px 20px; }
+            .content-card { padding: 40px 24px; }
+            .cta-card { padding: 60px 32px; }
+            .numbered-list li { padding-left: 0; padding-top: 72px; }
+            .numbered-list li::before { left: 50%; transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <section class="hero-section-seo">
+        <div class="hero-badge">🔥 Build Unstoppable Momentum</div>
+        <h1>Habit Streak Tracker<br>& Motivation</h1>
+        <p class="subtitle">Harness the power of streaks to build momentum. Master the psychology of consistency and learn recovery strategies when life happens.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="Habit streak tracker showing momentum and progress">
+        </div>
+    </section>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>The Psychology of Streaks</h2>
+            <p>A streak is more than a number—it's a commitment device, an identity marker, and a motivation multiplier. Understanding why streaks work helps you harness their power without becoming enslaved to them.</p>
+
+            <div class="streak-example">
+                <div class="streak-number">67</div>
+                <div class="streak-label">Day Streak</div>
+                <p style="margin-top: 20px; color: rgba(255, 255, 255, 0.65); font-size: 16px;">Every day adds momentum.<br>Every day reinforces identity.</p>
+            </div>
+
+            <h3>Why Streaks Are Psychologically Powerful</h3>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Loss Aversion</h4>
+                    <p>You're more motivated to avoid losing your 50-day streak than you were to start the habit in the first place. The brain hates losing progress more than it loves gaining progress.</p>
+                </li>
+                <li>
+                    <h4>Sunk Cost Reinforcement</h4>
+                    <p>The longer your streak, the more invested you are. "I've done this 100 days—I'm not quitting now." This isn't a fallacy when it reinforces positive behavior.</p>
+                </li>
+                <li>
+                    <h4>Identity Transformation</h4>
+                    <p>After 30+ days, the streak becomes proof of identity. You're no longer "trying to meditate"—you're "someone who meditates daily." The streak is evidence.</p>
+                </li>
+                <li>
+                    <h4>Gamification & Dopamine</h4>
+                    <p>The number going up activates the same reward circuits as video games, social media likes, or financial gains. Cheap dopamine that actually improves your life.</p>
+                </li>
+                <li>
+                    <h4>Social Proof & Accountability</h4>
+                    <p>Sharing streaks with others (friends, social media, accountability partners) adds social pressure and motivation. You don't want to report that you broke it.</p>
+                </li>
+            </ol>
+
+            <div class="highlight-box">
+                <p><strong>The shift:</strong> Week 1 requires willpower. Week 4 requires less willpower. Month 3+ requires zero willpower—you just do it. The streak has become automatic. This is where streaks win.</p>
+            </div>
+
+            <h3>The Three Phases of Streak Psychology</h3>
+
+            <div class="phase-grid">
+                <div class="phase-card">
+                    <h4>Phase 1: Days 1-21</h4>
+                    <p><strong>Fragile Motivation</strong><br>High effort, frequent urges to quit, motivation required daily. Rely on: reminders, environmental design, accountability.</p>
+                </div>
+                <div class="phase-card">
+                    <h4>Phase 2: Days 22-66</h4>
+                    <p><strong>Building Automaticity</strong><br>Easier but not automatic yet. Identity is forming. Bad days still threaten the habit. Rely on: streak momentum, visible progress.</p>
+                </div>
+                <div class="phase-card">
+                    <h4>Phase 3: Day 67+</h4>
+                    <p><strong>Automatic Identity</strong><br>The habit is part of who you are. Skipping feels wrong. The streak is now self-sustaining. Rely on: identity, natural momentum.</p>
+                </div>
+            </div>
+
+            <p><strong>Note:</strong> Research suggests 66 days as the average for habit automation (Lally et al., 2010), but it varies from 18 to 254 days depending on the habit. Simple behaviors (drinking water) automate faster than complex ones (exercising 30 minutes).</p>
+
+            <div class="callout-box">
+                <h3>The Streak Paradox</h3>
+                <p>Early on, the streak is fragile and barely motivating. Later, the streak becomes the primary motivator, often stronger than the original reason you started. Use this: push through the fragile phase to reach the self-sustaining phase.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>How to Build Unbreakable Streaks</h2>
+
+            <h3>1. Start Embarrassingly Small</h3>
+            <p>The #1 streak killer: over-ambitious starting points. "I'll run 5 miles every day!" → miss one day → abandon system.</p>
+
+            <p><strong>Instead:</strong> Make the minimum version so easy it's almost silly:</p>
+            <ul class="bullet-list">
+                <li>Not "meditate 20 minutes" → "sit and breathe for 1 minute"</li>
+                <li>Not "write 1000 words" → "write one sentence"</li>
+                <li>Not "workout 45 minutes" → "do 5 pushups"</li>
+            </ul>
+
+            <p>Once the <em>streak</em> is established (30+ days), you can increase intensity. But protect the streak first.</p>
+
+            <h3>2. Build Flexibility Into the System</h3>
+            <p>Rigid habits break. Life happens: illness, travel, emergencies, exhaustion. Plan for this:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Full version:</strong> 30-minute run</li>
+                <li><strong>Medium version:</strong> 10-minute walk</li>
+                <li><strong>Minimum version:</strong> 50 steps around the room</li>
+            </ul>
+
+            <p>All three count for the streak. The minimum version exists for "disaster days." Doing the minimum maintains the identity and the streak.</p>
+
+            <h3>3. Make Completion Unavoidable</h3>
+            <p>Environmental design that makes streaks automatic:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Time-based trigger:</strong> 7 AM alarm = meditation time (no decisions)</li>
+                <li><strong>Location-based trigger:</strong> Entering kitchen = drinking water</li>
+                <li><strong>Habit stacking:</strong> After coffee → journal for 2 minutes</li>
+                <li><strong>Physical placement:</strong> Gym clothes out the night before</li>
+            </ul>
+
+            <p>The goal: reduce the number of decisions between intention and action to zero.</p>
+
+            <h3>4. Track Visually in Plain Sight</h3>
+            <p>Hidden tracking loses power. The streak should be visible:</p>
+
+            <ul class="bullet-list">
+                <li>NoNoise showing your streak on your Mac (where you work daily)</li>
+                <li>Physical calendar with X's on your wall</li>
+                <li>Widget on your phone home screen</li>
+                <li>Shared spreadsheet with accountability partner</li>
+            </ul>
+
+            <p>Visibility = frequent reinforcement.</p>
+
+            <h3>5. Celebrate Milestones</h3>
+            <p>Don't wait for "someday" to feel proud. Build in milestone celebrations:</p>
+
+            <ul class="bullet-list">
+                <li><strong>7 days:</strong> You've survived the first week (most don't)</li>
+                <li><strong>30 days:</strong> One month—you're building real momentum</li>
+                <li><strong>100 days:</strong> Triple digits—this is who you are now</li>
+                <li><strong>365 days:</strong> One full year—legendary status</li>
+            </ul>
+
+            <p>Treat yourself, share the win, reflect on the journey. Milestones reinforce that the streak matters.</p>
+
+            <div class="callout-box">
+                <h3>The "Minimum Once" Strategy</h3>
+                <p>On terrible days, promise yourself: "I'll do the minimum version just once, and then I can stop." Usually, starting breaks the resistance. If you still stop after one rep, that's fine—the streak survives.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Streak Recovery: When Life Happens</h2>
+            <p>You will miss a day eventually. Illness, travel, crisis, or simple human error. How you respond determines whether the habit survives.</p>
+
+            <h3>The Two-Day Rule (Non-Negotiable)</h3>
+            <p>Missing one day is life. Missing two days is a pattern forming. Missing three days is habit abandonment.</p>
+
+            <p><strong>The rule:</strong> You can miss once without analysis. If you miss a second time, stop and diagnose why. Never miss three times in a row.</p>
+
+            <h3>Streak Break Response Protocol</h3>
+
+            <p><strong>Step 1: Acknowledge Without Shame</strong><br>
+            "I missed a day. That's disappointing but not catastrophic." Shame spirals lead to abandonment. Neutral observation enables recovery.</p>
+
+            <p><strong>Step 2: Diagnose the Cause</strong><br>
+            Was it: unavoidable (illness)? Poor planning (forgot)? System failure (trigger missing)? Motivation issue (don't actually want this habit)?</p>
+
+            <p><strong>Step 3: Adjust the System</strong><br>
+            If illness: nothing to fix, restart.<br>
+            If forgot: add reminders, change timing.<br>
+            If trigger failed: strengthen environmental cues.<br>
+            If motivation: reassess if this habit aligns with your values.</p>
+
+            <p><strong>Step 4: Restart Immediately</strong><br>
+            Don't wait for Monday, next month, or "the right time." The next possible occurrence of the habit, do it. Momentum rebuilds fast if you don't delay.</p>
+
+            <h3>Advanced Technique: The "Vacation Rule"</h3>
+            <p>Some habit trackers allow one "vacation day" per month—a planned miss that doesn't break the streak. Useful for:</p>
+
+            <ul class="bullet-list">
+                <li>Protecting streaks during travel or chaos</li>
+                <li>Reducing anxiety about perfection</li>
+                <li>Allowing flexibility without identity damage</li>
+            </ul>
+
+            <p><strong>Important:</strong> Plan the day in advance. Don't use vacation days retroactively as excuses.</p>
+
+            <h3>When to Let a Streak Die</h3>
+            <p>Sometimes breaking a streak is the right choice:</p>
+
+            <ul class="bullet-list">
+                <li>The habit no longer serves your goals</li>
+                <li>You're sacrificing health or relationships to maintain it</li>
+                <li>The streak has become performative, not meaningful</li>
+                <li>You're maintaining it out of fear rather than value</li>
+            </ul>
+
+            <p>Streaks are tools, not prisons. If breaking it improves your life, break it intentionally and move on.</p>
+
+            <div class="callout-box">
+                <h3>The Identity Shift Matters More Than The Number</h3>
+                <p>A 100-day streak that transforms your identity is more valuable than a 1000-day streak maintained joylessly. Focus on becoming the kind of person who does the habit, not just the number.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Maintaining Long-Term Motivation</h2>
+
+            <h3>The Motivation Curve Reality</h3>
+            <p>Week 1: High motivation (new and exciting)<br>
+            Week 2-4: Motivation drops (novelty wears off)<br>
+            Week 5-8: Motivation crashes (hardest period)<br>
+            Month 3+: Motivation stabilizes (automaticity takes over)</p>
+
+            <p><strong>The trap:</strong> Expecting motivation to stay high. It won't. Plan for the valley.</p>
+
+            <h3>Strategies for Motivation Valleys</h3>
+
+            <p><strong>1. Remember Your "Why"</strong><br>
+            Revisit the original reason you started. Journal it. Visualize the future version of yourself who has this habit. Make the purpose visible.</p>
+
+            <p><strong>2. Shift Focus to Systems, Not Goals</strong><br>
+            Goal: "Lose 20 pounds" (demotivating when progress is slow)<br>
+            System: "I'm someone who exercises daily" (motivating every single day)</p>
+
+            <p><strong>3. Find a Streak Buddy</strong><br>
+            Accountability partners with their own streaks. Share updates, celebrate milestones together, check in when motivation is low.</p>
+
+            <p><strong>4. Introduce Variety Within the Habit</strong><br>
+            Same core habit, different execution:<br>
+            Exercise: Running, cycling, swimming, hiking, yoga<br>
+            Reading: Fiction, non-fiction, audiobooks, articles<br>
+            Creating: Writing, drawing, music, video</p>
+
+            <p>Variety prevents boredom while maintaining the identity.</p>
+
+            <p><strong>5. Reframe the Streak as Evidence</strong><br>
+            Not: "I have to maintain this streak"<br>
+            But: "This streak is proof of who I've become"</p>
+
+            <p>The streak isn't the goal—it's the record of your transformation.</p>
+
+            <h3>Why NoNoise Supports Streak Building</h3>
+            <ul class="bullet-list">
+                <li>Automatic streak counting (no mental effort to maintain records)</li>
+                <li>Visual progress on your Mac (frequent reinforcement)</li>
+                <li>One-click marking (zero friction to record completion)</li>
+                <li>Calendar history (see your streak in context, celebrate milestones)</li>
+                <li>No shame for missed days (compassionate design, not punitive)</li>
+            </ul>
+
+            <p>The result: You focus on doing the habit, not managing the tracking system.</p>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Build Your First 100-Day Streak</h2>
+            <p>Track streaks effortlessly, maintain motivation, and become the person who shows up every single day. Start your momentum today.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">Start your streak today</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
+

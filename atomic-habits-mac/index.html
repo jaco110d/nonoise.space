@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomic Habits Tracker for Mac - James Clear's Method | NoNoise</title>
+    <meta name="description" content="Apply James Clear's Atomic Habits principles on Mac. Master the 4 Laws, 1% better daily, identity-based habits, and habit stacking for lasting transformation.">
+    <meta name="keywords" content="atomic habits mac, james clear habit tracker, 1 percent better, habit stacking app, identity based habits">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 150, 255, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(150, 100, 255, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .content-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 40px;
+        }
+
+        .content-card h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .content-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-card p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid rgba(100, 150, 255, 0.5);
+            padding: 24px 32px;
+            margin: 32px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 48px 0;
+        }
+
+        .law-card {
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.1) 0%, rgba(150, 100, 255, 0.05) 100%);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .law-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .law-number {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(100, 150, 255, 0.8);
+            margin-bottom: 8px;
+        }
+
+        .law-card h4 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .law-card p {
+            font-size: 16px;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .numbered-list {
+            counter-reset: item;
+            list-style: none;
+            padding: 0;
+            margin: 32px 0;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            margin-bottom: 32px;
+            padding-left: 80px;
+            position: relative;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.2) 0%, rgba(100, 150, 255, 0.1) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .numbered-list li h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .numbered-list li p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .callout-box {
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.1) 0%, rgba(150, 100, 255, 0.05) 100%);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 48px 0;
+        }
+
+        .callout-box h3 {
+            margin-top: 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .bullet-list li {
+            padding-left: 36px;
+            margin-bottom: 16px;
+            position: relative;
+            font-size: 17px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .bullet-list li::before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .formula-box {
+            background: rgba(100, 150, 255, 0.1);
+            border: 2px solid rgba(100, 150, 255, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin: 32px 0;
+        }
+
+        .formula-text {
+            font-size: 32px;
+            font-weight: 800;
+            font-family: 'Georgia', serif;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .formula-description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo { padding: 120px 20px 60px; }
+            .content-section { padding: 80px 20px; }
+            .content-card { padding: 40px 24px; }
+            .cta-card { padding: 60px 32px; }
+            .numbered-list li { padding-left: 0; padding-top: 72px; }
+            .numbered-list li::before { left: 50%; transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="seo-page">
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <section class="hero-section-seo">
+        <div class="hero-badge">⚡ 1% Better Every Day</div>
+        <h1>Atomic Habits<br>for Mac</h1>
+        <p class="subtitle">Apply James Clear's proven framework for building habits that last. Master the 4 Laws, habit stacking, and identity transformation—right on your Mac.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/1.png" alt="Atomic habits tracker applying James Clear's principles">
+        </div>
+    </section>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>The Atomic Habits Philosophy</h2>
+            <p>James Clear's <em>Atomic Habits</em> has sold over 15 million copies and transformed how millions approach behavior change. The core insight: <strong>tiny changes create remarkable results</strong>—but only when compounded over time.</p>
+
+            <div class="formula-box">
+                <div class="formula-text">1.01<sup>365</sup> = 37.78</div>
+                <div class="formula-description">Get 1% better each day, and by year's end, you'll be 37 times better.</div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>The atomic mindset:</strong> Success is the product of daily habits, not once-in-a-lifetime transformations. You don't rise to the level of your goals—you fall to the level of your systems.</p>
+            </div>
+
+            <h3>Why Most Habit Advice Fails</h3>
+            <p>Traditional advice focuses on outcomes: "Lose 20 pounds." "Run a marathon." "Learn Spanish." Clear shows why this approach backslides:</p>
+
+            <ul class="bullet-list">
+                <li><strong>Outcome-based:</strong> Focused on what you want to achieve</li>
+                <li><strong>Process-based:</strong> Focused on the systems that lead to results</li>
+                <li><strong>Identity-based:</strong> Focused on who you want to become</li>
+            </ul>
+
+            <p>Most people work at the outcome level. Winners work at the identity level.</p>
+
+            <div class="callout-box">
+                <h3>The Identity Shift</h3>
+                <p><strong>Goal-based:</strong> "I want to run a marathon."<br>
+                <strong>Identity-based:</strong> "I am a runner."</p>
+                <p>When running is part of your identity, you don't need motivation—you're just being yourself.</p>
+            </div>
+
+            <h3>The Aggregation of Marginal Gains</h3>
+            <p>British Cycling was mediocre for decades. Then coach Dave Brailsford applied a philosophy: improve everything by 1%—bike seats, tire grip, rider nutrition, warm-up routines, sleep quality, even hand-washing to avoid illness.</p>
+
+            <p><strong>Result:</strong> Within 5 years, British cyclists dominated the Olympics and Tour de France.</p>
+
+            <p><strong>Lesson:</strong> Massive success comes from countless tiny improvements. Habits are the compound interest of self-improvement.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>The Four Laws of Behavior Change</h2>
+            <p>Clear distills all behavior change into four principles. To build a good habit, apply all four. To break a bad habit, invert them.</p>
+
+            <div class="laws-grid">
+                <div class="law-card">
+                    <div class="law-number">LAW 1</div>
+                    <h4>Make It Obvious</h4>
+                    <p>Design your environment so cues for good habits are visible and bad habits are hidden. Use implementation intentions: "I will [BEHAVIOR] at [TIME] in [LOCATION]."</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-number">LAW 2</div>
+                    <h4>Make It Attractive</h4>
+                    <p>Bundle habits with things you enjoy. Join a culture where your desired behavior is normal. Use temptation bundling: only do [THING YOU LOVE] while doing [HABIT YOU NEED].</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-number">LAW 3</div>
+                    <h4>Make It Easy</h4>
+                    <p>Reduce friction. Scale habits down to 2-minute versions. Use the "two-minute rule"—start so small it's impossible to say no. Optimize your environment for automatic behavior.</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-number">LAW 4</div>
+                    <h4>Make It Satisfying</h4>
+                    <p>Immediate rewards create repetition. Track your habits visually. Never miss twice. Use habit contracts with accountability. Celebrate small wins immediately.</p>
+                </div>
+            </div>
+
+            <h3>How NoNoise Embodies the Four Laws</h3>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Obvious: Always-Visible 24-Hour View</h4>
+                    <p>Your Mac displays your habit clock throughout the day. You can't forget what's staring at you. The visual cue triggers action without relying on memory or willpower.</p>
+                </li>
+                <li>
+                    <h4>Attractive: Beautiful Design & Momentum</h4>
+                    <p>Clean, modern interface makes habit tracking feel sophisticated, not tedious. Streak counters and progress visualization tap into gamification psychology—seeing progress is inherently rewarding.</p>
+                </li>
+                <li>
+                    <h4>Easy: One-Click Tracking</h4>
+                    <p>Mark habits complete with a single click. No forms, no navigation, no decisions. The system remembers your routine—you just execute and confirm. Friction eliminated.</p>
+                </li>
+                <li>
+                    <h4>Satisfying: Instant Visual Feedback</h4>
+                    <p>Completion changes the display immediately. You see the check mark, the streak extends, the calendar fills. The dopamine hit happens instantly, reinforcing the behavior.</p>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Advanced Atomic Habits Strategies</h2>
+
+            <h3>1. Habit Stacking: The Implementation Formula</h3>
+            <p>One of Clear's most powerful techniques: attach a new habit to an existing one.</p>
+
+            <p><strong>Formula:</strong> "After [CURRENT HABIT], I will [NEW HABIT]."</p>
+
+            <p><strong>Examples:</strong></p>
+            <ul class="bullet-list">
+                <li>After I pour my morning coffee, I will meditate for 2 minutes.</li>
+                <li>After I sit down for lunch, I will text one person I'm grateful for.</li>
+                <li>After I close my laptop at 5 PM, I will do 10 pushups.</li>
+                <li>After I get into bed, I will read one page.</li>
+            </ul>
+
+            <p><strong>Why this works:</strong> Your current habits are already built-in triggers. You don't need to remember—the existing habit reminds you automatically.</p>
+
+            <div class="callout-box">
+                <h3>Stacking Chains</h3>
+                <p>You can stack multiple habits into sequences:<br>
+                Wake up → make bed → shower → meditate → journal → coffee → deep work</p>
+                <p>Each habit becomes the cue for the next. The entire chain becomes automatic.</p>
+            </div>
+
+            <h3>2. Environment Design: Optimize for Automatic Behavior</h3>
+            <p>Your environment shapes your behavior far more than motivation. Clear calls this "choice architecture."</p>
+
+            <p><strong>For Good Habits (Make Obvious):</strong></p>
+            <ul class="bullet-list">
+                <li>Place books on your pillow to trigger reading before bed</li>
+                <li>Lay out workout clothes the night before</li>
+                <li>Put healthy snacks at eye level in the fridge</li>
+                <li>Keep your NoNoise habit tracker visible on your Mac</li>
+            </ul>
+
+            <p><strong>For Bad Habits (Make Invisible):</strong></p>
+            <ul class="bullet-list">
+                <li>Delete social media apps from your phone</li>
+                <li>Hide junk food in hard-to-reach places</li>
+                <li>Unplug the TV and put the remote in another room</li>
+                <li>Use website blockers during focus hours</li>
+            </ul>
+
+            <h3>3. The Two-Minute Rule</h3>
+            <p>When you start a new habit, it should take less than two minutes.</p>
+
+            <ul class="bullet-list">
+                <li>"Read before bed" → "Read one page"</li>
+                <li>"Do yoga" → "Take out my yoga mat"</li>
+                <li>"Study for class" → "Open my notes"</li>
+                <li>"Run 3 miles" → "Put on running shoes"</li>
+            </ul>
+
+            <p><strong>The psychology:</strong> The hardest part is starting. Once you've started, continuing is easier. But you can't continue if you never start.</p>
+
+            <h3>4. Identity-Based Habits</h3>
+            <p>Clear's most profound insight: <strong>every action is a vote for the type of person you want to become.</strong></p>
+
+            <p>Instead of:</p>
+            <ul class="bullet-list">
+                <li>"I want to run a marathon" → Ask "Who is the type of person who could run a marathon?"</li>
+                <li>"I want to write a book" → Ask "What would a writer do?"</li>
+                <li>"I want to be healthy" → Ask "What would a healthy person eat right now?"</li>
+            </ul>
+
+            <p>Then cast votes for that identity with small actions:</p>
+            <ul class="bullet-list">
+                <li>Run once → you're a runner (1 vote)</li>
+                <li>Run twice → stronger evidence (2 votes)</li>
+                <li>Run 100 times → undeniable identity (100 votes)</li>
+            </ul>
+
+            <p>Eventually, you don't need to convince yourself to run. You're a runner. Running is what you do.</p>
+
+            <div class="callout-box">
+                <h3>The Identity Formula</h3>
+                <p><strong>Step 1:</strong> Decide who you want to be.<br>
+                <strong>Step 2:</strong> Prove it to yourself with small wins.</p>
+                <p>Your habits are how you embody your identity. Your identity reinforces your habits.</p>
+            </div>
+
+            <h3>5. Never Miss Twice</h3>
+            <p>One of Clear's most practical rules for maintaining consistency:</p>
+
+            <p><strong>"Missing once is an accident. Missing twice is the start of a new habit."</strong></p>
+
+            <p>Life happens. You'll miss workouts, skip meditation, forget to journal. That's fine. The critical rule: <strong>get back on track immediately.</strong></p>
+
+            <p>One miss doesn't break you. Two consecutive misses starts a pattern. Three establishes abandonment.</p>
+
+            <h3>6. The Goldilocks Rule: Flow State</h3>
+            <p>Habits stay interesting when they're at the edge of your ability—not too hard, not too easy.</p>
+
+            <ul class="bullet-list">
+                <li><strong>Too easy:</strong> Boredom (no challenge)</li>
+                <li><strong>Too hard:</strong> Frustration (no capability)</li>
+                <li><strong>Just right:</strong> Flow (maximum engagement)</li>
+            </ul>
+
+            <p>About 4% beyond your current ability is optimal. You're stretched but not overwhelmed.</p>
+
+            <p><strong>Application:</strong> Progressively increase difficulty as habits become automatic. Start with 5 pushups, work up to 20, then 50. Keep the challenge alive.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="content-card">
+            <h2>Applying Atomic Habits to Your Mac Workflow</h2>
+
+            <h3>Morning Routine Habit Stack</h3>
+            <p>Design your ideal morning using habit stacking and the 4 Laws:</p>
+
+            <ol class="numbered-list">
+                <li>
+                    <h4>Alarm Goes Off → Immediate Action</h4>
+                    <p><strong>Make It Obvious:</strong> Phone across the room (must get up).<br>
+                    <strong>Make It Easy:</strong> Clothes laid out.<br>
+                    <strong>Identity:</strong> "I'm someone who starts the day with energy."</p>
+                </li>
+                <li>
+                    <h4>After Bathroom → Hydrate</h4>
+                    <p><strong>Stack:</strong> Water bottle on bathroom counter.<br>
+                    <strong>Make It Satisfying:</strong> Track hydration in NoNoise with one click.</p>
+                </li>
+                <li>
+                    <h4>After Water → 5-Minute Meditation</h4>
+                    <p><strong>Two-Minute Rule:</strong> Even one breath counts.<br>
+                    <strong>Make It Attractive:</strong> Use guided meditation you enjoy.</p>
+                </li>
+                <li>
+                    <h4>After Meditation → Open NoNoise</h4>
+                    <p><strong>Stack:</strong> Review today's habits while coffee brews.<br>
+                    <strong>Make It Obvious:</strong> NoNoise opens automatically at startup.</p>
+                </li>
+            </ol>
+
+            <h3>Work Session Habit Stack</h3>
+            <ol class="numbered-list">
+                <li>
+                    <h4>Sit at Desk → Close All Distractions</h4>
+                    <p>Quit Slack, close email, silence phone. Environment = focus.</p>
+                </li>
+                <li>
+                    <h4>After Distractions Closed → Start Pomodoro Timer</h4>
+                    <p>25 minutes of deep work. The timer is the cue.</p>
+                </li>
+                <li>
+                    <h4>After Pomodoro → Mark Progress in NoNoise</h4>
+                    <p>Instant satisfaction. Visual feedback reinforces the work session.</p>
+                </li>
+                <li>
+                    <h4>After 4 Pomodoros → Take 30-Minute Break</h4>
+                    <p>Walk outside. No screens. Reset for next cycle.</p>
+                </li>
+            </ol>
+
+            <h3>Evening Wind-Down Habit Stack</h3>
+            <ol class="numbered-list">
+                <li>
+                    <h4>5 PM → Close Laptop</h4>
+                    <p>Physical boundary. Work day ends.</p>
+                </li>
+                <li>
+                    <h4>After Laptop Closed → Change Clothes</h4>
+                    <p>Signal to brain: work mode over, personal time begins.</p>
+                </li>
+                <li>
+                    <h4>After Dinner → 10-Minute Walk</h4>
+                    <p>Aid digestion, clear mind, transition to evening.</p>
+                </li>
+                <li>
+                    <h4>9 PM → Screen Curfew</h4>
+                    <p>No phone, no laptop, no TV. Read or conversation only.</p>
+                </li>
+                <li>
+                    <h4>Before Bed → Review NoNoise</h4>
+                    <p>Celebrate today's wins. Plan tomorrow. Sleep satisfied.</p>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Build Your Atomic Habits System</h2>
+            <p>Apply James Clear's proven framework with NoNoise. Make habits obvious, attractive, easy, and satisfying—right on your Mac.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="cta-button">
+                <span>Download NoNoise for Mac</span>
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <p style="margin-top: 24px; font-size: 15px; color: rgba(255, 255, 255, 0.4);">1% better every day</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            hamburgerMenu.addEventListener('click', () => {
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+            });
+            
+            mobileMenuOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                }
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerMenu.classList.remove('active');
+                    mobileMenuOverlay.classList.remove('active');
+                });
+            });
+        }
+
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -80px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
+
