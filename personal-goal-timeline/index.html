@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Goal Timeline Tracker | NoNoise</title>
+    <meta name="description" content="Transform abstract goals into visual timelines. Track personal development, fitness goals, learning journeys, and life ambitions in beautiful 3D space.">
+    <meta name="keywords" content="personal goal tracker, goal timeline, life goals visualization, goal setting mac, personal development tracker">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://nonoise.space/personal-goal-timeline/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://nonoise.space/personal-goal-timeline/">
+    <meta property="og:title" content="Personal Goal Timeline Tracker">
+    <meta property="og:description" content="Transform abstract goals into visual timelines. Track personal development in 3D.">
+    <meta property="og:image" content="https://nonoise.space/NoNoise%20billeder%20mac/2.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nonoise.space/personal-goal-timeline/">
+    <meta property="twitter:title" content="Personal Goal Timeline Tracker">
+    <meta property="twitter:description" content="Transform abstract goals into visual timelines.">
+    <meta property="twitter:image" content="https://nonoise.space/NoNoise%20billeder%20mac/2.png">
+    
+    <meta name="robots" content="index, follow">
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="../apple-touch-icon.png">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 120, 180, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(120, 100, 255, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 32px 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .stat-item:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: clamp(36px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin: 100px 0;
+        }
+
+        .split-content h3 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .split-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .split-content strong {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .split-image img {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 60px 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .benefit-icon {
+            font-size: 32px;
+            min-width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .benefit-text h5 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .benefit-text p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 0;
+        }
+
+        .quote-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 60px;
+            text-align: center;
+            margin: 80px 0;
+        }
+
+        .quote-section blockquote {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-style: italic;
+        }
+
+        .quote-section cite {
+            display: block;
+            margin-top: 24px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: normal;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 968px) {
+            .split-section {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quote-section {
+                padding: 40px 32px;
+            }
+
+            .quote-section blockquote {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo {
+                padding: 120px 20px 60px;
+            }
+
+            .content-section {
+                padding: 80px 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-card {
+                padding: 60px 32px;
+            }
+
+            .quote-section {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+    <script src="/cookie-banner.js" defer></script>
+</head>
+<body class="seo-page">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section-seo">
+        <div class="hero-badge">🎯 Personal Growth</div>
+        <h1>Personal Goal Timeline<br>Tracker</h1>
+        <p class="subtitle">Transform abstract goals into visual timelines. Track personal development, fitness journeys, learning goals, and life ambitions in stunning 3D space that makes progress tangible.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/2.png" alt="Personal goal timeline showing progress milestones" loading="eager">
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>Goals Need Visual Progress</h2>
+            <p>Written goals sit forgotten in journals. Visual timelines keep them alive.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">Visual</span>
+                <span class="stat-label">Goal Tracking</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Progress</span>
+                <span class="stat-label">Made Tangible</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Journey</span>
+                <span class="stat-label">Fully Mapped</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Success</span>
+                <span class="stat-label">Stays Visible</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Split Section: Why Timelines Work -->
+    <div class="content-section">
+        <div class="split-section">
+            <div class="split-content">
+                <h3>Make Goals Real with Visual Time</h3>
+                <p>Research shows <strong>92% of New Year's goals fail</strong> by February. Why? Because written goals feel abstract. "Lose 20 pounds" on paper doesn't create motivation.</p>
+                <p><strong>Timeline visualization changes everything.</strong> Mark "Started diet" milestone. Add "Lost first 5 lbs" achievement. Celebrate "Reached halfway point." See progress accumulate visually.</p>
+                <p>Your timeline becomes proof that you're moving forward. Every milestone added creates momentum. Small wins stay visible instead of forgotten.</p>
+                <p>Perfect for fitness journeys, learning goals, creative projects, relationship building, financial targets, or any long-term ambition worth tracking.</p>
+            </div>
+            <div class="split-image">
+                <img src="../NoNoise billeder mac/2.png" alt="Personal goal progress visualization">
+            </div>
+        </div>
+    </div>
+
+    <!-- Goal Types -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>What Goals Can You Track?</h2>
+            <p>Any journey worth taking deserves visual documentation</p>
+        </div>
+
+        <div class="benefits-list">
+            <div class="benefit-item">
+                <span class="benefit-icon">💪</span>
+                <div class="benefit-text">
+                    <h5>Fitness & Health</h5>
+                    <p>Weight loss milestones, strength gains, running distances, yoga practices, healthy habits built.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">📚</span>
+                <div class="benefit-text">
+                    <h5>Learning Journeys</h5>
+                    <p>New languages, musical instruments, coding skills, certifications, courses completed.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">💰</span>
+                <div class="benefit-text">
+                    <h5>Financial Goals</h5>
+                    <p>Debt payoff progress, savings milestones, investment achievements, income goals reached.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🎨</span>
+                <div class="benefit-text">
+                    <h5>Creative Projects</h5>
+                    <p>Writing progress, art created, music produced, creative challenges completed, portfolios built.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🏡</span>
+                <div class="benefit-text">
+                    <h5>Home & Life</h5>
+                    <p>Decluttering phases, home improvements, minimalism journey, organization systems created.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">❤️</span>
+                <div class="benefit-text">
+                    <h5>Relationships</h5>
+                    <p>Quality time milestones, friendships deepened, family connections strengthened, community built.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🧘</span>
+                <div class="benefit-text">
+                    <h5>Mental Health</h5>
+                    <p>Therapy milestones, meditation practices, anxiety management, self-care achievements.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🌱</span>
+                <div class="benefit-text">
+                    <h5>Personal Growth</h5>
+                    <p>Self-discovery moments, confidence gains, fear conquests, identity evolution.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote Section -->
+    <div class="content-section">
+        <div class="quote-section">
+            <blockquote>
+                "A goal without a plan is just a wish. A plan without visual progress is just forgotten notes."
+            </blockquote>
+            <cite>— The truth about goal setting</cite>
+        </div>
+    </div>
+
+    <!-- Split Section: Why Visual Works -->
+    <div class="content-section">
+        <div class="split-section">
+            <div class="split-image">
+                <img src="../NoNoise billeder mac/2.png" alt="Visual goal tracking on Mac">
+            </div>
+            <div class="split-content">
+                <h3>Why Visual Timelines Beat Goal Apps</h3>
+                <p><strong>Traditional goal apps</strong> feel like checklists. Check box, dopamine hit, forget progress. No connection to your actual journey.</p>
+                <p><strong>Timeline visualization</strong> creates context. See how long real change takes. Notice patterns in when you make progress. Understand your velocity.</p>
+                <p>When motivation wanes, scroll through your timeline. See how far you've come. Remember why you started. Celebrate wins you'd otherwise forget.</p>
+                <p>All progress data stays private on your Mac. No social pressure, no comparison anxiety, just your journey.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Start Tracking Your Goals Visually</h2>
+            <p>Turn abstract ambitions into visible progress. See your personal growth in 3D clarity.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" class="cta-button" target="_blank">
+                Download for Mac
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            const toggleMenu = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
+            };
+            
+            hamburgerMenu.addEventListener('click', toggleMenu);
+            hamburgerMenu.addEventListener('touchstart', toggleMenu, { passive: false });
+            
+            const closeMenu = () => {
+                hamburgerMenu.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+            
+            const handleOverlayClick = (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    e.preventDefault();
+                    closeMenu();
+                }
+            };
+            
+            mobileMenuOverlay.addEventListener('click', handleOverlayClick);
+            mobileMenuOverlay.addEventListener('touchstart', handleOverlayClick, { passive: false });
+            
+            mobileNavLinks.forEach(link => {
+                const handleLinkClick = () => {
+                    closeMenu();
+                };
+                link.addEventListener('click', handleLinkClick);
+                link.addEventListener('touchstart', handleLinkClick, { passive: true });
+            });
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+

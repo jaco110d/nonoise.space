@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Timeline Tracker - Visualize Your Journey | NoNoise</title>
+    <meta name="description" content="Document your life's journey through milestones, achievements, and memories. See your past, present, and future in beautiful 3D perspective on Mac.">
+    <meta name="keywords" content="life timeline, track life journey, life visualization app, life milestones tracker, personal timeline mac">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://nonoise.space/life-timeline-tracker/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://nonoise.space/life-timeline-tracker/">
+    <meta property="og:title" content="Life Timeline Tracker - Visualize Your Journey">
+    <meta property="og:description" content="Document your life's journey through milestones, achievements, and memories in beautiful 3D.">
+    <meta property="og:image" content="https://nonoise.space/NoNoise%20billeder%20mac/2.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nonoise.space/life-timeline-tracker/">
+    <meta property="twitter:title" content="Life Timeline Tracker - Visualize Your Journey">
+    <meta property="twitter:description" content="Document your life's journey in beautiful 3D perspective.">
+    <meta property="twitter:image" content="https://nonoise.space/NoNoise%20billeder%20mac/2.png">
+    
+    <meta name="robots" content="index, follow">
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="../apple-touch-icon.png">
+    <link rel="stylesheet" href="../styles.css?v=2025112502">
+    <style>
+        .seo-page {
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .seo-page::before,
+        .seo-page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .seo-page::before {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(100, 150, 255, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .seo-page::after {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 100, 200, 0.3) 0%, transparent 70%);
+            bottom: -300px;
+            left: -300px;
+        }
+
+        .content-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-section-seo {
+            padding: 160px 40px 100px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section-seo h1 {
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero-section-seo .subtitle {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            margin-bottom: 48px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-image {
+            margin: 80px auto 0;
+            max-width: 1300px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-image:hover {
+            transform: translateY(-12px) scale(1.01);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 32px 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .stat-item:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: clamp(36px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin: 60px 0;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(100, 150, 255, 0.5), rgba(100, 150, 255, 0.1));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .feature-item:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-item:hover::before {
+            transform: translateX(0);
+        }
+
+        .feature-item .emoji {
+            font-size: 48px;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .feature-item h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 0;
+        }
+
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin: 100px 0;
+        }
+
+        .split-content h3 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .split-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .split-content strong {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .split-image img {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 60px 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .benefit-icon {
+            font-size: 32px;
+            min-width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .benefit-text h5 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .benefit-text p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 80px 60px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 968px) {
+            .split-section {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section-seo {
+                padding: 120px 20px 60px;
+            }
+
+            .content-section {
+                padding: 80px 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-card {
+                padding: 60px 32px;
+            }
+        }
+    </style>
+    <script src="/cookie-banner.js" defer></script>
+</head>
+<body class="seo-page">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-content">
+            <div class="toolbar-brand">
+                <img src="../appicon.png" alt="NoNoise" class="app-icon">
+                <span class="brand-name">NoNoise</span>
+            </div>
+            <div class="toolbar-nav">
+                <a href="/#hero-section" class="nav-link">Timeline</a>
+                <a href="/#habits" class="nav-link">Habits</a>
+                <a href="/#vision" class="nav-link">Vision</a>
+                <a href="/#features" class="nav-link">Features</a>
+                <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="nav-link">Download</a>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-menu">
+            <a href="/#hero-section" class="mobile-nav-link">Timeline</a>
+            <a href="/#habits" class="mobile-nav-link">Habits</a>
+            <a href="/#vision" class="mobile-nav-link">Vision</a>
+            <a href="/#features" class="mobile-nav-link">Features</a>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" target="_blank" class="mobile-nav-link">Download</a>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section-seo">
+        <div class="hero-badge">🌟 Life Visualization</div>
+        <h1>Life Timeline Tracker<br>Your Story in 3D</h1>
+        <p class="subtitle">Document your life's journey through milestones, achievements, and memories. See your past, present, and future in beautiful 3D perspective—all on your Mac.</p>
+        
+        <div class="hero-image">
+            <img src="../NoNoise billeder mac/2.png" alt="Life timeline tracker showing personal milestones" loading="eager">
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>Why Life Timelines Matter</h2>
+            <p>Your life is more than dates on a calendar. It's a story worth seeing.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">Life</span>
+                <span class="stat-label">Journey Visualization</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">3D</span>
+                <span class="stat-label">Memory Navigation</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Decades</span>
+                <span class="stat-label">At a Glance</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Moments</span>
+                <span class="stat-label">Never Forgotten</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="content-section">
+        <div class="feature-grid">
+            <div class="feature-item">
+                <span class="emoji">📖</span>
+                <h4>Your Life Story</h4>
+                <p>Document every milestone—graduations, weddings, career changes, travels, births, achievements. Your journey deserves to be remembered.</p>
+            </div>
+            <div class="feature-item">
+                <span class="emoji">🔍</span>
+                <h4>See Patterns</h4>
+                <p>Notice how career shifts align with personal growth. How relationships evolved. How small decisions created major life changes.</p>
+            </div>
+            <div class="feature-item">
+                <span class="emoji">🎯</span>
+                <h4>Gain Perspective</h4>
+                <p>Reflection on your journey improves gratitude and decision-making. Seeing where you've been helps navigate where you're going.</p>
+            </div>
+            <div class="feature-item">
+                <span class="emoji">💎</span>
+                <h4>Cherish Memories</h4>
+                <p>Unlike photo albums that sit unopened, your timeline brings precious moments back to life through visual navigation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Split Section: See Your Journey -->
+    <div class="content-section">
+        <div class="split-section">
+            <div class="split-content">
+                <h3>See Your Entire Life Journey</h3>
+                <p>Your life is <strong>more than a list of dates</strong>. It's a journey with peaks, valleys, and turning points that shaped who you are today.</p>
+                <p>Life timeline tracking reveals patterns you'd never notice otherwise. How your twenties set up your thirties. How challenges became strengths. How detours led to destinations.</p>
+                <p>Scroll through decades in seconds. Zoom into specific years. See the big picture and the details simultaneously—all in stunning 3D space.</p>
+                <p>Perfect for life reviews, memoir writing, therapy support, family history preservation, or simply gaining perspective on your journey.</p>
+            </div>
+            <div class="split-image">
+                <img src="../NoNoise billeder mac/2.png" alt="Life journey timeline visualization">
+            </div>
+        </div>
+    </div>
+
+    <!-- Life Moments List -->
+    <div class="content-section">
+        <div class="section-header">
+            <h2>What to Track on Your Life Timeline</h2>
+            <p>Every moment that mattered deserves a place in your story</p>
+        </div>
+
+        <div class="benefits-list">
+            <div class="benefit-item">
+                <span class="benefit-icon">🎓</span>
+                <div class="benefit-text">
+                    <h5>Education Milestones</h5>
+                    <p>First day of school, graduations, degrees earned, courses completed. Your learning journey.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">💼</span>
+                <div class="benefit-text">
+                    <h5>Career Journey</h5>
+                    <p>First job, promotions, career changes, businesses started. Your professional evolution.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">❤️</span>
+                <div class="benefit-text">
+                    <h5>Relationships</h5>
+                    <p>First dates, weddings, anniversaries, births. The people who made life meaningful.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">✈️</span>
+                <div class="benefit-text">
+                    <h5>Travel & Adventures</h5>
+                    <p>Countries visited, road trips taken, adventures completed. Places that changed you.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🏠</span>
+                <div class="benefit-text">
+                    <h5>Homes & Moves</h5>
+                    <p>Every place you've lived. Cities that shaped your story. Roots and wanderlust.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🏆</span>
+                <div class="benefit-text">
+                    <h5>Achievements</h5>
+                    <p>Awards won, goals reached, competitions completed. Moments of triumph and pride.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">💪</span>
+                <div class="benefit-text">
+                    <h5>Health Milestones</h5>
+                    <p>Fitness goals achieved, challenges overcome, transformations completed. Your wellness journey.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🎭</span>
+                <div class="benefit-text">
+                    <h5>Creative Projects</h5>
+                    <p>Books written, art created, music produced, passions pursued. Your creative legacy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Split Section: Privacy & Reflection -->
+    <div class="content-section">
+        <div class="split-section">
+            <div class="split-image">
+                <img src="../NoNoise billeder mac/2.png" alt="Private life timeline on Mac">
+            </div>
+            <div class="split-content">
+                <h3>More Than a Digital Diary</h3>
+                <p><strong>Traditional journals</strong> hide memories in text. You forget what happened last month, let alone last year. Entries sit unread.</p>
+                <p><strong>Life timeline visualization</strong> makes your journey visible. Navigate through years effortlessly. See patterns emerge. Understand your story.</p>
+                <p>Perfect for annual life reviews, gratitude practices, therapy work, or sharing family history with children and grandchildren.</p>
+                <p>All your life data stays private on your Mac. No cloud sync, no sharing, no accounts—unless you choose otherwise.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Start Documenting Your Journey</h2>
+            <p>Your life story deserves to be seen, not just written. Create your life timeline today.</p>
+            <a href="https://apps.apple.com/us/app/nonoise/id6755174608" class="cta-button" target="_blank">
+                Download for Mac
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                    <path d="M0 14V16H16V14H0Z" fill="currentColor"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>NoNoise</span>
+            <span class="footer-sep">•</span>
+            <a href="/privacy.html">Privacy</a>
+            <span class="footer-sep">•</span>
+            <a href="/terms.html">Terms</a>
+            <span class="footer-sep">•</span>
+            <a href="/support.html">Support</a>
+            <span class="footer-sep">•</span>
+            <span>© 2025</span>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            const toggleMenu = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
+            };
+            
+            hamburgerMenu.addEventListener('click', toggleMenu);
+            hamburgerMenu.addEventListener('touchstart', toggleMenu, { passive: false });
+            
+            const closeMenu = () => {
+                hamburgerMenu.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+            
+            const handleOverlayClick = (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    e.preventDefault();
+                    closeMenu();
+                }
+            };
+            
+            mobileMenuOverlay.addEventListener('click', handleOverlayClick);
+            mobileMenuOverlay.addEventListener('touchstart', handleOverlayClick, { passive: false });
+            
+            mobileNavLinks.forEach(link => {
+                const handleLinkClick = () => {
+                    closeMenu();
+                };
+                link.addEventListener('click', handleLinkClick);
+                link.addEventListener('touchstart', handleLinkClick, { passive: true });
+            });
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+
