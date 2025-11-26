@@ -1336,8 +1336,10 @@ function setupMobileMenu() {
     
     if (!hamburgerMenu || !mobileMenuOverlay) return;
     
-    // Toggle menu
-    hamburgerMenu.addEventListener('click', () => {
+    // Toggle menu - handle both click and touch
+    const toggleMenu = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         hamburgerMenu.classList.toggle('active');
         mobileMenuOverlay.classList.toggle('active');
         
@@ -1347,24 +1349,36 @@ function setupMobileMenu() {
         } else {
             document.body.style.overflow = '';
         }
-    });
+    };
+    
+    hamburgerMenu.addEventListener('click', toggleMenu);
+    hamburgerMenu.addEventListener('touchstart', toggleMenu, { passive: false });
+    
+    // Close menu function
+    const closeMenu = () => {
+        hamburgerMenu.classList.remove('active');
+        mobileMenuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    };
     
     // Close menu when clicking on overlay background
-    mobileMenuOverlay.addEventListener('click', (e) => {
+    const handleOverlayClick = (e) => {
         if (e.target === mobileMenuOverlay) {
-            hamburgerMenu.classList.remove('active');
-            mobileMenuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
+            e.preventDefault();
+            closeMenu();
         }
-    });
+    };
+    
+    mobileMenuOverlay.addEventListener('click', handleOverlayClick);
+    mobileMenuOverlay.addEventListener('touchstart', handleOverlayClick, { passive: false });
     
     // Close menu when clicking on a nav link
     mobileNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburgerMenu.classList.remove('active');
-            mobileMenuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
+        const handleLinkClick = () => {
+            closeMenu();
+        };
+        link.addEventListener('click', handleLinkClick);
+        link.addEventListener('touchstart', handleLinkClick, { passive: true });
     });
 }
 
