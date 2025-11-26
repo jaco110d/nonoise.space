@@ -151,7 +151,73 @@
     <footer class="footer">
         <div class="footer-content"><span>NoNoise</span><span class="footer-sep">•</span><a href="/privacy.html">Privacy</a><span class="footer-sep">•</span><a href="/terms.html">Terms</a><span class="footer-sep">•</span><a href="/support.html">Support</a><span class="footer-sep">•</span><span>© 2025</span></div>
     </footer>
-    <script>const hamburgerMenu=document.getElementById('hamburger-menu');const mobileMenuOverlay=document.getElementById('mobile-menu-overlay');const mobileNavLinks=document.querySelectorAll('.mobile-nav-link');if(hamburgerMenu&&mobileMenuOverlay){hamburgerMenu.addEventListener('click',()=>{hamburgerMenu.classList.toggle('active');mobileMenuOverlay.classList.toggle('active');});mobileMenuOverlay.addEventListener('click',(e)=>{if(e.target===mobileMenuOverlay){hamburgerMenu.classList.remove('active');mobileMenuOverlay.classList.remove('active');}});mobileNavLinks.forEach(link=>{link.addEventListener('click',()=>{hamburgerMenu.classList.remove('active');mobileMenuOverlay.classList.remove('active');});});}const observerOptions={threshold:0.15,rootMargin:'0px 0px -80px 0px'};const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible');});},observerOptions);document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.content-section').forEach(section=>observer.observe(section));});</script>
+    <script>
+        // Mobile menu
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        if (hamburgerMenu && mobileMenuOverlay) {
+            // Toggle menu - handle both click and touch
+            const toggleMenu = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                hamburgerMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
+            };
+            
+            hamburgerMenu.addEventListener('click', toggleMenu);
+            hamburgerMenu.addEventListener('touchstart', toggleMenu, { passive: false });
+            
+            // Close menu function
+            const closeMenu = () => {
+                hamburgerMenu.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+            
+            // Close menu when clicking on overlay background
+            const handleOverlayClick = (e) => {
+                if (e.target === mobileMenuOverlay) {
+                    e.preventDefault();
+                    closeMenu();
+                }
+            };
+            
+            mobileMenuOverlay.addEventListener('click', handleOverlayClick);
+            mobileMenuOverlay.addEventListener('touchstart', handleOverlayClick, { passive: false });
+            
+            // Close menu when clicking on a nav link
+            mobileNavLinks.forEach(link => {
+                const handleLinkClick = () => {
+                    closeMenu();
+                };
+                link.addEventListener('click', handleLinkClick);
+                link.addEventListener('touchstart', handleLinkClick, { passive: true });
+            });
+        }
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.content-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
 
